@@ -25,13 +25,34 @@ namespace WinFormsFromConsole
             //  media.AddOption(":sout-keep");
 
 
-            media.AddOption(" :sout=#transcode{vcodec=h264,vb=0,scale=0,acodec=mp4a,ab=128,channels=2,samplerate=44100} :file{dst=record.mp4}");
-            media.AddOption(" :sout-all :sout-keep");
+          //  media.AddOption(" :sout=#transcode{vcodec=h264,vb=0,scale=0,acodec=mp4a,ab=128,channels=2,samplerate=44100} :file{dst=record.mp4}");
+          //  media.AddOption(" :sout-all :sout-keep");
 
 
             using var mediaPlayer = new MediaPlayer(media);
+
+
+            //using var media2 = new Media(libVLC, "dshow://", FromType.FromLocation);
+            //using var mediaPlayer2 = new MediaPlayer(media);
+
+
+            //using var media3 = new Media(libVLC, "dshow://", FromType.FromLocation);
+            //using var mediaPlayer3 = new MediaPlayer(media);
+
+
+            mediaPlayer.SetLogoString(VideoLogoOption.Position , "VNC Rulez");
             mediaPlayer.Play();
-            System.Threading.Thread.Sleep(15000);
+            
+            System.Threading.Thread.Sleep(10000);
+            
+            using var media2 = new Media(libVLC, "dshow://", FromType.FromLocation);
+            using var mediaPlayer2 = new MediaPlayer(media);
+            media2.AddOption($":sout=#file{{dst=record{DateTime.Now.Ticks}.mp4}}");
+
+            mediaPlayer2.Play();
+
+            System.Threading.Thread.Sleep(10000);
+            mediaPlayer2.Stop();
             mediaPlayer.TakeSnapshot(0, "dupa1.png", 0, 0);
             System.Threading.Thread.Sleep(1000);
             mediaPlayer.TakeSnapshot(0, "dupa2.png", 0, 0);
@@ -40,7 +61,9 @@ namespace WinFormsFromConsole
             System.Threading.Thread.Sleep(1000);
             mediaPlayer.TakeSnapshot(0, "dupa4.png", 0, 0);
 
+            mediaPlayer2.Stop();
             mediaPlayer.Stop();
+        
         }
     }
 }
