@@ -16,6 +16,8 @@ namespace SaveHLS
             using (var libvlc = new LibVLC())
             using (var mediaPlayer = new MediaPlayer(libvlc))
             {
+
+                mediaPlayer.Fullscreen = true;
                 // Redirect log output to the console
                 libvlc.Log += (sender, e) => Console.WriteLine($"[{e.Level}] {e.Module}:{e.Message}");
 
@@ -30,7 +32,7 @@ namespace SaveHLS
                 // libvlc_media_add_option(vlcMedia, ":sout=#duplicate{dst=display,dst=std{access=file,mux=ps,dst=xyz.mpg}");
 
                 // Display it on screen
-                media.AddOption( ":sout=#duplicate{dst=display,dst=std{access=file,mux=ps,dst=xyz.mpg}");
+              //  media.AddOption( ":sout=#duplicate{dst=display,dst=std{access=file,mux=ps,dst=xyz.mpg}");
 
                 // Start recording
                 mediaPlayer.Play(media);
