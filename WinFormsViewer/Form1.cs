@@ -9,7 +9,9 @@ namespace WinFormsViewer
 
 
         public MediaPlayer player;
+        public MediaPlayer webCamPlayer;
         public Media media;
+        public Media webCamMedia;
 
         public bool isFullscreen = false;
         public bool isPlaying = false;
@@ -41,9 +43,7 @@ namespace WinFormsViewer
             player.Play(media);
             isPlaying = true;
 
-            videoView2.MediaPlayer = new MediaPlayer(libvlc);
-            videoView3.MediaPlayer = new MediaPlayer(libvlc);
-            videoView4.MediaPlayer = new MediaPlayer(libvlc);
+
 
             player.TimeChanged += Player_TimeChanged;
             player.PositionChanged += Player_PositionChanged;
@@ -53,7 +53,7 @@ namespace WinFormsViewer
 
         private void Player_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
         {
-            trackBar1.Value = (int)e.Position * 100;
+
         }
 
         private void Player_TimeChanged(object? sender, MediaPlayerTimeChangedEventArgs e)
@@ -186,23 +186,20 @@ namespace WinFormsViewer
             player.NextFrame();
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            label1.Text = trackBar1.Value.ToString();
-            player.Position = trackBar1.Value / 100;
 
-        }
 
         private void button7_Click(object sender, EventArgs e)
         {
 
-            videoView2.MediaPlayer = new MediaPlayer(libvlc);
-            var webCamMedia2 = new Media(libvlc, "dshow://", FromType.FromLocation);
+             webCamPlayer = new MediaPlayer(libvlc);
+             webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
 
-            webCamMedia2.AddOption(" :dshow-vdev= :dshow-adev=none :live-caching=0");
-            media.AddOption(":sout=#duplicate{dst=display,dst=std{access=file,dst=xyz.mp4}}");
+            videoView2.MediaPlayer = webCamPlayer;
 
-            videoView2?.MediaPlayer?.Play(webCamMedia2);
+            webCamMedia.AddOption(" :dshow-vdev= :dshow-adev=none :live-caching=0");
+            webCamMedia.AddOption(":sout=#duplicate{dst=display,dst=std{access=file,dst=xyz.mp4}}");
+
+            webCamPlayer.Play(webCamMedia);
 
 
 
@@ -224,9 +221,9 @@ namespace WinFormsViewer
 
         private void button7_Click_1(object sender, EventArgs e)
         {
-            videoView2?.MediaPlayer?.Stop();
-            videoView3?.MediaPlayer?.Stop();
-            videoView4?.MediaPlayer?.Stop();
+            
+            webCamPlayer.Stop();
+
         }
 
         private void button9_Click(object sender, EventArgs e)
@@ -251,25 +248,6 @@ namespace WinFormsViewer
 
         }
 
-        private void button10_Click(object sender, EventArgs e)
-        {
 
-            videoView3.MediaPlayer = new MediaPlayer(libvlc);
-            var webCamMedia3 = new Media(libvlc, "dshow://", FromType.FromLocation);
-            webCamMedia3.AddOption(" :dshow-vdev=Integrated Camera :dshow-adev=none  :live-caching=100");
-            videoView3?.MediaPlayer?.Play(webCamMedia3);
-        }
-
-        private void button11_Click(object sender, EventArgs e)
-        {
-            videoView4.MediaPlayer = new MediaPlayer(libvlc);
-            var webCamMedia4 = new Media(libvlc, "dshow://", FromType.FromLocation);
-            webCamMedia4.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=none  :live-caching=100");
-            videoView4?.MediaPlayer?.Play(webCamMedia4);
-
-
-            // :dshow - vdev = AVerMedia ExtremeCap UVC :dshow - adev = Cyfrowy interfejs audio(AVerMedia ExtremeCap UAC)  :live - caching = 300
-
-        }
     }
 }

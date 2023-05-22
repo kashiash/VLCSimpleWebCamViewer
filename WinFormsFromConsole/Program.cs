@@ -21,7 +21,7 @@ namespace WinFormsFromConsole
 
             // https://wiki.videolan.org/Documentation:Streaming_HowTo/Command_Line_Examples/
 
-            media.AddOption(" :dshow-vdev= :dshow-adev= :live-caching=300");
+            media.AddOption(" :dshow-vdev= :dshow-adev= :live-caching=30");
            //   media.AddOption($":sout=#file{{dst=record{DateTime.Now.Ticks}.mp4}}"); // save to file 
 
             //  // Display it on screen and svae to file
