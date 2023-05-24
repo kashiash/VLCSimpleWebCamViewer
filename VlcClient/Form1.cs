@@ -32,8 +32,8 @@ namespace VlcClient
             this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(ShortcutEvent);
 
-            //    var url = new Uri("http://10.0.4.91:8080");
-            var url = new Uri(@" https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4");
+                var url = new Uri("rtsp://10.0.4.91:8008/test");
+           // var url = new Uri(@" https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4");
              media = new Media(libvlc, url);
            player =  new MediaPlayer(libvlc);
             vlcControl.MediaPlayer = player;
