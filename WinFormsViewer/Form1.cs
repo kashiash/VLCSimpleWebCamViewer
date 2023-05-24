@@ -24,6 +24,8 @@ namespace WinFormsViewer
         {
             InitializeComponent();
 
+            Core.Initialize();
+
             oldVideoSize = videoView1.Size;
             oldFormSize = this.Size;
             oldVideoLocation = videoView1.Location;
@@ -130,6 +132,7 @@ namespace WinFormsViewer
                     else // it's not playing?
                     {
                         player.Play(); // play
+                        
                     }
                 }
 
@@ -144,6 +147,15 @@ namespace WinFormsViewer
                 if (e.KeyCode == Keys.N) // skip 1% forwards
                 {
                     player.NextFrame();
+
+                }
+                if (e.KeyCode == Keys.S)
+                {
+                    var res = player.TakeSnapshot(0, $"snapshot{DateTime.Now.Ticks}.png", 0, 0);
+                }
+                if (e.KeyCode == Keys.F11)
+                {
+                    player.ToggleFullscreen();
 
                 }
             }
@@ -196,9 +208,14 @@ namespace WinFormsViewer
 
             videoView2.MediaPlayer = webCamPlayer;
 
-            webCamMedia.AddOption(" :dshow-vdev= :dshow-adev=none :live-caching=0");
-            webCamMedia.AddOption(":sout=#duplicate{dst=display,dst=std{access=file,dst=xyz.mp4}}");
+        //  webCamMedia.AddOption(" :dshow-vdev= :dshow-adev=none :live-caching=0");
 
+           //   media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=Mikrofon (Logitech StreamCam)");
+             media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=none  :live-caching=100");
+            //  media.AddOption(" :dshow-vdev=Integrated Camera :dshow-adev=none  :live-caching=100");
+
+            webCamMedia.AddOption(":sout=#duplicate{dst=display,dst=std{access=file,dst=xyz.mp4},dst=rtp{sdp=rtsp://10.0.4.91:8554/webcam}}");// "dst=rtp{sdp=rtsp://10.0.4.91:8554/go.sdp}}");
+            webCamPlayer.EnableHardwareDecoding = true;
             webCamPlayer.Play(webCamMedia);
 
 
