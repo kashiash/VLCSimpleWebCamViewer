@@ -206,12 +206,12 @@ namespace WinFormsViewer
              webCamPlayer = new MediaPlayer(libvlc);
              webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
 
-            videoView2.MediaPlayer = webCamPlayer;
+             videoView2.MediaPlayer = webCamPlayer;
 
-        //  webCamMedia.AddOption(" :dshow-vdev= :dshow-adev=none :live-caching=0");
+            //  webCamMedia.AddOption(" :dshow-vdev= :dshow-adev=none :live-caching=0");
 
-           //   media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=Mikrofon (Logitech StreamCam)");
-             media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=none  :live-caching=100");
+            //   media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=Mikrofon (Logitech StreamCam)");
+            webCamMedia.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=none  :live-caching=100");
             //  media.AddOption(" :dshow-vdev=Integrated Camera :dshow-adev=none  :live-caching=100");
 
             webCamMedia.AddOption(":sout=#duplicate{dst=display,dst=std{access=file,dst=xyz.mp4},dst=rtp{sdp=rtsp://10.0.4.91:8554/webcam}}");// "dst=rtp{sdp=rtsp://10.0.4.91:8554/go.sdp}}");
