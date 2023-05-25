@@ -14,34 +14,48 @@ namespace WinFormsFromConsole
 
             using var libVLC = new LibVLC(enableDebugLogs: true);
             using var media = new Media(libVLC, "dshow://",FromType.FromLocation);
-            //  media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=Mikrofon (Logitech StreamCam)");
-            //  media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=none  :live-caching=100");
+            using var mediaPlayer = new MediaPlayer(libVLC);
+
+            //  :dshow-vdev=Logitech StreamCam :dshow-adev=  :live-caching=100 - copied from VlcVideoPlayer
+
+            media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=  :live-caching=100");
+            //   media.AddOption(" :dshow-vdev=\"Logitech StreamCam\" :dshow-adev=none  :live-caching=100");
+            //   media.AddOption(" :dshow-vdev='Logitech StreamCam' :dshow-adev=none  :live-caching=100");
+
             //  media.AddOption(" :dshow-vdev=Integrated Camera :dshow-adev=none  :live-caching=100");
 
 
+            media.AddOption(":sout=#duplicate{dst=display,dst=transcode{vcodec=mp4v,acodec=mpga,vb=800,ab = 128,deinterlace},dst=std{access=file,mux=asf,dst=xyz.mp4}}");
+
+            mediaPlayer.Play(media);
+
+
+
+            System.Threading.Thread.Sleep(10000);
+            mediaPlayer.Stop();
+
             // https://wiki.videolan.org/Documentation:Streaming_HowTo/Command_Line_Examples/
 
-            media.AddOption(" :dshow-vdev= :dshow-adev= :live-caching=30");
-           //   media.AddOption($":sout=#file{{dst=record{DateTime.Now.Ticks}.mp4}}"); // save to file 
+            // media.AddOption(" :dshow-vdev= :dshow-adev= :live-caching=30");
+            //   media.AddOption($":sout=#file{{dst=record{DateTime.Now.Ticks}.mp4}}"); // save to file 
 
             //  // Display it on screen and svae to file
-             media.AddOption(":sout=#duplicate{dst=display,dst=std{access=file,dst=xyz.mp4}}");
-     
-
-            //#duplicate{dst=display,dst="transcode{vcodec=mp4v,acodec=mpga,vb=800,
-            //ab = 128,deinterlace}:rtp{mux=ts,dst=239.255.12.42,sdp=sap,name="TestStream"}"}'
 
 
-         //  media.AddOption(" :sout=#duplicate{dst=display\r\n,dst=#file{dst=record.mp4}}");
-          //  media.AddOption(" :sout=\"#duplicate{dst=std{access=file,mux=asf,\r\ndst='C:\\test\\test.asf'},dst=nodisplay}\"");
-          //  media.AddOption(":sout-keep");
+
+            //#duplicate{dst=display,dst="transcode{vcodec=mp4v,acodec=mpga,vb=800,ab = 128,deinterlace}:rtp{mux=ts,dst=239.255.12.42,sdp=sap,name="TestStream"}"}'
+
+
+            //  media.AddOption(" :sout=#duplicate{dst=display\r\n,dst=#file{dst=record.mp4}}");
+            //  media.AddOption(" :sout=\"#duplicate{dst=std{access=file,mux=asf,\r\ndst='C:\\test\\test.asf'},dst=nodisplay}\"");
+            //  media.AddOption(":sout-keep");
 
 
             // https://stackoverflow.com/questions/10988089/rtsp-streaming-to-web-app-using-vlc-2-0?rq=1
             //cvlc rtsp://xxx.xxx.xxx.xxx:554/vga.sdp :sout='#transcode{vcodec=FLV1,vb=2048,fps=25,scale=1,acodec=none,deinterlace}:http{mime=video/x-flv,mux=ffmpeg{mux=flv},dst=127.0.0.1:8090/device_1.flv}' :no-sout-standard-sap :ttl=5 :sout-keep :no-audio --video --no-sout-audio 
 
-            using var mediaPlayer = new MediaPlayer(libVLC);
-          //  mediaPlayer.Fullscreen = true;
+
+            //  mediaPlayer.Fullscreen = true;
 
             //using var media2 = new Media(libVLC, "dshow://", FromType.FromLocation);
             //using var mediaPlayer2 = new MediaPlayer(media);
@@ -76,11 +90,11 @@ namespace WinFormsFromConsole
             // : _mediaPlayer.Media.AddOption(":dshow-vdev='Blackmagic WDM Capture'");
             // _mediaPlayer.Media.AddOption(":dshow-fps=50");
 
-            mediaPlayer.SetLogoString(VideoLogoOption.Position , "VNC Rulez");
-            mediaPlayer.Play(media);
-            
+            //  mediaPlayer.SetLogoString(VideoLogoOption.Position , "VNC Rulez");
+
+
             //System.Threading.Thread.Sleep(10000);
-            
+
             //using var media2 = new Media(libVLC, "dshow://", FromType.FromLocation);
             //using var mediaPlayer2 = new MediaPlayer(media2);
             //media2.AddOption($":sout=#file{{dst=record_XXX_{DateTime.Now.Ticks}.mp4}}");

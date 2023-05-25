@@ -34,23 +34,25 @@
             // 
             // vlcControl
             // 
+            vlcControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             vlcControl.BackColor = Color.Black;
-            vlcControl.Dock = DockStyle.Fill;
-            vlcControl.Location = new Point(0, 0);
+            vlcControl.Location = new Point(4, 8);
             vlcControl.MediaPlayer = null;
             vlcControl.Name = "vlcControl";
-            vlcControl.Size = new Size(800, 450);
+            vlcControl.Size = new Size(788, 438);
             vlcControl.TabIndex = 0;
             vlcControl.Text = "vlcControl";
             // 
-            // Form1
+            // CameraRecorder
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(vlcControl);
-            Name = "Form1";
+            KeyPreview = true;
+            Name = "CameraRecorder";
             Text = "Form1";
+            KeyDown += CameraRecorder_KeyDown;
             ((System.ComponentModel.ISupportInitialize)vlcControl).EndInit();
             ResumeLayout(false);
         }

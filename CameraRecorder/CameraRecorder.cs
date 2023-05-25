@@ -13,7 +13,7 @@ namespace CameraRecorder
         public Media webCamMedia;
 
         public bool isFullscreen = false;
-        public bool isPlaying = false;
+        public bool isRecording = false;
         public Size oldVideoSize;
         public Size oldFormSize;
         public Point oldVideoLocation;
@@ -30,7 +30,7 @@ namespace CameraRecorder
             oldVideoLocation = vlcControl.Location;
 
             this.KeyPreview = true;
-            this.KeyDown += new KeyEventHandler(ShortcutEvent);
+            //    this.KeyDown += new KeyEventHandler(ShortcutEvent);
 
 
             player = new MediaPlayer(libvlc);
@@ -43,18 +43,19 @@ namespace CameraRecorder
             //  media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=Mikrofon (Logitech StreamCam)");
             //  webCamMedia.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=none  :live-caching=100");
             //  media.AddOption(" :dshow-vdev=Integrated Camera :dshow-adev=none  :live-caching=100");
-
-            webCamMedia.AddOption(":sout=#duplicate{dst=display,dst=std{access=file,dst=xyz.mp4},dst=rtp{sdp=rtsp://10.0.4.91:8554/webcam}}");// "dst=rtp{sdp=rtsp://10.0.4.91:8554/go.sdp}}");
+            //  // Display it on screen and svae to file
+            webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=std{{access=file,dst=recording{DateTime.Now.Ticks}.mp4}}}}");
+            //   webCamMedia.AddOption(":sout=#duplicate{dst=display,dst=std{access=file,dst=xyz.mp4},dst=rtp{sdp=rtsp://10.0.4.91:8554/webcam}}");// "dst=rtp{sdp=rtsp://10.0.4.91:8554/go.sdp}}");
             player.EnableHardwareDecoding = true;
             player.Play(webCamMedia);
+            isRecording = true;
+            this.Text = "Recording";
+            this.BackColor = Color.Red;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
 
-        }
 
-        private void ShortcutEvent(object sender, KeyEventArgs e)
+        private void CameraRecorder_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape && isFullscreen) // from fullscreen to window
             {
@@ -75,18 +76,28 @@ namespace CameraRecorder
                 }
             }
 
-            if (isPlaying) // while the video is playing
+            if (player.IsPlaying) // while the video is playing
             {
                 if (e.KeyCode == Keys.Space || e.KeyCode == Keys.K) // Pause and Play
                 {
-                    if (player.State == VLCState.Playing) // if is playing
+                    if (isRecording == true) // if is playing
                     {
-                        player.Pause(); // pause
+                        player.Stop(); // pause
+                        webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
+                        player.Play(webCamMedia); // play
+                        this.Text = "playing";
+                        this.BackColor = Color.Black;
+                        isRecording = false;
+
                     }
                     else // it's not playing?
                     {
-                        player.Play(); // play
-
+                        webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
+                        webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=std{{access=file,dst=recording{DateTime.Now.Ticks}.mp4}}}}");
+                        player.Play(webCamMedia); // play
+                        this.Text = "recording";
+                        this.BackColor = Color.Red;
+                        isRecording = true;
                     }
                 }
 
@@ -138,5 +149,7 @@ namespace CameraRecorder
 
             isFullscreen = true;
         }
+
+
     }
 }
