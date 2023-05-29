@@ -38,7 +38,7 @@ namespace CameraRecorder
 
             vlcControl.MediaPlayer = player;
 
-            //  webCamMedia.AddOption(" :dshow-vdev= :dshow-adev=none :live-caching=0");
+            webCamMedia.AddOption(" :dshow-vdev= :dshow-adev= :live-caching=0");
 
             //  media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=Mikrofon (Logitech StreamCam)");
             //  webCamMedia.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=none  :live-caching=100");
@@ -101,28 +101,28 @@ namespace CameraRecorder
                     }
                 }
 
-                if (e.KeyCode == Keys.J) // skip 1% backwards
-                {
-                    player.Position -= 0.01f;
-                }
-                if (e.KeyCode == Keys.L) // skip 1% forwards
-                {
-                    player.Position += 0.01f;
-                }
-                if (e.KeyCode == Keys.N) // skip 1% forwards
-                {
-                    player.NextFrame();
+                //if (e.KeyCode == Keys.J) // skip 1% backwards
+                //{
+                //    player.Position -= 0.01f;
+                //}
+                //if (e.KeyCode == Keys.L) // skip 1% forwards
+                //{
+                //    player.Position += 0.01f;
+                //}
+                //if (e.KeyCode == Keys.N) // skip 1% forwards
+                //{
+                //    player.NextFrame();
 
-                }
-                if (e.KeyCode == Keys.S)
-                {
-                    var res = player.TakeSnapshot(0, $"snapshot{DateTime.Now.Ticks}.png", 0, 0);
-                }
-                if (e.KeyCode == Keys.F11)
-                {
-                    player.ToggleFullscreen();
+                //}
+                //if (e.KeyCode == Keys.S)
+                //{
+                //    var res = player.TakeSnapshot(0, $"snapshot{DateTime.Now.Ticks}.png", 0, 0);
+                //}
+                //if (e.KeyCode == Keys.F11)
+                //{
+                //    player.ToggleFullscreen();
 
-                }
+                //}
             }
         }
 

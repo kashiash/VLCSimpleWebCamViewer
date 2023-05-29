@@ -25,7 +25,7 @@ namespace WinFormsFromConsole
             //  media.AddOption(" :dshow-vdev=Integrated Camera :dshow-adev=none  :live-caching=100");
 
 
-            media.AddOption(":sout=#duplicate{dst=display,dst=transcode{vcodec=mp4v,acodec=mpga,vb=800,ab = 128,deinterlace},dst=std{access=file,mux=asf,dst=xyz.mp4}}");
+            media.AddOption(":sout=#duplicate{dst=display,dst=std{access=file,mux=ts,dst=xyz.avi}}");
 
             mediaPlayer.Play(media);
 
