@@ -20,6 +20,11 @@ namespace VlcClient
         public Point oldVideoLocation;
 
 
+        bool isDragging;
+        int clickOffsetX;
+        int clickOffsetY;
+
+
         public Form1()
         {
             Core.Initialize();
@@ -29,20 +34,59 @@ namespace VlcClient
             oldFormSize = this.Size;
             oldVideoLocation = vlcControl.Location;
 
-            this.KeyPreview = true;
+            vlcControl.MouseMove += new MouseEventHandler(lblDragger_MouseMove);
+            vlcControl.MouseUp += new MouseEventHandler(lblDragger_MouseUp);
+            vlcControl.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
+            vlcControl.MouseDoubleClick += new MouseEventHandler(pictureBox1_MouseDown);
+
+            //     this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(ShortcutEvent);
 
-                var url = new Uri("rtsp://10.0.4.91:8008/test");
-           // var url = new Uri(@" https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4");
-             media = new Media(libvlc, url);
-           player =  new MediaPlayer(libvlc);
+            //    var url = new Uri("rtsp://10.0.4.91:8008/test");
+            var url = new Uri(@"c:\movies\ElephantsDream.mp4");
+            media = new Media(libvlc, url);
+            media.DurationChanged += Media_DurationChanged;
+            player = new MediaPlayer(libvlc);
+            player.PositionChanged += Player_PositionChanged;
             vlcControl.MediaPlayer = player;
-          
+
             vlcControl.MediaPlayer.Play(media);
             isPlaying = true;
+
             Debug.WriteLine(url);
         }
 
+        private void Player_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
+        {
+           // textBox4.Text = $"{player.Position * 100}";
+           var pos = player.Position;
+        }
+
+        private void Media_DurationChanged(object? sender, MediaDurationChangedEventArgs e)
+        {
+            textBox3.Text = $"{media.Duration / 1000}";
+        }
+
+        private void pictureBox1_MouseDown(object? sender, MouseEventArgs e)
+        {
+            isDragging = true;
+            clickOffsetX = e.X;
+            clickOffsetY = e.Y;
+        }
+
+        private void lblDragger_MouseUp(object? sender, MouseEventArgs e)
+        {
+            // throw new NotImplementedException();
+        }
+
+        private void lblDragger_MouseMove(object? sender, MouseEventArgs e)
+        {
+            if (isDragging == true)
+            {
+                textBox1.Text = e.X.ToString();
+                //  textBox2.Text = clickOffsetX.ToString();
+            }
+        }
 
         private void ShortcutEvent(object sender, KeyEventArgs e)
         {
@@ -77,7 +121,7 @@ namespace VlcClient
                     else // it's not playing?
                     {
                         player.Play(); // play
-                       
+
                     }
                 }
                 if (e.KeyCode == Keys.F11)
@@ -128,6 +172,59 @@ namespace VlcClient
 
             isFullscreen = true;
             player.Fullscreen = isFullscreen;
+        }
+
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            isDragging = true;
+            clickOffsetX = e.X;
+            clickOffsetY = e.Y;
+        }
+
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging == true)
+            {
+                textBox1.Text = e.X.ToString();
+                //  textBox2.Text = clickOffsetX.ToString();
+            }
+        }
+
+        private void Form1_MouseUp(object sender, MouseEventArgs e)
+        {
+            isDragging = false;
+        }
+
+        private void vlcControl_MouseUp(object sender, MouseEventArgs e)
+        {
+            isDragging = false;
+        }
+
+        private void vlcControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging == true)
+            {
+                textBox1.Text = e.X.ToString();
+                //  textBox2.Text = clickOffsetX.ToString();
+            }
+        }
+
+        private void vlcControl_MouseDown(object sender, MouseEventArgs e)
+        {
+            isDragging = true;
+            clickOffsetX = e.X;
+            clickOffsetY = e.Y;
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            textBox2.Text = trackBar1.Value.ToString();
+            player.Position = trackBar1.Value / 100f;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
