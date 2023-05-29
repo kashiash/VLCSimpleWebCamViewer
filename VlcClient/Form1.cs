@@ -39,7 +39,7 @@ namespace VlcClient
             vlcControl.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
             vlcControl.MouseDoubleClick += new MouseEventHandler(pictureBox1_MouseDown);
 
-            //     this.KeyPreview = true;
+                this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(ShortcutEvent);
 
             //    var url = new Uri("rtsp://10.0.4.91:8008/test");
