@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CameraRecorder", "CameraRec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCvLibrary", "OpenCvLibrary\OpenCvLibrary.csproj", "{63DBA91D-3027-468C-850F-682769984A87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsOpenCvRecorder", "WinFormsOpenCvRecorder\WinFormsOpenCvRecorder.csproj", "{9A59529E-815A-4E94-A60E-144E700F7844}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsOpenCvRecorder", "WinFormsOpenCvRecorder\WinFormsOpenCvRecorder.csproj", "{9A59529E-815A-4E94-A60E-144E700F7844}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VncConsoleGetAllWebsams", "VncConsoleGetAllWebsams\VncConsoleGetAllWebsams.csproj", "{73637598-4F21-4C87-8B83-40E075490AEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{9A59529E-815A-4E94-A60E-144E700F7844}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A59529E-815A-4E94-A60E-144E700F7844}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A59529E-815A-4E94-A60E-144E700F7844}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73637598-4F21-4C87-8B83-40E075490AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73637598-4F21-4C87-8B83-40E075490AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73637598-4F21-4C87-8B83-40E075490AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73637598-4F21-4C87-8B83-40E075490AEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
