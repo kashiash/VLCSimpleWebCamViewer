@@ -11,26 +11,31 @@ namespace VncConsoleGetAllWebsams
 
             using var libvlc = new LibVLC();
 
-            var mds = libvlc.MediaDiscoverers(MediaDiscovererCategory.Devices);
-
-            Console.WriteLine($" number of mds: {mds.Count()}");
-            foreach (var dm in mds)
+            foreach (MediaDiscovererCategory val in Enum.GetValues(typeof(MediaDiscovererCategory)))
             {
-                Console.WriteLine(dm);
+                Console.WriteLine($"===== {val}  ======");
+                var mds = libvlc.MediaDiscoverers(val);
+
+                Console.WriteLine($" number of mds: {mds.Count()}");
+                foreach (var dm in mds)
+                {
+                    Console.WriteLine($"{dm.Category} {dm.Name} {dm.LongName}");
+                    //display only disc
+                }
+
+                if (mds.Any(x => x.LongName == "Video capture"))
+                {
+                    var devices = mds.First(x => x.LongName == "Video capture");
+                    var md = new MediaDiscoverer(libvlc, devices.Name);
+                    md.Start();
+                    foreach (var media in md.MediaList)
+                    {
+                        Console.WriteLine($" _ {media.Mrl}");
+                    }
+                }
             }
 
-          
-
-          //  if (mds.Any(x => x.LongName == "Video capture"))
-          //  {
-                var devices = mds.First(x => x.LongName == "Video capture");
-                var md = new MediaDiscoverer(libvlc, devices.Name);
-                md.Start();
-                foreach (var media1 in md.MediaList)
-                {
-                    Console.WriteLine($" _ {media1.Mrl}");
-                }
-          //  }
+            Console.ReadKey();
 
         }
     }
