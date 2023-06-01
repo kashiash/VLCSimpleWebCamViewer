@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Media;
 using LibVLCSharp.Shared;
 
 namespace VncConsoleGetAllWebsams
@@ -7,6 +8,28 @@ namespace VncConsoleGetAllWebsams
     {
         static void Main(string[] args)
         {
+
+            Thread.Sleep(1000);
+
+       
+
+            // Create a SoundPlayer instance and load the sound file
+            PlaySound(@"c:\video\yes.wav");
+
+            Thread.Sleep(1000);
+            PlaySound(@"c:\video\no.wav");
+
+            Thread.Sleep(1000);
+            PlaySound(@"c:\video\yes.wav");
+
+            Thread.Sleep(1000);
+            PlaySound(@"c:\video\no.wav");
+
+
+            // Wait for the sound to finish playing
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+
             Core.Initialize();
 
             using var libvlc = new LibVLC();
@@ -34,9 +57,27 @@ namespace VncConsoleGetAllWebsams
                     }
                 }
             }
-
+            Thread.Sleep(1000);
+            PlaySound(@"c:\video\no.wav");
+            Thread.Sleep(1000);
             Console.ReadKey();
+        
 
+        }
+
+        private static void PlaySound(string soundFilePath)
+        {
+            SoundPlayer soundPlayer = new SoundPlayer(soundFilePath);
+
+            try
+            {
+                // Play the sound
+                soundPlayer.Play();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error playing sound: " + ex.Message);
+            }
         }
     }
 }

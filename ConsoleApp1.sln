@@ -27,7 +27,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCvLibrary", "OpenCvLibr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsOpenCvRecorder", "WinFormsOpenCvRecorder\WinFormsOpenCvRecorder.csproj", "{9A59529E-815A-4E94-A60E-144E700F7844}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VncConsoleGetAllWebsams", "VncConsoleGetAllWebsams\VncConsoleGetAllWebsams.csproj", "{73637598-4F21-4C87-8B83-40E075490AEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VncConsoleGetAllWebsams", "VncConsoleGetAllWebsams\VncConsoleGetAllWebsams.csproj", "{73637598-4F21-4C87-8B83-40E075490AEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0DFA8B6C-3A24-4B98-92EB-702E31530984}"
+	ProjectSection(SolutionItems) = preProject
+		Testdata\color-test.mp4 = Testdata\color-test.mp4
+		Testdata\gabos-box-1.mp4 = Testdata\gabos-box-1.mp4
+		Testdata\idiot-box-1.mp4 = Testdata\idiot-box-1.mp4
+		Testdata\no.wav = Testdata\no.wav
+		Testdata\yes.wav = Testdata\yes.wav
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
