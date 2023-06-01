@@ -40,17 +40,19 @@
             // 
             // vlcControl
             // 
+            vlcControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             vlcControl.BackColor = Color.Black;
-            vlcControl.Dock = DockStyle.Top;
             vlcControl.Location = new Point(0, 0);
             vlcControl.MediaPlayer = null;
             vlcControl.Name = "vlcControl";
-            vlcControl.Size = new Size(2287, 1375);
+            vlcControl.Size = new Size(2290, 1375);
             vlcControl.TabIndex = 0;
             vlcControl.Text = "vlcControl";
+            vlcControl.ClientSizeChanged += vlcControl_ClientSizeChanged;
             vlcControl.MouseDown += vlcControl_MouseDown;
             vlcControl.MouseMove += vlcControl_MouseMove;
             vlcControl.MouseUp += vlcControl_MouseUp;
+            vlcControl.ParentChanged += vlcControl_ParentChanged;
             // 
             // textBox1
             // 
@@ -87,14 +89,14 @@
             // 
             textBox4.Location = new Point(558, 1398);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(150, 31);
+            textBox4.Size = new Size(1115, 31);
             textBox4.TabIndex = 5;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(2287, 1501);
+            ClientSize = new Size(2290, 1501);
             Controls.Add(textBox4);
             Controls.Add(textBox3);
             Controls.Add(trackBar1);

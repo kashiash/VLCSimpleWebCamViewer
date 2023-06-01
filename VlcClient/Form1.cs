@@ -58,13 +58,13 @@ namespace VlcClient
 
         private void Player_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
         {
-           // textBox4.Text = $"{player.Position * 100}";
-           var pos = player.Position;
+            // textBox4.Text = $"{player.Position * 100}";
+            var pos = player.Position;
         }
 
         private void Media_DurationChanged(object? sender, MediaDurationChangedEventArgs e)
         {
-            textBox3.Text = $"{media.Duration / 1000}";
+           // textBox3.Text = $"{media.Duration / 1000}";
         }
 
         private void pictureBox1_MouseDown(object? sender, MouseEventArgs e)
@@ -225,6 +225,19 @@ namespace VlcClient
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void vlcControl_ClientSizeChanged(object sender, EventArgs e)
+        {
+            textBox4.Text = vlcControl.Size.ToString();
+            trackBar1.Width = vlcControl.Width;
+            trackBar1.Location = new Point(vlcControl.Location.Y, vlcControl.Location.X + vlcControl.Height); ;
+        }
+
+        private void vlcControl_ParentChanged(object sender, EventArgs e)
+        {
+          
+  
         }
     }
 }

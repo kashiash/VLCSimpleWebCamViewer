@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Numerics;
 using LibVLCSharp.Shared;
 using LibVLCSharp.WinForms;
@@ -18,8 +19,21 @@ namespace CameraRecorder
         public Size oldFormSize;
         public Point oldVideoLocation;
 
+        public Keys PlayPauseKey { get; set; } = Keys.Space;
+        public Keys FullscreenKey { get; set; } = Keys.F11;
+        public Keys SkipBackwardKey { get; set; } = Keys.J;
+
         public CameraRecorder()
         {
+           var StartKey = PlayPauseKey.ToString();
+          string  StopKey = FullscreenKey.ToString();
+          string  StartRecording = SkipBackwardKey.ToString();
+
+
+
+            PlayPauseKey = (Keys)Enum.Parse(typeof(Keys), StartKey);
+            FullscreenKey = (Keys)Enum.Parse(typeof(Keys), StopKey);
+            SkipBackwardKey = (Keys)Enum.Parse(typeof(Keys), StartRecording);
 
 
             Core.Initialize();
