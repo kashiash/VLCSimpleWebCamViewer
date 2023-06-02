@@ -29,6 +29,8 @@ public class Recorder : IDisposable
         _videoCapture.FrameHeight = frameHeight;
         _videoCapture.Fps = fps;
 
+        
+
         // Custom Function to show the webcam view into picturebox 
 
         _pictureBox = pictureBox;

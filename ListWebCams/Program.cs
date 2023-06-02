@@ -1,4 +1,7 @@
-﻿using OpenCvSharp;
+﻿using System.Runtime.Intrinsics.X86;
+using System.Text.RegularExpressions;
+using OpenCvSharp;
+using VideoInputDevices;
 
 namespace ListWebCams
 {
@@ -7,12 +10,12 @@ namespace ListWebCams
         static void Main(string[] args)
         {
 
-            for (int i = 0; i < 20; i++)
+            using (var sde = new SystemDeviceEnumerator())
             {
-                var cap0 = new VideoCapture(i,VideoCaptureAPIs.DSHOW);
-                Console.WriteLine($"{} {cap0.CaptureType} {cap0.Fps} {cap0.FrameHeight} {cap0.FrameWidth}");
+                var devices = sde.ListVideoInputDevice();
+  
             }
-          
+
         }
     }
 }
