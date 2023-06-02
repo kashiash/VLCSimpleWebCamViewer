@@ -37,17 +37,18 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(38, 30);
-            pictureBox1.Margin = new Padding(4, 4, 4, 4);
+            pictureBox1.Dock = DockStyle.Top;
+            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(2222, 1228);
+            pictureBox1.Size = new Size(2284, 1228);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
             // button1
             // 
-            button1.Location = new Point(51, 1294);
-            button1.Margin = new Padding(4, 4, 4, 4);
+            button1.Location = new Point(13, 1265);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
             button1.Size = new Size(134, 41);
             button1.TabIndex = 1;
@@ -57,8 +58,8 @@
             // 
             // button2
             // 
-            button2.Location = new Point(202, 1294);
-            button2.Margin = new Padding(4, 4, 4, 4);
+            button2.Location = new Point(155, 1265);
+            button2.Margin = new Padding(4);
             button2.Name = "button2";
             button2.Size = new Size(134, 41);
             button2.TabIndex = 2;
@@ -68,8 +69,8 @@
             // 
             // button3
             // 
-            button3.Location = new Point(1415, 1294);
-            button3.Margin = new Padding(4, 4, 4, 4);
+            button3.Location = new Point(359, 1265);
+            button3.Margin = new Padding(4);
             button3.Name = "button3";
             button3.Size = new Size(134, 41);
             button3.TabIndex = 3;
@@ -86,10 +87,11 @@
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(pictureBox1);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
+            Leave += Form1_Leave;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
