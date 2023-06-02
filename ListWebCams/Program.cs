@@ -10,7 +10,7 @@ namespace ListWebCams
             for (int i = 0; i < 20; i++)
             {
                 var cap0 = new VideoCapture(i,VideoCaptureAPIs.DSHOW);
-                Console.WriteLine($"{cap0.Settings} {cap0.CaptureType} {cap0.Fps} {cap0.FrameHeight} {cap0.FrameWidth}");
+                Console.WriteLine($"{} {cap0.CaptureType} {cap0.Fps} {cap0.FrameHeight} {cap0.FrameWidth}");
             }
           
         }
