@@ -33,15 +33,18 @@ namespace WebCamRecorderVlc
             // Create Media instance for webcam capture
             media = new Media(libVLC, "dshow://", FromType.FromLocation);
 
+          //  media.AddOption(" :dshow-vdev= :dshow-adev= :live-caching=0");
+
+              media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=Microphone (Logitech StreamCam)  :live-caching=300");
+
             // Set video output format
             media.AddOption(":sout=#transcode{vcodec=h264}:file{dst=" + videoFilePath + "}");
 
             // Create VideoView control
-            var videoView = new VideoView
-            {
-                Dock = DockStyle.Fill,
-                MediaPlayer = mediaPlayer
-            };
+
+            videoView.Dock = DockStyle.Fill;
+            videoView.MediaPlayer = mediaPlayer;
+            
 
             // Add VideoView control to the form
             Controls.Add(videoView);

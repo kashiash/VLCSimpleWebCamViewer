@@ -29,30 +29,45 @@
         private void InitializeComponent()
         {
             videoOutput = new Panel();
+            videoView = new LibVLCSharp.WinForms.VideoView();
+            ((System.ComponentModel.ISupportInitialize)videoView).BeginInit();
             SuspendLayout();
             // 
             // videoOutput
             // 
-            videoOutput.Location = new Point(141, 97);
+            videoOutput.Location = new Point(12, 367);
             videoOutput.Name = "videoOutput";
-            videoOutput.Size = new Size(503, 270);
+            videoOutput.Size = new Size(503, 71);
             videoOutput.TabIndex = 0;
+            // 
+            // videoView
+            // 
+            videoView.BackColor = Color.Black;
+            videoView.Location = new Point(24, 28);
+            videoView.MediaPlayer = null;
+            videoView.Name = "videoView";
+            videoView.Size = new Size(764, 333);
+            videoView.TabIndex = 1;
+            videoView.Text = "videoView1";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(videoView);
             Controls.Add(videoOutput);
             Name = "Form1";
             Text = "Form1";
             FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;
+            ((System.ComponentModel.ISupportInitialize)videoView).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Panel videoOutput;
+        private LibVLCSharp.WinForms.VideoView videoView;
     }
 }

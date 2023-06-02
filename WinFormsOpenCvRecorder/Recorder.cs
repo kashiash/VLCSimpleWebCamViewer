@@ -66,7 +66,9 @@ public class Recorder : IDisposable
         if (!IsVideoCaptureValid)
             throw new ThrowVideoCaptureNotReadyException();
 
-        _videoWriter = new VideoWriter(path, FourCC.XVID, _videoCapture.Fps, new OpenCvSharp.Size(_videoCapture.FrameWidth, _videoCapture.FrameHeight));
+        
+      
+        _videoWriter = new VideoWriter(path, FourCC.H265, _videoCapture.Fps, new OpenCvSharp.Size(_videoCapture.FrameWidth, _videoCapture.FrameHeight));
 
         _threadStopEvent.Reset();
 

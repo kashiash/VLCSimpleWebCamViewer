@@ -11,9 +11,12 @@ namespace WinFormsOpenCvRecorder
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+
+
             try
             {
-                recorder = new Recorder(1, 0, 0, 15, pictureBox1);
+                recorder = new Recorder(1, 1920, 1080, 15, pictureBox1);
 
 
 
