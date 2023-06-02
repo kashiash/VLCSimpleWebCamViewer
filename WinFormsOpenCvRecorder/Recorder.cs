@@ -96,6 +96,7 @@ public class Recorder : IDisposable
         _videoWriter?.Release();
         _videoWriter?.Dispose();
         _videoWriter = null;
+        
     }
 
     private void CaptureFrameLoop()
