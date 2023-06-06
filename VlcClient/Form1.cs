@@ -105,71 +105,12 @@ namespace VlcClient
         {
             if (isDragging == true)
             {
-               // textBox1.Text = e.X.ToString();
+                // textBox1.Text = e.X.ToString();
                 //  textBox2.Text = clickOffsetX.ToString();
             }
         }
 
-        private void ShortcutEvent(object sender, KeyEventArgs e)
-        {
 
-            if (e.KeyCode == Keys.Escape && isFullscreen) // from fullscreen to window
-            {
-                DisableFullScreen();
-            }
-
-            if (e.KeyCode == Keys.F || e.KeyCode == Keys.F11)
-            {
-                if (isFullscreen)
-                {
-                    DisableFullScreen();
-
-                }
-                else
-                {
-                    SetFullScreen();
-
-                }
-            }
-
-            if (isPlaying) // while the video is playing
-            {
-                if (e.KeyCode == Keys.Space || e.KeyCode == Keys.K) // Pause and Play
-                {
-                    if (player.State == VLCState.Playing) // if is playing
-                    {
-                        player.Pause(); // pause
-                    }
-                    else // it's not playing?
-                    {
-                        player.Play(); // play
-
-                    }
-                }
-                if (e.KeyCode == Keys.F11)
-                {
-                    player.ToggleFullscreen();
-                }
-
-                if (e.KeyCode == Keys.J) // skip 1% backwards
-                {
-                    player.Position -= 0.01f;
-                }
-                if (e.KeyCode == Keys.L) // skip 1% forwards
-                {
-                    player.Position += 0.01f;
-                }
-                if (e.KeyCode == Keys.N) // skip 1% forwards
-                {
-                    player.NextFrame();
-
-                }
-                if (e.KeyCode == Keys.S)
-                {
-                    var res = player.TakeSnapshot(0, $"snapshot{DateTime.Now.Ticks}.png", 0, 0);
-                }
-            }
-        }
 
 
         private void DisableFullScreen()
@@ -226,7 +167,7 @@ namespace VlcClient
         {
             if (isDragging == true)
             {
-               // textBox1.Text = e.X.ToString();
+                // textBox1.Text = e.X.ToString();
                 //  textBox2.Text = clickOffsetX.ToString();
             }
         }
@@ -240,7 +181,7 @@ namespace VlcClient
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-           // textBox2.Text = trackBar1.Value.ToString();
+            // textBox2.Text = trackBar1.Value.ToString();
             player.Position = trackBar1.Value / 100f;
         }
 
@@ -251,9 +192,9 @@ namespace VlcClient
 
         private void vlcControl_ClientSizeChanged(object sender, EventArgs e)
         {
-          //  textBox4.Text = vlcControl.Size.ToString();
-            trackBar1.Width = vlcControl.Width;
-            trackBar1.Location = new Point(vlcControl.Location.Y, vlcControl.Location.X + vlcControl.Height); ;
+            //  textBox4.Text = vlcControl.Size.ToString();
+            // trackBar1.Width = vlcControl.Width;
+            // trackBar1.Location = new Point(vlcControl.Location.Y, vlcControl.Location.X + vlcControl.Height); ;
         }
 
         private void vlcControl_ParentChanged(object sender, EventArgs e)
@@ -344,5 +285,108 @@ namespace VlcClient
         }
 
 
+        private void ShortcutEvent(object sender, KeyEventArgs e)
+        {
+
+            if (e.KeyCode == Keys.Escape && isFullscreen) // from fullscreen to window
+            {
+                DisableFullScreen();
+            }
+
+            if (e.KeyCode == Keys.F || e.KeyCode == Keys.F11)
+            {
+                if (isFullscreen)
+                {
+                    DisableFullScreen();
+
+                }
+                else
+                {
+                    SetFullScreen();
+
+                }
+            }
+
+            if (isPlaying) // while the video is playing
+            {
+                if (e.KeyCode == Keys.Space || e.KeyCode == Keys.K) // Pause and Play
+                {
+                    if (player.State == VLCState.Playing) // if is playing
+                    {
+                        player.Pause(); // pause
+                    }
+                    else // it's not playing?
+                    {
+                        player.Play(); // play
+
+                    }
+                }
+                if (e.KeyCode == Keys.F11)
+                {
+                    player.ToggleFullscreen();
+                }
+
+                if (e.KeyCode == Keys.J) // skip 1% backwards
+                {
+                    player.Position -= 0.01f;
+                }
+                if (e.KeyCode == Keys.L) // skip 1% forwards
+                {
+                    player.Position += 0.01f;
+                }
+                if (e.KeyCode == Keys.N) // skip 1% forwards
+                {
+                    player.NextFrame();
+
+                }
+                if (e.KeyCode == Keys.S)
+                {
+                    var res = player.TakeSnapshot(0, $"snapshot{DateTime.Now.Ticks}.png", 0, 0);
+                }
+            }
+        }
+
+        private void vlcControl_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void playButton_Click(object sender, EventArgs e)
+        {
+            if (player.State == VLCState.Playing) // if is playing
+            {
+                player.Pause(); // pause
+            }
+            else // it's not playing?
+            {
+                player.Play(); // play
+
+            }
+        }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            player.Position -= 0.01f;
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            player.Pause(); // pause
+        }
+
+        private void forwardButton_Click(object sender, EventArgs e)
+        {
+            player.Position += 0.01f;
+        }
+
+        private void snapshotButton_Click(object sender, EventArgs e)
+        {
+            var res = player.TakeSnapshot(0, $"snapshot{DateTime.Now.Ticks}.png", 0, 0);
+        }
+
+        private void stepButton_Click(object sender, EventArgs e)
+        {
+            player.NextFrame();
+        }
     }
 }

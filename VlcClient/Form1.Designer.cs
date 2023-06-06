@@ -1,4 +1,6 @@
-﻿namespace VlcClient
+﻿using System.Windows.Forms;
+
+namespace VlcClient
 {
     partial class Form1
     {
@@ -39,8 +41,11 @@
             forwardButton = new Button();
             snapshotButton = new Button();
             stepButton = new Button();
+            panel1 = new Panel();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)vlcControl).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // vlcControl
@@ -51,10 +56,11 @@
             vlcControl.Margin = new Padding(4);
             vlcControl.MediaPlayer = null;
             vlcControl.Name = "vlcControl";
-            vlcControl.Size = new Size(2748, 895);
+            vlcControl.Size = new Size(2417, 874);
             vlcControl.TabIndex = 0;
             vlcControl.Text = "vlcControl";
             vlcControl.ClientSizeChanged += vlcControl_ClientSizeChanged;
+            vlcControl.Click += vlcControl_Click;
             vlcControl.MouseDown += vlcControl_MouseDown;
             vlcControl.MouseMove += vlcControl_MouseMove;
             vlcControl.MouseUp += vlcControl_MouseUp;
@@ -62,13 +68,15 @@
             // 
             // trackBar1
             // 
-            trackBar1.Location = new Point(0, 903);
+            trackBar1.BackColor = Color.Black;
+            trackBar1.Dock = DockStyle.Top;
+            trackBar1.Location = new Point(0, 0);
             trackBar1.Margin = new Padding(4);
             trackBar1.Maximum = 100;
             trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(2744, 69);
+            trackBar1.Size = new Size(2417, 69);
             trackBar1.TabIndex = 3;
-            trackBar1.TickStyle = TickStyle.Both;
+            trackBar1.TickStyle = TickStyle.TopLeft;
             trackBar1.Scroll += trackBar1_Scroll;
             trackBar1.MouseDown += trackBar1_MouseDown;
             trackBar1.MouseMove += trackBar1_MouseMove;
@@ -76,10 +84,11 @@
             // 
             // lblMovieDuration
             // 
+            lblMovieDuration.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             lblMovieDuration.AutoSize = true;
             lblMovieDuration.BackColor = Color.Black;
             lblMovieDuration.ForeColor = Color.Lime;
-            lblMovieDuration.Location = new Point(2460, 899);
+            lblMovieDuration.Location = new Point(2309, 39);
             lblMovieDuration.Name = "lblMovieDuration";
             lblMovieDuration.Size = new Size(89, 30);
             lblMovieDuration.TabIndex = 6;
@@ -87,10 +96,11 @@
             // 
             // lblTime
             // 
+            lblTime.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             lblTime.AutoSize = true;
             lblTime.BackColor = Color.Black;
             lblTime.ForeColor = Color.Lime;
-            lblTime.Location = new Point(2555, 899);
+            lblTime.Location = new Point(6, 39);
             lblTime.Name = "lblTime";
             lblTime.Size = new Size(89, 30);
             lblTime.TabIndex = 6;
@@ -98,84 +108,124 @@
             // 
             // playButton
             // 
+            playButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            playButton.FlatStyle = FlatStyle.Flat;
             playButton.Image = (Image)resources.GetObject("playButton.Image");
-            playButton.Location = new Point(6, 964);
+            playButton.Location = new Point(3, 3);
             playButton.Name = "playButton";
-            playButton.Size = new Size(67, 66);
+            playButton.Size = new Size(100, 100);
             playButton.TabIndex = 7;
             playButton.UseVisualStyleBackColor = true;
+            playButton.Click += playButton_Click;
             // 
             // backButton
             // 
+            backButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            backButton.FlatStyle = FlatStyle.Flat;
             backButton.Image = (Image)resources.GetObject("backButton.Image");
-            backButton.Location = new Point(79, 964);
+            backButton.Location = new Point(109, 3);
             backButton.Name = "backButton";
-            backButton.Size = new Size(67, 66);
+            backButton.Size = new Size(100, 100);
             backButton.TabIndex = 8;
             backButton.UseVisualStyleBackColor = true;
+            backButton.Click += backButton_Click;
             // 
             // stopButton
             // 
+            stopButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            stopButton.FlatStyle = FlatStyle.Flat;
             stopButton.Image = (Image)resources.GetObject("stopButton.Image");
-            stopButton.Location = new Point(152, 964);
+            stopButton.Location = new Point(215, 3);
             stopButton.Name = "stopButton";
-            stopButton.Size = new Size(67, 66);
+            stopButton.Size = new Size(100, 100);
             stopButton.TabIndex = 8;
             stopButton.UseVisualStyleBackColor = true;
+            stopButton.Click += stopButton_Click;
             // 
             // forwardButton
             // 
+            forwardButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            forwardButton.FlatStyle = FlatStyle.Flat;
             forwardButton.Image = (Image)resources.GetObject("forwardButton.Image");
-            forwardButton.Location = new Point(225, 964);
+            forwardButton.Location = new Point(321, 3);
             forwardButton.Name = "forwardButton";
-            forwardButton.Size = new Size(67, 66);
+            forwardButton.Size = new Size(100, 100);
             forwardButton.TabIndex = 8;
             forwardButton.UseVisualStyleBackColor = true;
+            forwardButton.Click += forwardButton_Click;
             // 
             // snapshotButton
             // 
+            snapshotButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            snapshotButton.FlatStyle = FlatStyle.Flat;
             snapshotButton.Image = (Image)resources.GetObject("snapshotButton.Image");
-            snapshotButton.Location = new Point(298, 964);
+            snapshotButton.Location = new Point(112, 3);
             snapshotButton.Name = "snapshotButton";
-            snapshotButton.Size = new Size(67, 66);
+            snapshotButton.Size = new Size(100, 100);
             snapshotButton.TabIndex = 8;
             snapshotButton.UseVisualStyleBackColor = true;
+            snapshotButton.Click += snapshotButton_Click;
             // 
             // stepButton
             // 
+            stepButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            stepButton.FlatStyle = FlatStyle.Flat;
             stepButton.Image = (Image)resources.GetObject("stepButton.Image");
-            stepButton.Location = new Point(371, 964);
+            stepButton.Location = new Point(112, 3);
             stepButton.Name = "stepButton";
-            stepButton.Size = new Size(67, 66);
+            stepButton.Size = new Size(100, 0);
             stepButton.TabIndex = 8;
             stepButton.UseVisualStyleBackColor = true;
+            stepButton.Click += stepButton_Click;
+            // 
+            // panel1
+            // 
+            panel1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panel1.Controls.Add(playButton);
+            panel1.Controls.Add(backButton);
+            panel1.Controls.Add(stopButton);
+            panel1.Controls.Add(forwardButton);
+            panel1.Controls.Add(snapshotButton);
+            panel1.Controls.Add(stepButton);
+            panel1.Controls.Add(button1);
+            panel1.Controls.Add(lblTime);
+            panel1.Controls.Add(lblMovieDuration);
+            panel1.Controls.Add(trackBar1);
+            panel1.Location = new Point(0, 1162);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(2417, 138);
+            panel1.TabIndex = 9;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(240, 63);
+            button1.Name = "button1";
+            button1.Size = new Size(112, 34);
+            button1.TabIndex = 7;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(2748, 1152);
-            Controls.Add(stepButton);
-            Controls.Add(snapshotButton);
-            Controls.Add(forwardButton);
-            Controls.Add(stopButton);
-            Controls.Add(backButton);
-            Controls.Add(playButton);
-            Controls.Add(lblTime);
-            Controls.Add(lblMovieDuration);
-            Controls.Add(trackBar1);
+            BackColor = Color.Black;
+            ClientSize = new Size(2417, 1300);
+            Controls.Add(panel1);
             Controls.Add(vlcControl);
             Margin = new Padding(4);
             Name = "Form1";
-            Text = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Gabos Video Player";
             Load += Form1_Load;
             MouseDown += Form1_MouseDown;
             MouseMove += Form1_MouseMove;
             MouseUp += Form1_MouseUp;
             ((System.ComponentModel.ISupportInitialize)vlcControl).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -190,5 +240,7 @@
         private Button forwardButton;
         private Button snapshotButton;
         private Button stepButton;
+        private Panel panel1;
+        private Button button1;
     }
 }
