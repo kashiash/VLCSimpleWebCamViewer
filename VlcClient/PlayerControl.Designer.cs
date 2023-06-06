@@ -24,7 +24,7 @@
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlayerForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlayerControl));
             vlcControl = new LibVLCSharp.WinForms.VideoView();
             lblMovieDuration = new Label();
             lblTime = new Label();
@@ -51,7 +51,6 @@
             vlcControl.Size = new Size(1343, 642);
             vlcControl.TabIndex = 0;
             vlcControl.Text = "vlcControl";
-
             // 
             // lblMovieDuration
             // 
@@ -60,7 +59,7 @@
             lblMovieDuration.BackColor = Color.Black;
             lblMovieDuration.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
             lblMovieDuration.ForeColor = Color.Lime;
-            lblMovieDuration.Location = new Point(1156, 731);
+            lblMovieDuration.Location = new Point(1156, 716);
             lblMovieDuration.Name = "lblMovieDuration";
             lblMovieDuration.Size = new Size(173, 54);
             lblMovieDuration.TabIndex = 6;
@@ -73,7 +72,7 @@
             lblTime.BackColor = Color.Black;
             lblTime.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
             lblTime.ForeColor = Color.Lime;
-            lblTime.Location = new Point(12, 731);
+            lblTime.Location = new Point(12, 716);
             lblTime.Name = "lblTime";
             lblTime.Size = new Size(173, 54);
             lblTime.TabIndex = 6;
@@ -83,7 +82,6 @@
             // 
             playButton.Anchor = AnchorStyles.Bottom;
             playButton.FlatStyle = FlatStyle.Flat;
-            playButton.Image = (Image)resources.GetObject("playButton.Image");
             playButton.Location = new Point(364, 702);
             playButton.Name = "playButton";
             playButton.Size = new Size(93, 83);
@@ -162,7 +160,6 @@
             trackBar1.Size = new Size(1331, 69);
             trackBar1.TabIndex = 3;
             trackBar1.TickStyle = TickStyle.TopLeft;
-         
             trackBar1.MouseDown += trackBar1_MouseDown;
             trackBar1.MouseMove += trackBar1_MouseMove;
             trackBar1.MouseUp += trackBar1_MouseUp;
@@ -179,12 +176,11 @@
             pauseButton.UseVisualStyleBackColor = true;
             pauseButton.Click += playButton_Click;
             // 
-            // PlayerForm
+            // PlayerControl
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(1341, 792);
             Controls.Add(lblTime);
             Controls.Add(lblMovieDuration);
             Controls.Add(trackBar1);
@@ -197,12 +193,10 @@
             Controls.Add(stopButton);
             Controls.Add(backButton);
             Margin = new Padding(4);
-            Name = "PlayerForm";
-
-            Text = "Gabos Video Player";
+            Name = "PlayerControl";
+            Size = new Size(1341, 792);
             Load += PlayerControl_Load;
             Leave += PlayerControl_Leave;
-
             ((System.ComponentModel.ISupportInitialize)vlcControl).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
             ResumeLayout(false);
