@@ -2,6 +2,7 @@ using System.Diagnostics;
 using LibVLCSharp.Shared;
 using System.Numerics;
 using LibVLCSharp.WinForms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace VlcClient
 {
@@ -34,10 +35,10 @@ namespace VlcClient
             oldFormSize = this.Size;
             oldVideoLocation = vlcControl.Location;
 
-            vlcControl.MouseMove += new MouseEventHandler(lblDragger_MouseMove);
-            vlcControl.MouseUp += new MouseEventHandler(lblDragger_MouseUp);
-            vlcControl.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
-            vlcControl.MouseDoubleClick += new MouseEventHandler(pictureBox1_MouseDown);
+            //vlcControl.MouseMove += new MouseEventHandler(lblDragger_MouseMove);
+            //vlcControl.MouseUp += new MouseEventHandler(lblDragger_MouseUp);
+            //vlcControl.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
+            //vlcControl.MouseDoubleClick += new MouseEventHandler(pictureBox1_MouseDown);
 
             this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(ShortcutEvent);
@@ -48,6 +49,8 @@ namespace VlcClient
             media.DurationChanged += Media_DurationChanged;
             player = new MediaPlayer(libvlc);
             player.PositionChanged += Player_PositionChanged;
+            player.TimeChanged += Player_TimeChanged;
+            player.LengthChanged += Player_LengthChanged;
             vlcControl.MediaPlayer = player;
 
             vlcControl.MediaPlayer.Play(media);
@@ -56,15 +59,34 @@ namespace VlcClient
             Debug.WriteLine(url);
         }
 
+        private void Player_LengthChanged(object? sender, MediaPlayerLengthChangedEventArgs e)
+        {
+            string time = TimeSpan.FromMilliseconds(e.Length).ToString(@"hh\:mm\:ss");
+            NotifyDuration(time, e.Length);
+        }
+
+
+
+
+
+        private void Player_TimeChanged(object? sender, MediaPlayerTimeChangedEventArgs e)
+        {
+            string time = TimeSpan.FromMilliseconds(e.Time).ToString(@"hh\:mm\:ss");
+            NotifyTime(time, e.Time, 0);
+        }
+
         private void Player_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
         {
             // textBox4.Text = $"{player.Position * 100}";
             var pos = player.Position;
+            Console.WriteLine(e.Position * 1000);
+
         }
 
         private void Media_DurationChanged(object? sender, MediaDurationChangedEventArgs e)
         {
-           // textBox3.Text = $"{media.Duration / 1000}";
+            // NotifyDuration(media.Duration);
+            // textBox3.Text = $"{media.Duration / 1000}";
         }
 
         private void pictureBox1_MouseDown(object? sender, MouseEventArgs e)
@@ -83,7 +105,7 @@ namespace VlcClient
         {
             if (isDragging == true)
             {
-                textBox1.Text = e.X.ToString();
+               // textBox1.Text = e.X.ToString();
                 //  textBox2.Text = clickOffsetX.ToString();
             }
         }
@@ -185,7 +207,7 @@ namespace VlcClient
         {
             if (isDragging == true)
             {
-                textBox1.Text = e.X.ToString();
+                //textBox1.Text = e.X.ToString();
                 //  textBox2.Text = clickOffsetX.ToString();
             }
         }
@@ -204,7 +226,7 @@ namespace VlcClient
         {
             if (isDragging == true)
             {
-                textBox1.Text = e.X.ToString();
+               // textBox1.Text = e.X.ToString();
                 //  textBox2.Text = clickOffsetX.ToString();
             }
         }
@@ -218,7 +240,7 @@ namespace VlcClient
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            textBox2.Text = trackBar1.Value.ToString();
+           // textBox2.Text = trackBar1.Value.ToString();
             player.Position = trackBar1.Value / 100f;
         }
 
@@ -229,15 +251,98 @@ namespace VlcClient
 
         private void vlcControl_ClientSizeChanged(object sender, EventArgs e)
         {
-            textBox4.Text = vlcControl.Size.ToString();
+          //  textBox4.Text = vlcControl.Size.ToString();
             trackBar1.Width = vlcControl.Width;
             trackBar1.Location = new Point(vlcControl.Location.Y, vlcControl.Location.X + vlcControl.Height); ;
         }
 
         private void vlcControl_ParentChanged(object sender, EventArgs e)
         {
-          
-  
+
+
         }
+
+        public void NotifyTime(string time, long time_t, int instance = 0)
+        {
+
+            InvokeControlText(lblTime, time);
+            if (m_trackDown == true)
+                return;
+            InvokeTrackerValue(trackBar1, (int)(time_t / 1000));
+        }
+
+        public void NotifyDuration(string time, long mvt, int instance = 0)
+        {
+            InvokeControlText(lblMovieDuration, time);
+            mvt = mvt / 1000;
+            InvokeTrackerMaximum(trackBar1, (int)mvt);
+        }
+
+
+        public static void InvokeControlText<T>(Control control, T e)
+        {
+            if (control.InvokeRequired)
+            {
+                control.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    control.Text = e.ToString();
+                });
+            }
+            else
+            {
+                control.Text = e.ToString();
+            }
+        }
+
+        public static void InvokeTrackerValue(TrackBar control, int value)
+        {
+            if (control.InvokeRequired)
+            {
+                control.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    control.Value = value;
+                });
+            }
+            else
+            {
+                control.Value = value;
+            }
+        }
+
+        public static void InvokeTrackerMaximum(TrackBar control, int value)
+        {
+            if (control.InvokeRequired)
+            {
+                control.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    control.Maximum = value;
+                });
+            }
+            else
+            {
+                control.Maximum = value;
+            }
+        }
+
+        bool m_trackDown = false;
+        private void trackBar1_MouseDown(object sender, MouseEventArgs e)
+        {
+            m_trackDown = true;
+        }
+
+        private void trackBar1_MouseUp(object sender, MouseEventArgs e)
+        {
+            m_trackDown = false;
+        }
+
+        private void trackBar1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (m_trackDown == true)
+            {
+                // videoControl1.Time = trackBar1.Value * 1000;
+            }
+        }
+
+
     }
 }

@@ -29,12 +29,7 @@ public class Recorder : IDisposable
         _videoCapture.FrameHeight = frameHeight;
         _videoCapture.Fps = fps;
 
-        
-
-        // Custom Function to show the webcam view into picturebox 
-
         _pictureBox = pictureBox;
-
     }
 
     /// <inheritdoc /> 
@@ -86,17 +81,17 @@ public class Recorder : IDisposable
         _threadStopEvent.Set();
 
         _writerThread?.Join();
+       
         _writerThread = null;
 
         _captureThread?.Join();
-        _captureThread = null;
+      _captureThread = null;
 
         _threadStopEvent.Reset();
 
         _videoWriter?.Release();
         _videoWriter?.Dispose();
         _videoWriter = null;
-        
     }
 
     private void CaptureFrameLoop()
@@ -106,8 +101,13 @@ public class Recorder : IDisposable
             _videoCapture.Read(_capturedFrame);
             if (!(_capturedFrame.Empty()))
             {
-                //_pictureBox.Invoke(new Action(() => _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame))); 
-                _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame);
+                _pictureBox.Invoke(new Action(() => _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame)));
+               // imgViewport.Source = BitmapSourceConverter.ToBitmapSource(currentFrame);
+                // _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame);
+
+                //  BitmapConverter.ToBitmap(_capturedFrame);
+
+                // _pictureBox.Image = _capturedFrame.ToBitmap();
 
             }
         }
