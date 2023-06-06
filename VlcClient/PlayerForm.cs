@@ -35,11 +35,6 @@ namespace VlcClient
             oldFormSize = this.Size;
             oldVideoLocation = vlcControl.Location;
 
-            //vlcControl.MouseMove += new MouseEventHandler(lblDragger_MouseMove);
-            //vlcControl.MouseUp += new MouseEventHandler(lblDragger_MouseUp);
-            //vlcControl.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
-            //vlcControl.MouseDoubleClick += new MouseEventHandler(pictureBox1_MouseDown);
-
             this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(ShortcutEvent);
 
@@ -64,8 +59,7 @@ namespace VlcClient
 
         private void Player_PositionChanged(object? sender, MediaPlayerPositionChangedEventArgs e)
         {
-            // textBox4.Text = $"{player.Position * 100}";
-            var pos = player.Position;
+
             Console.WriteLine(e.Position * 1000);
 
         }
@@ -83,19 +77,7 @@ namespace VlcClient
             clickOffsetY = e.Y;
         }
 
-        private void lblDragger_MouseUp(object? sender, MouseEventArgs e)
-        {
-            // throw new NotImplementedException();
-        }
 
-        private void lblDragger_MouseMove(object? sender, MouseEventArgs e)
-        {
-            if (isDragging == true)
-            {
-                // textBox1.Text = e.X.ToString();
-                //  textBox2.Text = clickOffsetX.ToString();
-            }
-        }
 
 
 
@@ -315,11 +297,11 @@ namespace VlcClient
                 {
                     if (player.State == VLCState.Playing) // if is playing
                     {
-                        player.Pause(); // pause
+                        Pause();
                     }
                     else // it's not playing?
                     {
-                        player.Play(); // play
+                        Play();
 
                     }
                 }
@@ -357,13 +339,29 @@ namespace VlcClient
         {
             if (player.State == VLCState.Playing) // if is playing
             {
-                player.Pause(); // pause
+
+                Pause();
             }
             else // it's not playing?
             {
-                player.Play(); // play
+
+                Play();
 
             }
+        }
+
+        private void Pause()
+        {
+            player.Pause(); // pause
+            pauseButton.Visible = false;
+            playButton.Visible = true;
+        }
+
+        private void Play()
+        {
+            player.Play();
+            pauseButton.Visible = true;
+            playButton.Visible = false;
         }
 
         private void backButton_Click(object sender, EventArgs e)
