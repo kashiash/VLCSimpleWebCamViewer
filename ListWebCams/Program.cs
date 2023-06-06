@@ -13,6 +13,10 @@ namespace ListWebCams
             using (var sde = new SystemDeviceEnumerator())
             {
                 var devices = sde.ListVideoInputDevice();
+                foreach (var device in devices)
+                {
+                    Console.WriteLine($"{device.Key} {device.Value} ");
+                }
   
             }
 
