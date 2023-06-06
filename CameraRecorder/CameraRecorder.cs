@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Media;
 using System.Numerics;
 using LibVLCSharp.Shared;
 using LibVLCSharp.WinForms;
@@ -64,7 +65,7 @@ namespace CameraRecorder
             webCamMedia.AddOption(":live-caching=100");
 
 
-            //  webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,dst=recording{DateTime.Now.Ticks}.mp4}}\"}}");
+
             webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\"}}");
            // webCamMedia.AddOption(":sout=#duplicate{dst=display,dst=standard{access=file,mux=ts,dst=rec.ts}}");
             //":sout=#duplicate{dst=display,dst=\"transcode{vcodec=h264}:standard{access=file,mux=mp4,dst=c:\\junk\\test.mp4}\"}" save with transcoding
@@ -120,8 +121,14 @@ namespace CameraRecorder
                 {
                     if (isRecording == true) // if is playing
                     {
+                        PlaySound(@"c:\video\stop.wav");
                         player.Stop(); // pause
                         webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
+
+                        webCamMedia.AddOption(":dshow-vdev=Logitech StreamCam");
+                        webCamMedia.AddOption(":dshow-adev=Mikrofon (Logitech StreamCam)");
+                        webCamMedia.AddOption(":live-caching=100");
+
                         player.Play(webCamMedia); // play
                         this.Text = "playing";
                         this.BackColor = Color.Black;
@@ -130,8 +137,19 @@ namespace CameraRecorder
                     }
                     else // it's not playing?
                     {
+                        PlaySound(@"c:\video\start.wav");
                         webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
-                        webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=std{{access=file,dst=recording{DateTime.Now.Ticks}.mp4}}}}");
+                    //    webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=std{{access=file,dst=recording{DateTime.Now.Ticks}.mp4}}}}");
+
+
+                        webCamMedia.AddOption(":dshow-vdev=Logitech StreamCam");
+                        webCamMedia.AddOption(":dshow-adev=Mikrofon (Logitech StreamCam)");
+                        webCamMedia.AddOption(":live-caching=100");
+
+
+
+                        webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\"}}");
+
                         player.Play(webCamMedia); // play
                         this.Text = "recording";
                         this.BackColor = Color.Red;
@@ -164,7 +182,20 @@ namespace CameraRecorder
             }
         }
 
+        private static void PlaySound(string soundFilePath)
+        {
+            SoundPlayer soundPlayer = new SoundPlayer(soundFilePath);
 
+            try
+            {
+                // Play the sound
+                soundPlayer.Play();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error playing sound: " + ex.Message);
+            }
+        }
 
         private void DisableFullScreen()
         {
