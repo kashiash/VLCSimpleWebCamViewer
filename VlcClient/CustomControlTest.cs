@@ -13,9 +13,14 @@ namespace VlcClient
     public partial class CustomControlTest : Form
     {
         string filePath;
-        public CustomControlTest()
+        public CustomControlTest(string filePath)
         {
+            this.filePath = filePath;
             InitializeComponent();
+
+
+            this.KeyPreview = true;
+            this.KeyDown += new KeyEventHandler(videoView1.ShortcutEvent);
         }
     }
 }

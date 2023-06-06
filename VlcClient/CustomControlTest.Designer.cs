@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            videoView1 = new PlayerControl();
+            videoView1 = new PlayerControl(filePath);
            // videoView2 = new PlayerControl();
 
             SuspendLayout();

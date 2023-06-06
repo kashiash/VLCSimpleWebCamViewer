@@ -323,5 +323,12 @@ namespace VlcClient
         {
             player.NextFrame();
         }
+
+        private void PlayerForm_Leave(object sender, EventArgs e)
+        {
+            media.Dispose();
+            player.Dispose();
+            libvlc.Dispose();
+        }
     }
 }

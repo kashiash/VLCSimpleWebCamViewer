@@ -57,7 +57,6 @@ namespace VlcClient
             vlcControl.Size = new Size(1343, 642);
             vlcControl.TabIndex = 0;
             vlcControl.Text = "vlcControl";
-
             // 
             // lblMovieDuration
             // 
@@ -168,7 +167,6 @@ namespace VlcClient
             trackBar1.Size = new Size(1331, 69);
             trackBar1.TabIndex = 3;
             trackBar1.TickStyle = TickStyle.TopLeft;
-
             trackBar1.MouseDown += trackBar1_MouseDown;
             trackBar1.MouseMove += trackBar1_MouseMove;
             trackBar1.MouseUp += trackBar1_MouseUp;
@@ -207,7 +205,7 @@ namespace VlcClient
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Gabos Video Player";
             Load += Form1_Load;
-
+            Leave += PlayerForm_Leave;
             ((System.ComponentModel.ISupportInitialize)vlcControl).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
             ResumeLayout(false);

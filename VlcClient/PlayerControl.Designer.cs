@@ -60,7 +60,7 @@
             lblMovieDuration.BackColor = Color.Black;
             lblMovieDuration.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
             lblMovieDuration.ForeColor = Color.Lime;
-            lblMovieDuration.Location = new Point(1156, 703);
+            lblMovieDuration.Location = new Point(1156, 731);
             lblMovieDuration.Name = "lblMovieDuration";
             lblMovieDuration.Size = new Size(173, 54);
             lblMovieDuration.TabIndex = 6;
@@ -73,7 +73,7 @@
             lblTime.BackColor = Color.Black;
             lblTime.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
             lblTime.ForeColor = Color.Lime;
-            lblTime.Location = new Point(12, 703);
+            lblTime.Location = new Point(12, 731);
             lblTime.Name = "lblTime";
             lblTime.Size = new Size(173, 54);
             lblTime.TabIndex = 6;
@@ -201,12 +201,15 @@
 
             Text = "Gabos Video Player";
             Load += PlayerControl_Load;
+            Leave += PlayerControl_Leave;
 
             ((System.ComponentModel.ISupportInitialize)vlcControl).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
+
+
 
 
 
