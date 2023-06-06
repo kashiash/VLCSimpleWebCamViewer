@@ -60,19 +60,31 @@ namespace CameraRecorder
             //  // Display it on screen and svae to file
 
             webCamMedia.AddOption(":dshow-vdev=Logitech StreamCam");
-         //   webCamMedia.AddOption(":dshow-adev=Logitech StreamCam");
+            webCamMedia.AddOption(":dshow-adev=Mikrofon (Logitech StreamCam)");
             webCamMedia.AddOption(":live-caching=100");
 
 
-            // webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=std{{access=file,dst=recording{DateTime.Now.Ticks}.mp4}}}}");
-            //  webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}}}\"}}");
-            webCamMedia.AddOption(":sout=#duplicate{dst=display,dst=\"transcode{vcodec=h264}:standard{access=file,mux=mp4,dst=test.mp4}\"}");
-              //":sout=#duplicate{dst=display,dst=\"transcode{vcodec=h264}:standard{access=file,mux=mp4,dst=c:\\junk\\test.mp4}\"}" save with transcoding
-              //":sout=#duplicate{dst=display,dst=standard{access=file,mux=mp4,dst=c:\junk\test.mp4}}"
-              //   webCamMedia.AddOption(":sout=#duplicate{dst=display,dst=std{access=file,dst=xyz.mp4},dst=rtp{sdp=rtsp://10.0.4.91:8554/webcam}}");// "dst=rtp{sdp=rtsp://10.0.4.91:8554/go.sdp}}");
+            //  webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,dst=recording{DateTime.Now.Ticks}.mp4}}\"}}");
+            webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\"}}");
+           // webCamMedia.AddOption(":sout=#duplicate{dst=display,dst=standard{access=file,mux=ts,dst=rec.ts}}");
+            //":sout=#duplicate{dst=display,dst=\"transcode{vcodec=h264}:standard{access=file,mux=mp4,dst=c:\\junk\\test.mp4}\"}" save with transcoding
+            //":sout=#duplicate{dst=display,dst=standard{access=file,mux=mp4,dst=c:\junk\test.mp4}}"
+            //   webCamMedia.AddOption(":sout=#duplicate{dst=display,dst=std{access=file,dst=xyz.mp4},dst=rtp{sdp=rtsp://10.0.4.91:8554/webcam}}");// "dst=rtp{sdp=rtsp://10.0.4.91:8554/go.sdp}}");
+            /*
+            Display and save with Transcoding
+
+            :sout=#duplicate{dst=display,dst="transcode{vcodec=h264}:standard{access=file,mux=mp4,dst=c:\junk\test.mp4}"} 
+
+            Display and save without Transcoding
+
+            :sout=#duplicate{dst=display,dst=standard{access=file,mux=mp4,dst=c:\junk\test.mp4}}
 
 
-              player.EnableHardwareDecoding = true;
+            --sout "#duplicate{dst=display,dst="transcode{vcodec=h264,fps=25,scale=0.5}:dst=std{access=file,mux=avi,dst=Recording.avi}"}"
+            -sout="#duplicate{dst=display,dst=standard{access=file,mux=ts,dst=rec.ts}}"
+            */
+
+            player.EnableHardwareDecoding = true;
             player.Play(webCamMedia);
             isRecording = true;
             this.Text = "Recording";
