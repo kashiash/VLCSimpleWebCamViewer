@@ -21,9 +21,6 @@ namespace VlcClient
         public Point oldVideoLocation;
 
 
-        bool isDragging;
-        int clickOffsetX;
-        int clickOffsetY;
 
 
         public PlayerForm()
@@ -64,21 +61,6 @@ namespace VlcClient
 
         }
 
-        private void Media_DurationChanged(object? sender, MediaDurationChangedEventArgs e)
-        {
-            // NotifyDuration(media.Duration);
-            // textBox3.Text = $"{media.Duration / 1000}";
-        }
-
-        private void pictureBox1_MouseDown(object? sender, MouseEventArgs e)
-        {
-            isDragging = true;
-            clickOffsetX = e.X;
-            clickOffsetY = e.Y;
-        }
-
-
-
 
 
 
@@ -106,47 +88,8 @@ namespace VlcClient
             player.Fullscreen = isFullscreen;
         }
 
-        private void Form1_MouseDown(object sender, MouseEventArgs e)
-        {
-            isDragging = true;
-            clickOffsetX = e.X;
-            clickOffsetY = e.Y;
-        }
 
-        private void Form1_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (isDragging == true)
-            {
-                //textBox1.Text = e.X.ToString();
-                //  textBox2.Text = clickOffsetX.ToString();
-            }
-        }
 
-        private void Form1_MouseUp(object sender, MouseEventArgs e)
-        {
-            isDragging = false;
-        }
-
-        private void vlcControl_MouseUp(object sender, MouseEventArgs e)
-        {
-            isDragging = false;
-        }
-
-        private void vlcControl_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (isDragging == true)
-            {
-                // textBox1.Text = e.X.ToString();
-                //  textBox2.Text = clickOffsetX.ToString();
-            }
-        }
-
-        private void vlcControl_MouseDown(object sender, MouseEventArgs e)
-        {
-            isDragging = true;
-            clickOffsetX = e.X;
-            clickOffsetY = e.Y;
-        }
 
 
 
@@ -155,7 +98,7 @@ namespace VlcClient
             //    var url = new Uri("rtsp://10.0.4.91:8008/test");
             var url = new Uri(@"c:\movies\ElephantsDream.mp4");
             media = new Media(libvlc, url);
-            media.DurationChanged += Media_DurationChanged;
+
             player = new MediaPlayer(libvlc);
             player.PositionChanged += Player_PositionChanged;
             player.TimeChanged += Player_TimeChanged;
@@ -164,22 +107,11 @@ namespace VlcClient
 
             vlcControl.MediaPlayer.Play(media);
             isPlaying = true;
-
+            Play();
             Debug.WriteLine(url);
         }
 
-        private void vlcControl_ClientSizeChanged(object sender, EventArgs e)
-        {
-            //  textBox4.Text = vlcControl.Size.ToString();
-            // trackBar1.Width = vlcControl.Width;
-            // trackBar1.Location = new Point(vlcControl.Location.Y, vlcControl.Location.X + vlcControl.Height); ;
-        }
 
-        private void vlcControl_ParentChanged(object sender, EventArgs e)
-        {
-
-
-        }
 
         public void NotifyTime(string time, long time_t, int instance = 0)
         {
@@ -263,11 +195,7 @@ namespace VlcClient
         }
 
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            // textBox2.Text = trackBar1.Value.ToString();
-            // player.Position = trackBar1.Value / 100f;
-        }
+
 
         private void ShortcutEvent(object sender, KeyEventArgs e)
         {
@@ -357,6 +285,13 @@ namespace VlcClient
             playButton.Visible = true;
         }
 
+        private void Stop()
+        {
+            player.Stop(); // pause
+            pauseButton.Visible = false;
+            playButton.Visible = true;
+        }
+
         private void Play()
         {
             player.Play();
@@ -371,7 +306,7 @@ namespace VlcClient
 
         private void stopButton_Click(object sender, EventArgs e)
         {
-            player.Pause(); // pause
+            Stop();
         }
 
         private void forwardButton_Click(object sender, EventArgs e)
