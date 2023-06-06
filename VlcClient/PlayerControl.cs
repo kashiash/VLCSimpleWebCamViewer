@@ -217,21 +217,21 @@ namespace VlcClient
             }
         }
 
-        private void Pause()
+        public void Pause()
         {
             player.Pause(); // pause
             pauseButton.Visible = false;
             playButton.Visible = true;
         }
 
-        private void Stop()
+        public void Stop()
         {
             player.Stop(); // pause
             pauseButton.Visible = false;
             playButton.Visible = true;
         }
 
-        private void Play()
+        public void Play()
         {
             player.Play();
             pauseButton.Visible = true;
