@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,11 +19,12 @@ namespace VlcClient
         LibVLC libvlc = new LibVLC(enableDebugLogs: true);
         public MediaPlayer player;
         public Media media;
+        public string filePath;
 
 
 
         bool isDragging;
-        public PlayerControl()
+        public PlayerControl(string filePath)
         {
             Core.Initialize();
             InitializeComponent();
@@ -33,7 +35,11 @@ namespace VlcClient
 
         private void PlayerControl_Load(object sender, EventArgs e)
         {
-            var url = new Uri(@"c:\movies\ElephantsDream.mp4");
+            if (!Path.Exists(filePath))
+            {
+                filePath = @"c:\movies\gabos-box-1.mp4";
+            }
+            var url = new Uri(filePath);
             media = new Media(libvlc, url);
 
             player = new MediaPlayer(libvlc);

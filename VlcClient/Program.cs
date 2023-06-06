@@ -12,7 +12,6 @@ namespace VlcClient
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             //  Application.Run(new PlayerForm());
-            var path = @"c:\movies\ElephantsDream.mp4"
             Application.Run(new CustomControlTest());
         }
     }

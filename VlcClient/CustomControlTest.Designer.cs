@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             videoView1 = new PlayerControl();
-            videoView2 = new PlayerControl();
+           // videoView2 = new PlayerControl();
 
             SuspendLayout();
             // 
@@ -37,19 +37,19 @@
             // 
             videoView1.BackColor = Color.Black;
             videoView1.Location = new Point(0, 0);
-            videoView1.Dock = DockStyle.Top;
+            videoView1.Dock = DockStyle.Fill;
             videoView1.Name = "videoView1";
             videoView1.Size = new Size(380, 200);
             videoView1.TabIndex = 0;
             videoView1.Text = "videoView1";
 
-            videoView2.BackColor = Color.Black;
-            videoView2.Location = new Point(0, 201);
-            videoView2.Dock = DockStyle.Bottom;
-            videoView2.Name = "videoView2";
-            videoView2.Size = new Size(380, 200);
-            videoView2.TabIndex = 0;
-            videoView2.Text = "videoView2";
+            //videoView2.BackColor = Color.Black;
+            //videoView2.Location = new Point(0, 201);
+            //videoView2.Dock = DockStyle.Fill;
+            //videoView2.Name = "videoView2";
+            //videoView2.Size = new Size(380, 200);
+            //videoView2.TabIndex = 0;
+            //videoView2.Text = "videoView2";
             // 
             // CustomControlTest
             // 
@@ -66,6 +66,6 @@
         #endregion
 
         private PlayerControl videoView1;
-        private PlayerControl videoView2;
+   //     private PlayerControl videoView2;
     }
 }

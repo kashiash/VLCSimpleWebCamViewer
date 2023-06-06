@@ -12,6 +12,7 @@ namespace VlcClient
 {
     public partial class CustomControlTest : Form
     {
+        string filePath;
         public CustomControlTest()
         {
             InitializeComponent();
