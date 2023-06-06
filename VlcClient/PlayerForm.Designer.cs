@@ -54,7 +54,7 @@ namespace VlcClient
             vlcControl.Margin = new Padding(4);
             vlcControl.MediaPlayer = null;
             vlcControl.Name = "vlcControl";
-            vlcControl.Size = new Size(1343, 632);
+            vlcControl.Size = new Size(1343, 642);
             vlcControl.TabIndex = 0;
             vlcControl.Text = "vlcControl";
             vlcControl.ClientSizeChanged += vlcControl_ClientSizeChanged;
@@ -67,7 +67,7 @@ namespace VlcClient
             lblMovieDuration.BackColor = Color.Black;
             lblMovieDuration.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
             lblMovieDuration.ForeColor = Color.Lime;
-            lblMovieDuration.Location = new Point(1156, 711);
+            lblMovieDuration.Location = new Point(1156, 703);
             lblMovieDuration.Name = "lblMovieDuration";
             lblMovieDuration.Size = new Size(173, 54);
             lblMovieDuration.TabIndex = 6;
@@ -80,7 +80,7 @@ namespace VlcClient
             lblTime.BackColor = Color.Black;
             lblTime.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
             lblTime.ForeColor = Color.Lime;
-            lblTime.Location = new Point(12, 711);
+            lblTime.Location = new Point(12, 703);
             lblTime.Name = "lblTime";
             lblTime.Size = new Size(173, 54);
             lblTime.TabIndex = 6;
@@ -91,7 +91,7 @@ namespace VlcClient
             playButton.Anchor = AnchorStyles.Bottom;
             playButton.FlatStyle = FlatStyle.Flat;
             playButton.Image = (Image)resources.GetObject("playButton.Image");
-            playButton.Location = new Point(364, 716);
+            playButton.Location = new Point(364, 702);
             playButton.Name = "playButton";
             playButton.Size = new Size(93, 83);
             playButton.TabIndex = 7;
@@ -103,7 +103,7 @@ namespace VlcClient
             backButton.Anchor = AnchorStyles.Bottom;
             backButton.FlatStyle = FlatStyle.Flat;
             backButton.Image = (Image)resources.GetObject("backButton.Image");
-            backButton.Location = new Point(463, 716);
+            backButton.Location = new Point(463, 702);
             backButton.Name = "backButton";
             backButton.Size = new Size(93, 83);
             backButton.TabIndex = 8;
@@ -115,7 +115,7 @@ namespace VlcClient
             stopButton.Anchor = AnchorStyles.Bottom;
             stopButton.FlatStyle = FlatStyle.Flat;
             stopButton.Image = (Image)resources.GetObject("stopButton.Image");
-            stopButton.Location = new Point(562, 716);
+            stopButton.Location = new Point(562, 702);
             stopButton.Name = "stopButton";
             stopButton.Size = new Size(93, 83);
             stopButton.TabIndex = 8;
@@ -127,7 +127,7 @@ namespace VlcClient
             forwardButton.Anchor = AnchorStyles.Bottom;
             forwardButton.FlatStyle = FlatStyle.Flat;
             forwardButton.Image = (Image)resources.GetObject("forwardButton.Image");
-            forwardButton.Location = new Point(661, 716);
+            forwardButton.Location = new Point(661, 702);
             forwardButton.Name = "forwardButton";
             forwardButton.Size = new Size(93, 83);
             forwardButton.TabIndex = 8;
@@ -139,7 +139,7 @@ namespace VlcClient
             snapshotButton.Anchor = AnchorStyles.Bottom;
             snapshotButton.FlatStyle = FlatStyle.Flat;
             snapshotButton.Image = (Image)resources.GetObject("snapshotButton.Image");
-            snapshotButton.Location = new Point(760, 716);
+            snapshotButton.Location = new Point(760, 702);
             snapshotButton.Name = "snapshotButton";
             snapshotButton.Size = new Size(93, 83);
             snapshotButton.TabIndex = 8;
@@ -151,7 +151,7 @@ namespace VlcClient
             stepButton.Anchor = AnchorStyles.Bottom;
             stepButton.FlatStyle = FlatStyle.Flat;
             stepButton.Image = (Image)resources.GetObject("stepButton.Image");
-            stepButton.Location = new Point(859, 716);
+            stepButton.Location = new Point(859, 702);
             stepButton.Name = "stepButton";
             stepButton.Size = new Size(93, 83);
             stepButton.TabIndex = 8;
@@ -162,7 +162,7 @@ namespace VlcClient
             // 
             trackBar1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             trackBar1.BackColor = Color.Black;
-            trackBar1.Location = new Point(12, 642);
+            trackBar1.Location = new Point(12, 652);
             trackBar1.Margin = new Padding(4);
             trackBar1.Maximum = 100;
             trackBar1.Name = "trackBar1";
@@ -179,7 +179,7 @@ namespace VlcClient
             pauseButton.Anchor = AnchorStyles.Bottom;
             pauseButton.FlatStyle = FlatStyle.Flat;
             pauseButton.Image = (Image)resources.GetObject("pauseButton.Image");
-            pauseButton.Location = new Point(364, 716);
+            pauseButton.Location = new Point(364, 702);
             pauseButton.Name = "pauseButton";
             pauseButton.Size = new Size(93, 83);
             pauseButton.TabIndex = 7;
@@ -191,10 +191,10 @@ namespace VlcClient
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(1341, 809);
-            Controls.Add(trackBar1);
+            ClientSize = new Size(1341, 792);
             Controls.Add(lblTime);
             Controls.Add(lblMovieDuration);
+            Controls.Add(trackBar1);
             Controls.Add(stepButton);
             Controls.Add(vlcControl);
             Controls.Add(snapshotButton);
