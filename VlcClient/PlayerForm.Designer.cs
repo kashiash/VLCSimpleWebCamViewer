@@ -2,7 +2,7 @@
 
 namespace VlcClient
 {
-    partial class Form1
+    partial class PlayerForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -30,9 +30,8 @@ namespace VlcClient
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlayerForm));
             vlcControl = new LibVLCSharp.WinForms.VideoView();
-            trackBar1 = new TrackBar();
             lblMovieDuration = new Label();
             lblTime = new Label();
             playButton = new Button();
@@ -44,6 +43,7 @@ namespace VlcClient
             panel1 = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
             panel2 = new Panel();
+            trackBar1 = new TrackBar();
             tableLayoutPanel2 = new TableLayoutPanel();
             button1 = new Button();
             button2 = new Button();
@@ -51,16 +51,12 @@ namespace VlcClient
             button4 = new Button();
             button5 = new Button();
             button6 = new Button();
-            label1 = new Label();
-            label2 = new Label();
-            trackBar2 = new TrackBar();
             ((System.ComponentModel.ISupportInitialize)vlcControl).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             panel1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar2).BeginInit();
             SuspendLayout();
             // 
             // vlcControl
@@ -71,7 +67,7 @@ namespace VlcClient
             vlcControl.Margin = new Padding(4);
             vlcControl.MediaPlayer = null;
             vlcControl.Name = "vlcControl";
-            vlcControl.Size = new Size(1300, 801);
+            vlcControl.Size = new Size(1300, 583);
             vlcControl.TabIndex = 0;
             vlcControl.Text = "vlcControl";
             vlcControl.ClientSizeChanged += vlcControl_ClientSizeChanged;
@@ -81,29 +77,13 @@ namespace VlcClient
             vlcControl.MouseUp += vlcControl_MouseUp;
             vlcControl.ParentChanged += vlcControl_ParentChanged;
             // 
-            // trackBar1
-            // 
-            trackBar1.BackColor = Color.Black;
-            trackBar1.Dock = DockStyle.Top;
-            trackBar1.Location = new Point(0, 0);
-            trackBar1.Margin = new Padding(4);
-            trackBar1.Maximum = 100;
-            trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(1300, 69);
-            trackBar1.TabIndex = 3;
-            trackBar1.TickStyle = TickStyle.TopLeft;
-            trackBar1.Scroll += trackBar1_Scroll;
-            trackBar1.MouseDown += trackBar1_MouseDown;
-            trackBar1.MouseMove += trackBar1_MouseMove;
-            trackBar1.MouseUp += trackBar1_MouseUp;
-            // 
             // lblMovieDuration
             // 
             lblMovieDuration.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             lblMovieDuration.AutoSize = true;
             lblMovieDuration.BackColor = Color.Black;
             lblMovieDuration.ForeColor = Color.Lime;
-            lblMovieDuration.Location = new Point(1192, 39);
+            lblMovieDuration.Location = new Point(1188, 71);
             lblMovieDuration.Name = "lblMovieDuration";
             lblMovieDuration.Size = new Size(89, 30);
             lblMovieDuration.TabIndex = 6;
@@ -115,7 +95,7 @@ namespace VlcClient
             lblTime.AutoSize = true;
             lblTime.BackColor = Color.Black;
             lblTime.ForeColor = Color.Lime;
-            lblTime.Location = new Point(6, 39);
+            lblTime.Location = new Point(3, 71);
             lblTime.Name = "lblTime";
             lblTime.Size = new Size(89, 30);
             lblTime.TabIndex = 6;
@@ -197,9 +177,6 @@ namespace VlcClient
             // 
             panel1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel1.Controls.Add(tableLayoutPanel1);
-            panel1.Controls.Add(lblTime);
-            panel1.Controls.Add(lblMovieDuration);
-            panel1.Controls.Add(trackBar1);
             panel1.Location = new Point(0, 812);
             panel1.Name = "panel1";
             panel1.Size = new Size(1300, 138);
@@ -230,14 +207,30 @@ namespace VlcClient
             // panel2
             // 
             panel2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panel2.Controls.Add(lblMovieDuration);
+            panel2.Controls.Add(lblTime);
+            panel2.Controls.Add(trackBar1);
             panel2.Controls.Add(tableLayoutPanel2);
-            panel2.Controls.Add(label1);
-            panel2.Controls.Add(label2);
-            panel2.Controls.Add(trackBar2);
             panel2.Location = new Point(11, 809);
             panel2.Name = "panel2";
             panel2.Size = new Size(1286, 138);
             panel2.TabIndex = 9;
+            // 
+            // trackBar1
+            // 
+            trackBar1.BackColor = Color.Black;
+            trackBar1.Dock = DockStyle.Top;
+            trackBar1.Location = new Point(0, 0);
+            trackBar1.Margin = new Padding(4);
+            trackBar1.Maximum = 100;
+            trackBar1.Name = "trackBar1";
+            trackBar1.Size = new Size(1286, 69);
+            trackBar1.TabIndex = 3;
+            trackBar1.TickStyle = TickStyle.TopLeft;
+            trackBar1.Scroll += trackBar1_Scroll;
+            trackBar1.MouseDown += trackBar1_MouseDown;
+            trackBar1.MouseMove += trackBar1_MouseMove;
+            trackBar1.MouseUp += trackBar1_MouseUp;
             // 
             // tableLayoutPanel2
             // 
@@ -255,11 +248,11 @@ namespace VlcClient
             tableLayoutPanel2.Controls.Add(button4, 2, 0);
             tableLayoutPanel2.Controls.Add(button5, 1, 0);
             tableLayoutPanel2.Controls.Add(button6, 0, 0);
-            tableLayoutPanel2.Location = new Point(364, 39);
+            tableLayoutPanel2.Location = new Point(364, 71);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(593, 89);
+            tableLayoutPanel2.Size = new Size(564, 57);
             tableLayoutPanel2.TabIndex = 10;
             // 
             // button1
@@ -267,9 +260,9 @@ namespace VlcClient
             button1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             button1.FlatStyle = FlatStyle.Flat;
             button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.Location = new Point(493, 3);
+            button1.Location = new Point(473, 3);
             button1.Name = "button1";
-            button1.Size = new Size(97, 83);
+            button1.Size = new Size(88, 51);
             button1.TabIndex = 8;
             button1.UseVisualStyleBackColor = true;
             button1.Click += stepButton_Click;
@@ -279,9 +272,9 @@ namespace VlcClient
             button2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Image = (Image)resources.GetObject("button2.Image");
-            button2.Location = new Point(395, 3);
+            button2.Location = new Point(379, 3);
             button2.Name = "button2";
-            button2.Size = new Size(92, 83);
+            button2.Size = new Size(88, 51);
             button2.TabIndex = 8;
             button2.UseVisualStyleBackColor = true;
             button2.Click += snapshotButton_Click;
@@ -291,9 +284,9 @@ namespace VlcClient
             button3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             button3.FlatStyle = FlatStyle.Flat;
             button3.Image = (Image)resources.GetObject("button3.Image");
-            button3.Location = new Point(297, 3);
+            button3.Location = new Point(285, 3);
             button3.Name = "button3";
-            button3.Size = new Size(92, 83);
+            button3.Size = new Size(88, 51);
             button3.TabIndex = 8;
             button3.UseVisualStyleBackColor = true;
             button3.Click += forwardButton_Click;
@@ -303,9 +296,9 @@ namespace VlcClient
             button4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             button4.FlatStyle = FlatStyle.Flat;
             button4.Image = (Image)resources.GetObject("button4.Image");
-            button4.Location = new Point(199, 3);
+            button4.Location = new Point(191, 3);
             button4.Name = "button4";
-            button4.Size = new Size(92, 83);
+            button4.Size = new Size(88, 51);
             button4.TabIndex = 8;
             button4.UseVisualStyleBackColor = true;
             button4.Click += stopButton_Click;
@@ -315,9 +308,9 @@ namespace VlcClient
             button5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             button5.FlatStyle = FlatStyle.Flat;
             button5.Image = (Image)resources.GetObject("button5.Image");
-            button5.Location = new Point(101, 3);
+            button5.Location = new Point(97, 3);
             button5.Name = "button5";
-            button5.Size = new Size(92, 83);
+            button5.Size = new Size(88, 51);
             button5.TabIndex = 8;
             button5.UseVisualStyleBackColor = true;
             button5.Click += backButton_Click;
@@ -329,62 +322,22 @@ namespace VlcClient
             button6.Image = (Image)resources.GetObject("button6.Image");
             button6.Location = new Point(3, 3);
             button6.Name = "button6";
-            button6.Size = new Size(92, 83);
+            button6.Size = new Size(88, 51);
             button6.TabIndex = 7;
             button6.UseVisualStyleBackColor = true;
             button6.Click += playButton_Click;
             // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            label1.AutoSize = true;
-            label1.BackColor = Color.Black;
-            label1.ForeColor = Color.Lime;
-            label1.Location = new Point(6, 39);
-            label1.Name = "label1";
-            label1.Size = new Size(89, 30);
-            label1.TabIndex = 6;
-            label1.Text = "00:00:00";
-            // 
-            // label2
-            // 
-            label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.BackColor = Color.Black;
-            label2.ForeColor = Color.Lime;
-            label2.Location = new Point(1178, 39);
-            label2.Name = "label2";
-            label2.Size = new Size(89, 30);
-            label2.TabIndex = 6;
-            label2.Text = "00:00:00";
-            // 
-            // trackBar2
-            // 
-            trackBar2.BackColor = Color.Black;
-            trackBar2.Dock = DockStyle.Top;
-            trackBar2.Location = new Point(0, 0);
-            trackBar2.Margin = new Padding(4);
-            trackBar2.Maximum = 100;
-            trackBar2.Name = "trackBar2";
-            trackBar2.Size = new Size(1286, 69);
-            trackBar2.TabIndex = 3;
-            trackBar2.TickStyle = TickStyle.TopLeft;
-            trackBar2.Scroll += trackBar1_Scroll;
-            trackBar2.MouseDown += trackBar1_MouseDown;
-            trackBar2.MouseMove += trackBar1_MouseMove;
-            trackBar2.MouseUp += trackBar1_MouseUp;
-            // 
-            // Form1
+            // PlayerForm
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(1300, 950);
+            Controls.Add(vlcControl);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Controls.Add(vlcControl);
             Margin = new Padding(4);
-            Name = "Form1";
+            Name = "PlayerForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Gabos Video Player";
             Load += Form1_Load;
@@ -392,21 +345,18 @@ namespace VlcClient
             MouseMove += Form1_MouseMove;
             MouseUp += Form1_MouseUp;
             ((System.ComponentModel.ISupportInitialize)vlcControl).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
             panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             tableLayoutPanel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
             tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)trackBar2).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private LibVLCSharp.WinForms.VideoView vlcControl;
-        private TrackBar trackBar1;
         private Label lblMovieDuration;
         private Label lblTime;
         private Button playButton;
@@ -425,8 +375,6 @@ namespace VlcClient
         private Button button4;
         private Button button5;
         private Button button6;
-        private Label label1;
-        private Label label2;
-        private TrackBar trackBar2;
+        private TrackBar trackBar1;
     }
 }

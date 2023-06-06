@@ -6,7 +6,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace VlcClient
 {
-    public partial class Form1 : Form
+    public partial class PlayerForm : Form
     {
 
         LibVLC libvlc = new LibVLC(enableDebugLogs: true);
@@ -26,7 +26,7 @@ namespace VlcClient
         int clickOffsetY;
 
 
-        public Form1()
+        public PlayerForm()
         {
             Core.Initialize();
             InitializeComponent();
@@ -43,20 +43,7 @@ namespace VlcClient
             this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(ShortcutEvent);
 
-            //    var url = new Uri("rtsp://10.0.4.91:8008/test");
-            var url = new Uri(@"c:\movies\ElephantsDream.mp4");
-            media = new Media(libvlc, url);
-            media.DurationChanged += Media_DurationChanged;
-            player = new MediaPlayer(libvlc);
-            player.PositionChanged += Player_PositionChanged;
-            player.TimeChanged += Player_TimeChanged;
-            player.LengthChanged += Player_LengthChanged;
-            vlcControl.MediaPlayer = player;
 
-            vlcControl.MediaPlayer.Play(media);
-            isPlaying = true;
-
-            Debug.WriteLine(url);
         }
 
         private void Player_LengthChanged(object? sender, MediaPlayerLengthChangedEventArgs e)
@@ -179,15 +166,24 @@ namespace VlcClient
             clickOffsetY = e.Y;
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            // textBox2.Text = trackBar1.Value.ToString();
-            player.Position = trackBar1.Value / 100f;
-        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //    var url = new Uri("rtsp://10.0.4.91:8008/test");
+            var url = new Uri(@"c:\movies\ElephantsDream.mp4");
+            media = new Media(libvlc, url);
+            media.DurationChanged += Media_DurationChanged;
+            player = new MediaPlayer(libvlc);
+            player.PositionChanged += Player_PositionChanged;
+            player.TimeChanged += Player_TimeChanged;
+            player.LengthChanged += Player_LengthChanged;
+            vlcControl.MediaPlayer = player;
 
+            vlcControl.MediaPlayer.Play(media);
+            isPlaying = true;
+
+            Debug.WriteLine(url);
         }
 
         private void vlcControl_ClientSizeChanged(object sender, EventArgs e)
@@ -280,10 +276,16 @@ namespace VlcClient
         {
             if (m_trackDown == true)
             {
-                // videoControl1.Time = trackBar1.Value * 1000;
+                player.Time = trackBar1.Value * 1000;
             }
         }
 
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            // textBox2.Text = trackBar1.Value.ToString();
+            // player.Position = trackBar1.Value / 100f;
+        }
 
         private void ShortcutEvent(object sender, KeyEventArgs e)
         {
