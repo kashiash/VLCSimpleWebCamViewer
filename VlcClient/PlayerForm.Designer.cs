@@ -167,6 +167,7 @@ namespace VlcClient
             trackBar1.Size = new Size(1331, 69);
             trackBar1.TabIndex = 3;
             trackBar1.TickStyle = TickStyle.TopLeft;
+            trackBar1.Scroll += trackBar1_Scroll;
             trackBar1.MouseDown += trackBar1_MouseDown;
             trackBar1.MouseMove += trackBar1_MouseMove;
             trackBar1.MouseUp += trackBar1_MouseUp;

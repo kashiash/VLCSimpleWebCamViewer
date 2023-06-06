@@ -194,7 +194,13 @@ namespace VlcClient
             }
         }
 
-
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            if (m_trackDown == true)
+            {
+                player.Time = trackBar1.Value * 1000;
+            }
+        }
 
 
         private void ShortcutEvent(object sender, KeyEventArgs e)
@@ -330,5 +336,7 @@ namespace VlcClient
             player.Dispose();
             libvlc.Dispose();
         }
+
+
     }
 }
