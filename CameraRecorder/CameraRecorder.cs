@@ -148,7 +148,7 @@ namespace CameraRecorder
 
 
 
-                        webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\"}}");
+                        webCamMedia.AddOption($":sout=#duplicate{{dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\",dst=display}}");
 
                         player.Play(webCamMedia); // play
                         this.Text = "recording";
@@ -170,10 +170,10 @@ namespace CameraRecorder
                 //    player.NextFrame();
 
                 //}
-                //if (e.KeyCode == Keys.S)
-                //{
-                //    var res = player.TakeSnapshot(0, $"snapshot{DateTime.Now.Ticks}.png", 0, 0);
-                //}
+                if (e.KeyCode == Keys.S)
+                {
+                    var res = player.TakeSnapshot(0, $"snapshot{DateTime.Now.Ticks}.png", 0, 0);
+                 }
                 //if (e.KeyCode == Keys.F11)
                 //{
                 //    player.ToggleFullscreen();
