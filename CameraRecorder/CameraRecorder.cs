@@ -61,8 +61,8 @@ namespace CameraRecorder
             //  // Display it on screen and svae to file
 
             webCamMedia.AddOption(":dshow-vdev=Logitech StreamCam");
-            webCamMedia.AddOption(":dshow-adev=Mikrofon (Logitech StreamCam)");
-            webCamMedia.AddOption(":live-caching=100");
+          //  webCamMedia.AddOption(":dshow-adev=Mikrofon (Logitech StreamCam)");
+          //  webCamMedia.AddOption(":live-caching=100");
 
 
 
@@ -123,6 +123,7 @@ namespace CameraRecorder
                     {
                         PlaySound(@"c:\video\stop.wav");
                         player.Stop(); // pause
+                        webCamMedia.Dispose();
                         webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
 
                         webCamMedia.AddOption(":dshow-vdev=Logitech StreamCam");
@@ -138,6 +139,8 @@ namespace CameraRecorder
                     else // it's not playing?
                     {
                         PlaySound(@"c:\video\start.wav");
+                        player.Stop(); // pause
+                        webCamMedia.Dispose();
                         webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
                     //    webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=std{{access=file,dst=recording{DateTime.Now.Ticks}.mp4}}}}");
 
@@ -147,8 +150,8 @@ namespace CameraRecorder
                         webCamMedia.AddOption(":live-caching=100");
 
 
-
-                        webCamMedia.AddOption($":sout=#duplicate{{dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\",dst=display}}");
+                        webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\"}}");
+                       // webCamMedia.AddOption($":sout=#duplicate{{dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\",dst=display}}");
 
                         player.Play(webCamMedia); // play
                         this.Text = "recording";

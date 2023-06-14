@@ -18,7 +18,8 @@ namespace WinFormsFromConsole
 
             //  :dshow-vdev=Logitech StreamCam :dshow-adev=  :live-caching=100 - copied from VlcVideoPlayer
 
-            media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=  :live-caching=100");
+            media.AddOption(" :dshow-vdev=Logitech StreamCam :dshow-adev=  :live-caching=100"); 
+
             //   media.AddOption(" :dshow-vdev=\"Logitech StreamCam\" :dshow-adev=none  :live-caching=100");
             //   media.AddOption(" :dshow-vdev='Logitech StreamCam' :dshow-adev=none  :live-caching=100");
 
