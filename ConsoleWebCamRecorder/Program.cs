@@ -18,12 +18,11 @@ namespace ConsoleWebCamRecorder
             var webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
 
             //webCamMedia.AddOption(":dshow-vdev=Logitech StreamCam"); 
-            webCamMedia.AddOption(":dshow-vdev=AVerMedia ExtremeCap UVC"); 
-            var destinationPath = $"recording{DateTime.Now.Ticks}.mp4";
-            // webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=std{{access=file,dst={destinationPath}}}}}");
-            // Set video output format
-           // webCamMedia.AddOption(":sout=#transcode{vcodec=h264}:file{dst=" + destinationPath + "}");
-            webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst={destinationPath}}}\"}}");
+            webCamMedia.AddOption(":dshow-vdev=AVerMedia ExtremeCap UVC");
+
+            string destinationPath = RecordVideo(player, libvlc);
+
+
             // webCamMedia.AddOption(":dshow-adev=Logitech StreamCam");
             //   webCamMedia.AddOption(":live-caching=300");
             //  var string1 = $":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\"}}";
@@ -32,19 +31,21 @@ namespace ConsoleWebCamRecorder
             //  webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\"}}");
             //  webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"{mp4_vonly}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\"}}");
             //  player.EnableHardwareDecoding = true;
-            player.Play(webCamMedia);
-            Thread.Sleep(10000);
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    player.Stop();
-            //    Thread.Sleep(10000 * i);
-            //    webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\"}}");
-            //    //  webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"{mp4_vonly}:standard{{access=file,mux=mp4,dst=recording{DateTime.Now.Ticks}.mp4}}\"}}");
-            //    //  player.EnableHardwareDecoding = true;
-            //    player.Play(webCamMedia);
 
-            //    var res = player.TakeSnapshot(0, $"snapshot{DateTime.Now.Ticks}.png", 0, 0);
-            //}
+
+            for (int i = 0; i < 100; i++)
+            {
+                player.Stop();
+                webCamMedia.Dispose();
+                destinationPath = RecordVideo(player, libvlc);
+
+                webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
+
+                //webCamMedia.AddOption(":dshow-vdev=Logitech StreamCam"); 
+                webCamMedia.AddOption(":dshow-vdev=AVerMedia ExtremeCap UVC");
+                player.Play(webCamMedia);
+                Thread.Sleep(1000);
+            }
 
             player.Stop();
 
@@ -52,7 +53,16 @@ namespace ConsoleWebCamRecorder
 
         }
 
-
+        private static string RecordVideo(MediaPlayer player, LibVLC libvlc)
+        {
+            using var webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
+            var destinationPath = $"recording{DateTime.Now.Ticks}.mp4";
+            webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst={destinationPath}}}\"}}");
+            player.Play(webCamMedia);
+            Thread.Sleep(10000);
+            player.Stop();
+            return destinationPath;
+        }
 
         public enum TranscodePreset
         {
