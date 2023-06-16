@@ -9,7 +9,7 @@ using OpenCvSharp.Extensions;
 
 public class Recorder : IDisposable
 {
-    private readonly VideoCaptureAPIs _videoCaptureApi = VideoCaptureAPIs.DSHOW;
+    private readonly VideoCaptureAPIs _videoCaptureApi = VideoCaptureAPIs.ANY;
     private readonly ManualResetEventSlim _threadStopEvent = new ManualResetEventSlim(false);
     private VideoCapture _videoCapture;
     private VideoWriter _videoWriter;
