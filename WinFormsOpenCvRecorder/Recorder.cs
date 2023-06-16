@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 
@@ -9,21 +11,36 @@ public class Recorder : IDisposable
 {
     private readonly VideoCaptureAPIs _videoCaptureApi = VideoCaptureAPIs.DSHOW;
     private readonly ManualResetEventSlim _threadStopEvent = new ManualResetEventSlim(false);
-    private readonly VideoCapture _videoCapture;
+    private VideoCapture _videoCapture;
     private VideoWriter _videoWriter;
 
     private Mat _capturedFrame = new Mat();
     private Thread _captureThread;
     private Thread _writerThread;
     private PictureBox _pictureBox;
-    //private OutputArray frame; 
+    //private OutputArray frame;
+    private int deviceIndex;
+    private int frameWidth;
+    private int frameHeight;
+    private double fps;
+    private PictureBox pictureBox;
 
     private bool IsVideoCaptureValid => _videoCapture != null && _videoCapture.IsOpened();
 
     public Recorder(int deviceIndex, int frameWidth, int frameHeight, double fps, PictureBox pictureBox)
+    {        
+        this.deviceIndex = deviceIndex;
+        this.frameWidth = frameWidth;
+        this.frameHeight = frameHeight;
+        this.fps = fps;
+        this.pictureBox = pictureBox;
+        OnStart();
+    }
+
+    private void OnStart()
     {
-        _videoCapture = VideoCapture.FromCamera(deviceIndex, _videoCaptureApi);
-        _videoCapture.Open(deviceIndex, _videoCaptureApi);
+        _videoCapture = new OpenCvSharp.VideoCapture();// VideoCapture.FromCamera(deviceIndex, _videoCaptureApi);
+                                                       //(deviceIndex, _videoCaptureApi);
 
         _videoCapture.FrameWidth = frameWidth;
         _videoCapture.FrameHeight = frameHeight;
@@ -57,15 +74,19 @@ public class Recorder : IDisposable
 
     public void StartRecording(string path)
     {
+        if (_videoCapture == null) OnStart();
+        _videoCapture.Open(0, VideoCaptureAPIs.ANY);
         if (_writerThread != null)
             return;
 
         if (!IsVideoCaptureValid)
             throw new ThrowVideoCaptureNotReadyException();
 
-        
-      
+
+
         _videoWriter = new VideoWriter(path, FourCC.H265, _videoCapture.Fps, new OpenCvSharp.Size(_videoCapture.FrameWidth, _videoCapture.FrameHeight));
+        //_videoWriter = new VideoWriter(path, FourCC.H265, VideoWriter.FourCC(Char.Parse("M"), Char.Parse("P"), Char.Parse("4"), Char.Parse("V")),new OpenCvSharp.Size(_videoCapture.FrameWidth, _videoCapture.FrameHeight), true);
+
 
         _threadStopEvent.Reset();
 
@@ -85,13 +106,15 @@ public class Recorder : IDisposable
         _writerThread = null;
 
         _captureThread?.Join();
-      _captureThread = null;
+        _captureThread = null;
 
         _threadStopEvent.Reset();
 
         _videoWriter?.Release();
         _videoWriter?.Dispose();
         _videoWriter = null;
+        //_videoCapture.Dispose();
+        //_videoCapture = null;
     }
 
     private void CaptureFrameLoop()
@@ -101,13 +124,18 @@ public class Recorder : IDisposable
             _videoCapture.Read(_capturedFrame);
             if (!(_capturedFrame.Empty()))
             {
-                _pictureBox.Invoke(new Action(() => _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame)));
-               // imgViewport.Source = BitmapSourceConverter.ToBitmapSource(currentFrame);
-                // _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame);
+                using (var frameMat = _videoCapture.RetrieveMat())
+                {
+                    //_pictureBox.Invoke(new Action(() => _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame)));
+                    //imgViewport.Source = BitmapSourceConverter.ToBitmapSource(currentFrame);
+                    _pictureBox.Image?.Dispose();
+                    _pictureBox.Image = BitmapConverter.ToBitmap(frameMat);
 
-                //  BitmapConverter.ToBitmap(_capturedFrame);
+                    //BitmapConverter.ToBitmap(_capturedFrame);
 
-                // _pictureBox.Image = _capturedFrame.ToBitmap();
+                    //_pictureBox.Image = _capturedFrame.ToBitmap();
+                }
+                
 
             }
         }
