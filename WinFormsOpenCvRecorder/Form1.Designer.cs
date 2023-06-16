@@ -159,6 +159,25 @@ namespace WinFormsOpenCvRecorder
             this.trackBar1.TabIndex = 10;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(321, 628);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(78, 15);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Format Video";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "640 x 480 (VGA)",
+            "1280 x 720 (HD)",
+            "1920 x 1080 (FHD)"});
+            this.comboBox1.Location = new System.Drawing.Point(303, 645);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 23);
+            this.comboBox1.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
