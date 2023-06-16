@@ -16,11 +16,12 @@ public class Recorder : IDisposable
     private Thread _captureThread;
     private Thread _writerThread;
     private PictureBox _pictureBox;
+    private FourCC _fourCC = FourCC.H265;
     //private OutputArray frame; 
 
     private bool IsVideoCaptureValid => _videoCapture != null && _videoCapture.IsOpened();
 
-    public Recorder(int deviceIndex, int frameWidth, int frameHeight, double fps, PictureBox pictureBox)
+    public Recorder(int deviceIndex, int frameWidth, int frameHeight, double fps, PictureBox pictureBox, FourCC fourCC)
     {
         _videoCapture = VideoCapture.FromCamera(deviceIndex, _videoCaptureApi);
         _videoCapture.Open(deviceIndex, _videoCaptureApi);
@@ -30,6 +31,10 @@ public class Recorder : IDisposable
         _videoCapture.Fps = fps;
 
         _pictureBox = pictureBox;
+        _fourCC = fourCC;
+
+        _captureThread = new Thread(CaptureFrameLoop);
+        _captureThread.Start();
     }
 
     /// <inheritdoc /> 
@@ -65,7 +70,7 @@ public class Recorder : IDisposable
 
         
       
-        _videoWriter = new VideoWriter(path, FourCC.H265, _videoCapture.Fps, new OpenCvSharp.Size(_videoCapture.FrameWidth, _videoCapture.FrameHeight));
+        _videoWriter = new VideoWriter(path, _fourCC, _videoCapture.Fps, new OpenCvSharp.Size(_videoCapture.FrameWidth, _videoCapture.FrameHeight));
 
         _threadStopEvent.Reset();
 
@@ -85,7 +90,7 @@ public class Recorder : IDisposable
         _writerThread = null;
 
         _captureThread?.Join();
-      _captureThread = null;
+        _captureThread = null;
 
         _threadStopEvent.Reset();
 
@@ -96,20 +101,22 @@ public class Recorder : IDisposable
 
     private void CaptureFrameLoop()
     {
-        while (!_threadStopEvent.Wait(0))
+        try
         {
-            _videoCapture.Read(_capturedFrame);
-            if (!(_capturedFrame.Empty()))
+            while (!_threadStopEvent.Wait(0))
             {
-                using (var frameMat = _videoCapture.RetrieveMat())
+                _videoCapture.Read(_capturedFrame);
+                if (!(_capturedFrame.Empty()))
                 {
-                    _pictureBox.Image?.Dispose();
-                    _pictureBox.Image = BitmapConverter.ToBitmap(frameMat);
+                    using (var frameMat = _videoCapture.RetrieveMat())
+                    {
+                        _pictureBox.Image?.Dispose();
+                        _pictureBox.Image = BitmapConverter.ToBitmap(frameMat);
+                    }
                 }
-
-
             }
         }
+        catch { }
         //while (!_threadStopEvent.Wait(0))
         //{
         //    _videoCapture.Read(_capturedFrame);
