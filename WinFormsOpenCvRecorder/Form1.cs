@@ -18,7 +18,7 @@ namespace WinFormsOpenCvRecorder
 
             try
             {
-                recorder = new Recorder(1, 1920, 1080, 15, pictureBox1);
+                recorder = new Recorder(0, 1920, 1080, 15, pictureBox1);
 
               
 
@@ -42,7 +42,7 @@ namespace WinFormsOpenCvRecorder
         {
             if (recorder is null)
             {
-                recorder = new Recorder(1, 1920, 1080, 15, pictureBox1);
+                recorder = new Recorder(0, 1920, 1080, 15, pictureBox1);
             }
 
             Debug.WriteLine($"before start {Utils.SizeOf(recorder)}");

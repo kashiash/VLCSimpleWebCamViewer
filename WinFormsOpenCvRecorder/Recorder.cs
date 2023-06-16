@@ -101,16 +101,30 @@ public class Recorder : IDisposable
             _videoCapture.Read(_capturedFrame);
             if (!(_capturedFrame.Empty()))
             {
-                _pictureBox.Invoke(new Action(() => _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame)));
-               // imgViewport.Source = BitmapSourceConverter.ToBitmapSource(currentFrame);
-                // _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame);
+                using (var frameMat = _videoCapture.RetrieveMat())
+                {
+                    _pictureBox.Image?.Dispose();
+                    _pictureBox.Image = BitmapConverter.ToBitmap(frameMat);
+                }
 
-                //  BitmapConverter.ToBitmap(_capturedFrame);
-
-                // _pictureBox.Image = _capturedFrame.ToBitmap();
 
             }
         }
+        //while (!_threadStopEvent.Wait(0))
+        //{
+        //    _videoCapture.Read(_capturedFrame);
+        //    if (!(_capturedFrame.Empty()))
+        //    {
+        //        _pictureBox.Invoke(new Action(() => _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame)));
+        //       // imgViewport.Source = BitmapSourceConverter.ToBitmapSource(currentFrame);
+        //        // _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame);
+
+        //        //  BitmapConverter.ToBitmap(_capturedFrame);
+
+        //        // _pictureBox.Image = _capturedFrame.ToBitmap();
+
+        //    }
+        //}
     }
 
     private void AddCameraFrameToRecordingThread()
