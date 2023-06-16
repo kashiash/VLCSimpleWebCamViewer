@@ -1,5 +1,6 @@
 using OpenCvSharp;
 using System.Diagnostics;
+using System.Management;
 
 namespace WinFormsOpenCvRecorder
 {
@@ -10,18 +11,23 @@ namespace WinFormsOpenCvRecorder
         int frameWidth;
         int frameHeight;
         FourCC fourCC;
+        VideoCaptureAPIs videoCaptureApi;
+        int fps = 15;
+        int selectedCamera;
         public Form1()
         {
             InitializeComponent();
-            cbRozdzielczoscVideo.SelectedIndex = 0;
-            cbFormatVideo.SelectedIndex = 0;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             try
             {
-                recorder = new Recorder(0, frameWidth, frameHeight, 15, pictureBox1, fourCC);
+                GetAllConnectedCameras();
+                cbCamera.SelectedIndex = 0;
+                cbRozdzielczoscVideo.SelectedIndex = 0;
+                cbFormatVideo.SelectedIndex = 0;
+                recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
             }
             catch (Exception ex)
             {
@@ -40,7 +46,7 @@ namespace WinFormsOpenCvRecorder
             button1.Text = "START";
             button1.BackColor = SystemColors.ControlLightLight;
             button1.Enabled = true;
-            recorder = new Recorder(0, frameWidth, frameHeight, 15, pictureBox1, fourCC);
+            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
             
         }
 
@@ -51,7 +57,7 @@ namespace WinFormsOpenCvRecorder
             button1.Text = "REC";
             button1.BackColor = Color.Red;
             button1.Enabled = false;
-            recorder = new Recorder(0, frameWidth, frameHeight, 15, pictureBox1, fourCC);
+            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
             Debug.WriteLine($"before start {Utils.SizeOf(recorder)}");
             recorder.StartRecording($"file{DateTime.Now.Ticks}.mp4");
             
@@ -76,16 +82,19 @@ namespace WinFormsOpenCvRecorder
         {
             if (cbRozdzielczoscVideo.SelectedIndex == 0)
             {
+                videoCaptureApi = VideoCaptureAPIs.DSHOW;
                 frameWidth = 640;
                 frameHeight= 480;
             }
             else if (cbRozdzielczoscVideo.SelectedIndex == 1)
             {
+                videoCaptureApi = VideoCaptureAPIs.ANY;
                 frameWidth = 1280;
                 frameHeight = 720;
             }
             else if (cbRozdzielczoscVideo.SelectedIndex == 2)
             {
+                videoCaptureApi = VideoCaptureAPIs.ANY;
                 frameWidth = 1920;
                 frameHeight = 1080;
             }
@@ -106,6 +115,24 @@ namespace WinFormsOpenCvRecorder
                 fourCC = FourCC.HEVC;
             }
         }
+        private void cbCamera_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedCamera = cbCamera.SelectedIndex;
+        }
+
+        public void GetAllConnectedCameras()
+        {
+            using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"))
+            {
+                foreach (var device in searcher.Get())
+                {
+                    cbCamera.Items.Add(device["Caption"].ToString());
+                }
+            }
+
+        }
+
+       
     }
 
 

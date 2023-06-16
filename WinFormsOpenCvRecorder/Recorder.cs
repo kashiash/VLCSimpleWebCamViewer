@@ -7,7 +7,7 @@ using OpenCvSharp.Extensions;
 
 public class Recorder : IDisposable
 {
-    private readonly VideoCaptureAPIs _videoCaptureApi = VideoCaptureAPIs.DSHOW;
+   private VideoCaptureAPIs _videoCaptureApi;
     private readonly ManualResetEventSlim _threadStopEvent = new ManualResetEventSlim(false);
     private readonly VideoCapture _videoCapture;
     private VideoWriter _videoWriter;
@@ -21,9 +21,10 @@ public class Recorder : IDisposable
 
     private bool IsVideoCaptureValid => _videoCapture != null && _videoCapture.IsOpened();
 
-    public Recorder(int deviceIndex, int frameWidth, int frameHeight, double fps, PictureBox pictureBox, FourCC fourCC)
+    public Recorder(int deviceIndex, int frameWidth, int frameHeight, double fps, PictureBox pictureBox, FourCC fourCC, VideoCaptureAPIs videoCaptureAPIs)
     {
-        _videoCapture = VideoCapture.FromCamera(deviceIndex, _videoCaptureApi);
+        _videoCaptureApi = videoCaptureAPIs;
+        _videoCapture = new OpenCvSharp.VideoCapture(); //VideoCapture.FromCamera(deviceIndex, _videoCaptureApi);
         _videoCapture.Open(deviceIndex, _videoCaptureApi);
 
         _videoCapture.FrameWidth = frameWidth;
@@ -136,15 +137,23 @@ public class Recorder : IDisposable
 
     private void AddCameraFrameToRecordingThread()
     {
-        var waitTimeBetweenFrames = 1_000 / _videoCapture.Fps;
-        var lastWrite = DateTime.Now;
-
-        while (!_threadStopEvent.Wait(0))
+        try
         {
-            if (DateTime.Now.Subtract(lastWrite).TotalMilliseconds < waitTimeBetweenFrames)
-                continue;
-            lastWrite = DateTime.Now;
-            _videoWriter.Write(_capturedFrame);
+            var waitTimeBetweenFrames = 1_000 / _videoCapture.Fps;
+            var lastWrite = DateTime.Now;
+
+            while (!_threadStopEvent.Wait(0))
+            {
+                if (DateTime.Now.Subtract(lastWrite).TotalMilliseconds < waitTimeBetweenFrames)
+                    continue;
+                lastWrite = DateTime.Now;
+                _videoWriter.Write(_capturedFrame);
+            }
+        }
+        catch (Exception ex)
+        {
+
+            throw;
         }
     }
 

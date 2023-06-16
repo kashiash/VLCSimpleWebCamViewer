@@ -36,6 +36,8 @@
             this.cbRozdzielczoscVideo = new System.Windows.Forms.ComboBox();
             this.cbFormatVideo = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.cbCamera = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,7 +47,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1332, 614);
+            this.pictureBox1.Size = new System.Drawing.Size(1453, 614);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -111,7 +113,7 @@
             "H265",
             "MPG4",
             "HEVC"});
-            this.cbFormatVideo.Location = new System.Drawing.Point(491, 641);
+            this.cbFormatVideo.Location = new System.Drawing.Point(448, 641);
             this.cbFormatVideo.Name = "cbFormatVideo";
             this.cbFormatVideo.Size = new System.Drawing.Size(121, 23);
             this.cbFormatVideo.TabIndex = 6;
@@ -120,17 +122,37 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(511, 623);
+            this.label2.Location = new System.Drawing.Point(468, 623);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 15);
             this.label2.TabIndex = 7;
             this.label2.Text = "Format Video";
             // 
+            // cbCamera
+            // 
+            this.cbCamera.FormattingEnabled = true;
+            this.cbCamera.Location = new System.Drawing.Point(625, 641);
+            this.cbCamera.Name = "cbCamera";
+            this.cbCamera.Size = new System.Drawing.Size(171, 23);
+            this.cbCamera.TabIndex = 8;
+            this.cbCamera.SelectedIndexChanged += new System.EventHandler(this.cbCamera_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(687, 623);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 15);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Kamera";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1332, 683);
+            this.ClientSize = new System.Drawing.Size(1453, 704);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.cbCamera);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cbFormatVideo);
             this.Controls.Add(this.cbRozdzielczoscVideo);
@@ -143,6 +165,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Leave += new System.EventHandler(this.Form1_Leave);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -159,5 +182,7 @@
         private ComboBox cbRozdzielczoscVideo;
         private ComboBox cbFormatVideo;
         private Label label2;
+        private ComboBox cbCamera;
+        private Label label3;
     }
 }
