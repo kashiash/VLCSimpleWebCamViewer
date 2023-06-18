@@ -288,7 +288,7 @@ namespace WinFormOpenCVRec2
         {
             if (cbRozdzielczoscVideo.SelectedIndex == 0)
             {
-                videoCaptureApi = VideoCaptureAPIs.DSHOW;
+                videoCaptureApi = VideoCaptureAPIs.ANY;
                 frameWidth = 640;
                 frameHeight = 480;
             }
