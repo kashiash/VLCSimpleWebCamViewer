@@ -12,15 +12,16 @@ namespace ConsoleWebCamRecorder
         static void Main(string[] args)
         {
 
+
             Core.Initialize();
             LibVLC libvlc = new LibVLC(enableDebugLogs: true);
             var player = new MediaPlayer(libvlc);
             var webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
 
             //webCamMedia.AddOption(":dshow-vdev=Logitech StreamCam"); 
-            webCamMedia.AddOption(":dshow-vdev=AVerMedia ExtremeCap UVC");
+         //   webCamMedia.AddOption(":dshow-vdev=AVerMedia ExtremeCap UVC");
 
-            string destinationPath = RecordVideo(player, libvlc);
+         //   string destinationPath = RecordVideo(player, libvlc,0);
 
 
             // webCamMedia.AddOption(":dshow-adev=Logitech StreamCam");
@@ -33,16 +34,47 @@ namespace ConsoleWebCamRecorder
             //  player.EnableHardwareDecoding = true;
 
 
+
+            RecordVideo(player, libvlc, 0.5m, 16);
+            Thread.Sleep(10000);
+
+            RecordVideo(player, libvlc, 0.25m, 16);
+            Thread.Sleep(10000);
+
+            RecordVideo(player, libvlc, 0.12m, 16);
+            Thread.Sleep(10000);
+
+
+            RecordVideo(player, libvlc, 1,16);
+            Thread.Sleep(10000);
+            RecordVideo(player, libvlc, 2, 16);
+            Thread.Sleep(10000);
+            RecordVideo(player, libvlc, 3, 16);
+            Thread.Sleep(10000);
+            RecordVideo(player, libvlc, 4, 16);
+            Thread.Sleep(10000);
+
+            RecordVideo(player, libvlc, 1, 32);
+            Thread.Sleep(10000);
+            RecordVideo(player, libvlc, 2, 32);
+            Thread.Sleep(10000);
+            RecordVideo(player, libvlc, 3, 32);
+            Thread.Sleep(10000);
+            RecordVideo(player, libvlc, 4, 32);
+            Thread.Sleep(10000);
+            return; 
+
             for (int i = 0; i < 100; i++)
             {
                 player.Stop();
                 webCamMedia.Dispose();
-                destinationPath = RecordVideo(player, libvlc);
+            var    destinationPath = RecordVideo(player, libvlc,i);
 
                 webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
 
                 //webCamMedia.AddOption(":dshow-vdev=Logitech StreamCam"); 
-                webCamMedia.AddOption(":dshow-vdev=AVerMedia ExtremeCap UVC");
+
+                
                 player.Play(webCamMedia);
                 Thread.Sleep(1000);
             }
@@ -53,11 +85,43 @@ namespace ConsoleWebCamRecorder
 
         }
 
-        private static string RecordVideo(MediaPlayer player, LibVLC libvlc)
+        private static string RecordVideo(MediaPlayer player, LibVLC libvlc, int i)
         {
+            string Camera0 = "AVerMedia ExtremeCap UVC";
+            string Camera1 = "Logitech StreamCam";
+
             using var webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
+            if (i % 2 == 0)
+            {
+                webCamMedia.AddOption($":dshow-vdev={Camera0}");
+            }
+            else
+            {
+                webCamMedia.AddOption($":dshow-vdev={Camera1}");
+            }
+
             var destinationPath = $"recording{DateTime.Now.Ticks}.mp4";
             webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264}}:standard{{access=file,mux=mp4,dst={destinationPath}}}\"}}");
+            player.Play(webCamMedia);
+            Thread.Sleep(10000);
+            player.Stop();
+            return destinationPath;
+        }
+
+
+        private static string RecordVideo(MediaPlayer player, LibVLC libvlc, decimal scale = 1, int cfr = 16, string codec = "h264")
+        {
+            string Camera0 = "AVerMedia ExtremeCap UVC";
+
+
+            using var webCamMedia = new Media(libvlc, "dshow://", FromType.FromLocation);
+
+                webCamMedia.AddOption($":dshow-vdev={Camera0}");
+
+
+
+            var destinationPath = $"recording{DateTime.Now.Ticks}-{cfr}-{codec}.mp4";
+            webCamMedia.AddOption($":sout=#duplicate{{dst=display,dst=\"transcode{{vcodec=h264,venc=x264{{cfr={cfr}}},scale={scale}}}:standard{{access=file,mux=mp4,dst={destinationPath}}}\"}}");
             player.Play(webCamMedia);
             Thread.Sleep(10000);
             player.Stop();
