@@ -31,6 +31,7 @@
             pictureBox1 = new PictureBox();
             buttonStart = new Button();
             buttonStop = new Button();
+            buttonChangeCamera = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -40,7 +41,7 @@
             pictureBox1.Dock = DockStyle.Top;
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1743, 990);
+            pictureBox1.Size = new Size(1980, 990);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
@@ -64,11 +65,22 @@
             buttonStop.UseVisualStyleBackColor = true;
             buttonStop.Click += buttonStop_Click;
             // 
+            // buttonChangeCamera
+            // 
+            buttonChangeCamera.Location = new Point(270, 1000);
+            buttonChangeCamera.Name = "buttonChangeCamera";
+            buttonChangeCamera.Size = new Size(112, 34);
+            buttonChangeCamera.TabIndex = 3;
+            buttonChangeCamera.Text = "button1";
+            buttonChangeCamera.UseVisualStyleBackColor = true;
+            buttonChangeCamera.Click += buttonChangeCamera_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1743, 1042);
+            ClientSize = new Size(1980, 1204);
+            Controls.Add(buttonChangeCamera);
             Controls.Add(buttonStop);
             Controls.Add(buttonStart);
             Controls.Add(pictureBox1);
@@ -85,5 +97,6 @@
         private PictureBox pictureBox1;
         private Button buttonStart;
         private Button buttonStop;
+        private Button buttonChangeCamera;
     }
 }

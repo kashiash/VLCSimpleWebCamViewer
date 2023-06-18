@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -12,8 +13,10 @@ namespace WinFormOpenCVRec2
 
         private System.ComponentModel.BackgroundWorker backgroundWorkerDisplayer;
         private System.ComponentModel.BackgroundWorker backgroundWorkerRecorder;
-        private readonly VideoCapture capture;
+        private  VideoCapture capture;
         private VideoWriter videoWriter;
+        private int currentCamera = 0;
+        private bool camerachanging = false;
         public Form1()
         {
             InitializeComponent();
@@ -27,7 +30,7 @@ namespace WinFormOpenCVRec2
 
             backgroundWorkerRecorder.WorkerSupportsCancellation = true;
             backgroundWorkerRecorder.DoWork += BackgroundWorkerRecorder_DoWork;
-         
+
 
             capture = new VideoCapture();
 
@@ -42,40 +45,39 @@ namespace WinFormOpenCVRec2
 
         private void BackgroundWorkerRecorder_DoWork(object? sender, System.ComponentModel.DoWorkEventArgs e)
         {
-
+            if (capture is null || videoWriter is null || camerachanging) return;
+            
             var bgWorker = (BackgroundWorker)sender;
 
-           
-            
-                try
+            try
             {
                 var waitTimeBetweenFrames = 1_000 / capture.Fps;
                 var lastWrite = DateTime.Now;
 
-                    while (!bgWorker.CancellationPending)
-                    {
+                while (!bgWorker.CancellationPending)
+                {
                     if (DateTime.Now.Subtract(lastWrite).TotalMilliseconds < waitTimeBetweenFrames)
                         continue;
                     lastWrite = DateTime.Now;
                     using (var frameMat = capture.RetrieveMat())
                     {
-                        if (videoWriter != null)
+                        if (frameMat != null && videoWriter != null)
                         {
                             videoWriter.Write(frameMat);
                         }
                     }
-                    
                 }
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }
 
         private void BackgroundWorkerDisplayer_DoWork(object? sender, System.ComponentModel.DoWorkEventArgs e)
         {
+            if (capture is null  || camerachanging) return; 
+
             var bgWorker = (BackgroundWorker)sender;
 
             while (!bgWorker.CancellationPending)
@@ -84,8 +86,11 @@ namespace WinFormOpenCVRec2
                 {
                     try
                     {
-                        var frameBitmap = BitmapConverter.ToBitmap(frameMat);
-                        bgWorker.ReportProgress(0, frameBitmap);
+                        if (frameMat != null)
+                        {
+                            var frameBitmap = BitmapConverter.ToBitmap(frameMat);
+                            bgWorker.ReportProgress(0, frameBitmap); 
+                        }
                     }
                     catch (Exception)
                     {
@@ -101,7 +106,7 @@ namespace WinFormOpenCVRec2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            capture.Open(0, VideoCaptureAPIs.ANY);
+            capture.Open(1, VideoCaptureAPIs.ANY);
             if (!capture.IsOpened())
             {
                 Close();
@@ -111,20 +116,24 @@ namespace WinFormOpenCVRec2
             ClientSize = new System.Drawing.Size(capture.FrameWidth, capture.FrameHeight);
 
             backgroundWorkerDisplayer.RunWorkerAsync();
-           
+
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             backgroundWorkerDisplayer.CancelAsync();
             backgroundWorkerRecorder.CancelAsync();
+         
+            videoWriter?.Release();
+            videoWriter?.Dispose();
+            videoWriter = null;
             capture.Dispose();
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            StopRecording();
-            Thread.Yield();
+          //  StopRecording();
+          //  Thread.Yield();
             StartRecording();
 
         }
@@ -145,10 +154,35 @@ namespace WinFormOpenCVRec2
         private void StopRecording()
         {
             backgroundWorkerRecorder.CancelAsync();
-            //  capture.Dispose();
+         
             videoWriter?.Release();
             videoWriter?.Dispose();
             videoWriter = null;
+        }
+
+        private void buttonChangeCamera_Click(object sender, EventArgs e)
+        {
+
+            backgroundWorkerDisplayer.CancelAsync();
+            backgroundWorkerRecorder.CancelAsync();
+
+            camerachanging = true;
+
+            capture.Dispose();
+            capture = null;
+            capture = new VideoCapture();
+
+            currentCamera = currentCamera == 0 ? 1 : 0;
+
+          
+            var res = capture.Open(currentCamera, VideoCaptureAPIs.ANY);
+            if (!capture.IsOpened())
+            {
+                Close();
+                return;
+            }
+            camerachanging = false;
+
         }
     }
 }
