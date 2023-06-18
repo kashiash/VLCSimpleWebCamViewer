@@ -7,7 +7,7 @@ using OpenCvSharp.Extensions;
 
 public class Recorder : IDisposable
 {
-    private readonly VideoCaptureAPIs _videoCaptureApi = VideoCaptureAPIs.DSHOW;
+   private VideoCaptureAPIs _videoCaptureApi;
     private readonly ManualResetEventSlim _threadStopEvent = new ManualResetEventSlim(false);
     private readonly VideoCapture _videoCapture;
     private VideoWriter _videoWriter;
@@ -16,13 +16,15 @@ public class Recorder : IDisposable
     private Thread _captureThread;
     private Thread _writerThread;
     private PictureBox _pictureBox;
+    private FourCC _fourCC = FourCC.H265;
     //private OutputArray frame; 
 
     private bool IsVideoCaptureValid => _videoCapture != null && _videoCapture.IsOpened();
 
-    public Recorder(int deviceIndex, int frameWidth, int frameHeight, double fps, PictureBox pictureBox)
+    public Recorder(int deviceIndex, int frameWidth, int frameHeight, double fps, PictureBox pictureBox, FourCC fourCC, VideoCaptureAPIs videoCaptureAPIs)
     {
-        _videoCapture = VideoCapture.FromCamera(deviceIndex, _videoCaptureApi);
+        _videoCaptureApi = videoCaptureAPIs;
+        _videoCapture = new OpenCvSharp.VideoCapture(); //VideoCapture.FromCamera(deviceIndex, _videoCaptureApi);
         _videoCapture.Open(deviceIndex, _videoCaptureApi);
 
         _videoCapture.FrameWidth = frameWidth;
@@ -30,6 +32,10 @@ public class Recorder : IDisposable
         _videoCapture.Fps = fps;
 
         _pictureBox = pictureBox;
+        _fourCC = fourCC;
+
+        _captureThread = new Thread(CaptureFrameLoop);
+        _captureThread.Start();
     }
 
     /// <inheritdoc /> 
@@ -65,7 +71,7 @@ public class Recorder : IDisposable
 
         
       
-        _videoWriter = new VideoWriter(path, FourCC.H265, _videoCapture.Fps, new OpenCvSharp.Size(_videoCapture.FrameWidth, _videoCapture.FrameHeight));
+        _videoWriter = new VideoWriter(path, _fourCC, _videoCapture.Fps, new OpenCvSharp.Size(_videoCapture.FrameWidth, _videoCapture.FrameHeight));
 
         _threadStopEvent.Reset();
 
@@ -85,7 +91,7 @@ public class Recorder : IDisposable
         _writerThread = null;
 
         _captureThread?.Join();
-      _captureThread = null;
+        _captureThread = null;
 
         _threadStopEvent.Reset();
 
@@ -96,34 +102,58 @@ public class Recorder : IDisposable
 
     private void CaptureFrameLoop()
     {
-        while (!_threadStopEvent.Wait(0))
+        try
         {
-            _videoCapture.Read(_capturedFrame);
-            if (!(_capturedFrame.Empty()))
+            while (!_threadStopEvent.Wait(0))
             {
-                _pictureBox.Invoke(new Action(() => _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame)));
-               // imgViewport.Source = BitmapSourceConverter.ToBitmapSource(currentFrame);
-                // _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame);
-
-                //  BitmapConverter.ToBitmap(_capturedFrame);
-
-                // _pictureBox.Image = _capturedFrame.ToBitmap();
-
+                _videoCapture.Read(_capturedFrame);
+                if (!(_capturedFrame.Empty()))
+                {
+                    using (var frameMat = _videoCapture.RetrieveMat())
+                    {
+                        _pictureBox.Image?.Dispose();
+                        _pictureBox.Image = BitmapConverter.ToBitmap(frameMat);
+                    }
+                }
             }
         }
+        catch { }
+        //while (!_threadStopEvent.Wait(0))
+        //{
+        //    _videoCapture.Read(_capturedFrame);
+        //    if (!(_capturedFrame.Empty()))
+        //    {
+        //        _pictureBox.Invoke(new Action(() => _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame)));
+        //       // imgViewport.Source = BitmapSourceConverter.ToBitmapSource(currentFrame);
+        //        // _pictureBox.Image = BitmapConverter.ToBitmap(_capturedFrame);
+
+        //        //  BitmapConverter.ToBitmap(_capturedFrame);
+
+        //        // _pictureBox.Image = _capturedFrame.ToBitmap();
+
+        //    }
+        //}
     }
 
     private void AddCameraFrameToRecordingThread()
     {
-        var waitTimeBetweenFrames = 1_000 / _videoCapture.Fps;
-        var lastWrite = DateTime.Now;
-
-        while (!_threadStopEvent.Wait(0))
+        try
         {
-            if (DateTime.Now.Subtract(lastWrite).TotalMilliseconds < waitTimeBetweenFrames)
-                continue;
-            lastWrite = DateTime.Now;
-            _videoWriter.Write(_capturedFrame);
+            var waitTimeBetweenFrames = 1_000 / _videoCapture.Fps;
+            var lastWrite = DateTime.Now;
+
+            while (!_threadStopEvent.Wait(0))
+            {
+                if (DateTime.Now.Subtract(lastWrite).TotalMilliseconds < waitTimeBetweenFrames)
+                    continue;
+                lastWrite = DateTime.Now;
+                _videoWriter.Write(_capturedFrame);
+            }
+        }
+        catch (Exception ex)
+        {
+
+            throw;
         }
     }
 
