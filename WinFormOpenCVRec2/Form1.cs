@@ -20,6 +20,14 @@ namespace WinFormOpenCVRec2
         public Form1()
         {
             InitializeComponent();
+            InitBackgroundWorkers();
+
+            capture = new VideoCapture();
+
+        }
+
+        private void InitBackgroundWorkers()
+        {
             backgroundWorkerDisplayer = new System.ComponentModel.BackgroundWorker();
             backgroundWorkerRecorder = new System.ComponentModel.BackgroundWorker();
 
@@ -30,10 +38,22 @@ namespace WinFormOpenCVRec2
 
             backgroundWorkerRecorder.WorkerSupportsCancellation = true;
             backgroundWorkerRecorder.DoWork += BackgroundWorkerRecorder_DoWork;
+        }
+
+        private void DisposeBackgroundWorkers()
+        {
+            backgroundWorkerDisplayer.CancelAsync();
+            backgroundWorkerRecorder.CancelAsync();
+        
+            backgroundWorkerDisplayer.DoWork -= BackgroundWorkerDisplayer_DoWork;
+            backgroundWorkerDisplayer.ProgressChanged -= BackgroundWorkerDisplayer_ProgressChanged;
+            backgroundWorkerRecorder.DoWork -= BackgroundWorkerRecorder_DoWork;
 
 
-            capture = new VideoCapture();
-
+            backgroundWorkerDisplayer.Dispose();
+            backgroundWorkerRecorder.Dispose();
+            backgroundWorkerRecorder = null;
+            backgroundWorkerDisplayer = null;
         }
 
         private void BackgroundWorkerDisplayer_ProgressChanged(object? sender, ProgressChangedEventArgs e)
@@ -128,6 +148,7 @@ namespace WinFormOpenCVRec2
             videoWriter?.Dispose();
             videoWriter = null;
             capture.Dispose();
+            DisposeBackgroundWorkers();
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -166,6 +187,8 @@ namespace WinFormOpenCVRec2
             backgroundWorkerDisplayer.CancelAsync();
             backgroundWorkerRecorder.CancelAsync();
 
+            DisposeBackgroundWorkers();
+
             camerachanging = true;
 
             capture.Dispose();
@@ -174,7 +197,7 @@ namespace WinFormOpenCVRec2
 
             currentCamera = currentCamera == 0 ? 1 : 0;
 
-          
+
             var res = capture.Open(currentCamera, VideoCaptureAPIs.ANY);
             if (!capture.IsOpened())
             {
@@ -183,6 +206,10 @@ namespace WinFormOpenCVRec2
             }
             camerachanging = false;
 
+            InitBackgroundWorkers();
+
         }
+
+
     }
 }
