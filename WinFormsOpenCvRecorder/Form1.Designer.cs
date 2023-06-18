@@ -28,156 +28,155 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cbRozdzielczoscVideo = new System.Windows.Forms.ComboBox();
-            this.cbFormatVideo = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cbCamera = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.SuspendLayout();
+            pictureBox1 = new PictureBox();
+            buttonStart = new Button();
+            buttonStop = new Button();
+            buttonTakeSnapshot = new Button();
+            label1 = new Label();
+            cbRozdzielczoscVideo = new ComboBox();
+            cbFormatVideo = new ComboBox();
+            label2 = new Label();
+            cbCamera = new ComboBox();
+            label3 = new Label();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            SuspendLayout();
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1453, 614);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Margin = new Padding(3, 4, 3, 4);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(2491, 1214);
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
             // 
-            // button1
+            // buttonStart
             // 
-            this.button1.Location = new System.Drawing.Point(8, 632);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(78, 32);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "START";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            buttonStart.Location = new Point(14, 1264);
+            buttonStart.Margin = new Padding(3, 4, 3, 4);
+            buttonStart.Name = "buttonStart";
+            buttonStart.Size = new Size(134, 64);
+            buttonStart.TabIndex = 1;
+            buttonStart.Text = "START";
+            buttonStart.UseVisualStyleBackColor = true;
+            buttonStart.Click += buttonStart_Click;
             // 
-            // button2
+            // buttonStop
             // 
-            this.button2.Location = new System.Drawing.Point(90, 632);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(78, 32);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "STOP";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            buttonStop.Location = new Point(154, 1264);
+            buttonStop.Margin = new Padding(3, 4, 3, 4);
+            buttonStop.Name = "buttonStop";
+            buttonStop.Size = new Size(134, 64);
+            buttonStop.TabIndex = 2;
+            buttonStop.Text = "STOP";
+            buttonStop.UseVisualStyleBackColor = true;
+            buttonStop.Click += buttonStop_Click;
             // 
-            // button3
+            // buttonTakeSnapshot
             // 
-            this.button3.Image = global::WinFormsOpenCvRecorder.Properties.Resources.screenshot_32;
-            this.button3.Location = new System.Drawing.Point(172, 623);
-            this.button3.Margin = new System.Windows.Forms.Padding(2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(55, 40);
-            this.button3.TabIndex = 3;
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            buttonTakeSnapshot.Image = Properties.Resources.screenshot_32;
+            buttonTakeSnapshot.Location = new Point(295, 1246);
+            buttonTakeSnapshot.Margin = new Padding(3, 4, 3, 4);
+            buttonTakeSnapshot.Name = "buttonTakeSnapshot";
+            buttonTakeSnapshot.Size = new Size(94, 80);
+            buttonTakeSnapshot.TabIndex = 3;
+            buttonTakeSnapshot.UseVisualStyleBackColor = true;
+            buttonTakeSnapshot.Click += buttonTakeSnapshot_Click;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(301, 623);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 15);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Rozdzielczość Video";
+            label1.AutoSize = true;
+            label1.Location = new Point(516, 1246);
+            label1.Margin = new Padding(5, 0, 5, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(200, 30);
+            label1.TabIndex = 4;
+            label1.Text = "Rozdzielczość Video";
             // 
             // cbRozdzielczoscVideo
             // 
-            this.cbRozdzielczoscVideo.FormattingEnabled = true;
-            this.cbRozdzielczoscVideo.Items.AddRange(new object[] {
-            "640 x 480 (VGA)",
-            "1280 x 720 (HD)",
-            "1920 x 1080 (FHD)"});
-            this.cbRozdzielczoscVideo.Location = new System.Drawing.Point(301, 641);
-            this.cbRozdzielczoscVideo.Name = "cbRozdzielczoscVideo";
-            this.cbRozdzielczoscVideo.Size = new System.Drawing.Size(112, 23);
-            this.cbRozdzielczoscVideo.TabIndex = 5;
-            this.cbRozdzielczoscVideo.SelectedIndexChanged += new System.EventHandler(this.cbRozdzielczoscVideo_SelectedIndexChanged);
+            cbRozdzielczoscVideo.FormattingEnabled = true;
+            cbRozdzielczoscVideo.Items.AddRange(new object[] { "640 x 480 (VGA)", "1280 x 720 (HD)", "1920 x 1080 (FHD)" });
+            cbRozdzielczoscVideo.Location = new Point(516, 1282);
+            cbRozdzielczoscVideo.Margin = new Padding(5, 6, 5, 6);
+            cbRozdzielczoscVideo.Name = "cbRozdzielczoscVideo";
+            cbRozdzielczoscVideo.Size = new Size(189, 38);
+            cbRozdzielczoscVideo.TabIndex = 5;
+            cbRozdzielczoscVideo.SelectedIndexChanged += cbRozdzielczoscVideo_SelectedIndexChanged;
             // 
             // cbFormatVideo
             // 
-            this.cbFormatVideo.FormattingEnabled = true;
-            this.cbFormatVideo.Items.AddRange(new object[] {
-            "H265",
-            "MPG4",
-            "HEVC"});
-            this.cbFormatVideo.Location = new System.Drawing.Point(448, 641);
-            this.cbFormatVideo.Name = "cbFormatVideo";
-            this.cbFormatVideo.Size = new System.Drawing.Size(121, 23);
-            this.cbFormatVideo.TabIndex = 6;
-            this.cbFormatVideo.SelectedIndexChanged += new System.EventHandler(this.cbFormatVideo_SelectedIndexChanged);
+            cbFormatVideo.FormattingEnabled = true;
+            cbFormatVideo.Items.AddRange(new object[] { "H265", "MPG4", "HEVC" });
+            cbFormatVideo.Location = new Point(768, 1282);
+            cbFormatVideo.Margin = new Padding(5, 6, 5, 6);
+            cbFormatVideo.Name = "cbFormatVideo";
+            cbFormatVideo.Size = new Size(205, 38);
+            cbFormatVideo.TabIndex = 6;
+            cbFormatVideo.SelectedIndexChanged += cbFormatVideo_SelectedIndexChanged;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(468, 623);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 15);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Format Video";
+            label2.AutoSize = true;
+            label2.Location = new Point(802, 1246);
+            label2.Margin = new Padding(5, 0, 5, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(137, 30);
+            label2.TabIndex = 7;
+            label2.Text = "Format Video";
             // 
             // cbCamera
             // 
-            this.cbCamera.FormattingEnabled = true;
-            this.cbCamera.Location = new System.Drawing.Point(625, 641);
-            this.cbCamera.Name = "cbCamera";
-            this.cbCamera.Size = new System.Drawing.Size(171, 23);
-            this.cbCamera.TabIndex = 8;
-            this.cbCamera.SelectedIndexChanged += new System.EventHandler(this.cbCamera_SelectedIndexChanged);
+            cbCamera.FormattingEnabled = true;
+            cbCamera.Location = new Point(1071, 1282);
+            cbCamera.Margin = new Padding(5, 6, 5, 6);
+            cbCamera.Name = "cbCamera";
+            cbCamera.Size = new Size(290, 38);
+            cbCamera.TabIndex = 8;
+            cbCamera.SelectedIndexChanged += cbCamera_SelectedIndexChanged;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(687, 623);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 15);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Kamera";
+            label3.AutoSize = true;
+            label3.Location = new Point(1178, 1246);
+            label3.Margin = new Padding(5, 0, 5, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(83, 30);
+            label3.TabIndex = 9;
+            label3.Text = "Kamera";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1453, 704);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.cbCamera);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.cbFormatVideo);
-            this.Controls.Add(this.cbRozdzielczoscVideo);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.pictureBox1);
-            this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.Leave += new System.EventHandler(this.Form1_Leave);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(12F, 30F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(2491, 1345);
+            Controls.Add(label3);
+            Controls.Add(cbCamera);
+            Controls.Add(label2);
+            Controls.Add(cbFormatVideo);
+            Controls.Add(cbRozdzielczoscVideo);
+            Controls.Add(label1);
+            Controls.Add(buttonTakeSnapshot);
+            Controls.Add(buttonStop);
+            Controls.Add(buttonStart);
+            Controls.Add(pictureBox1);
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "Form1";
+            Text = "Form1";
+            Load += Form1_Load;
+            Leave += Form1_Leave;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private PictureBox pictureBox1;
-        private Button button1;
-        private Button button2;
-        private Button button3;
+        private Button buttonStart;
+        private Button buttonStop;
+        private Button buttonTakeSnapshot;
         private Label label1;
         private ComboBox cbRozdzielczoscVideo;
         private ComboBox cbFormatVideo;

@@ -35,7 +35,7 @@ namespace WinFormsOpenCvRecorder
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonStop_Click(object sender, EventArgs e)
         {
 
             Debug.WriteLine($"before stop {Utils.SizeOf(recorder)}");
@@ -43,27 +43,28 @@ namespace WinFormsOpenCvRecorder
             Debug.WriteLine($"after stop {Utils.SizeOf(recorder)}");
             recorder.Dispose();
             recorder = null;
-            button1.Text = "START";
-            button1.BackColor = SystemColors.ControlLightLight;
-            button1.Enabled = true;
+            buttonStart.Text = "START";
+            buttonStart.BackColor = SystemColors.ControlLightLight;
+            buttonStart.Enabled = true;
             recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
-            
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonStart_Click(object sender, EventArgs e)
         {
             recorder.Dispose();
             recorder = null;
-            button1.Text = "REC";
-            button1.BackColor = Color.Red;
-            button1.Enabled = false;
-            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
+            buttonStart.Text = "REC";
+            buttonStart.BackColor = Color.Red;
+            buttonStart.Enabled = false;
+          //  recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
+            recorder = new Recorder(1, frameWidth, frameHeight, 30, pictureBox1, fourCC, videoCaptureApi);
             Debug.WriteLine($"before start {Utils.SizeOf(recorder)}");
             recorder.StartRecording($"file{DateTime.Now.Ticks}.mp4");
-            
+
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonTakeSnapshot_Click(object sender, EventArgs e)
         {
             recorder.TakeSnapshot();
         }
@@ -84,7 +85,7 @@ namespace WinFormsOpenCvRecorder
             {
                 videoCaptureApi = VideoCaptureAPIs.DSHOW;
                 frameWidth = 640;
-                frameHeight= 480;
+                frameHeight = 480;
             }
             else if (cbRozdzielczoscVideo.SelectedIndex == 1)
             {
@@ -118,6 +119,16 @@ namespace WinFormsOpenCvRecorder
         private void cbCamera_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedCamera = cbCamera.SelectedIndex;
+            //if (recorder != null)
+            //{
+            //    Debug.WriteLine($"before stop {Utils.SizeOf(recorder)}");
+            //    recorder.StopRecording();
+            //    Debug.WriteLine($"after stop {Utils.SizeOf(recorder)}");
+            //    recorder.Dispose();
+            //    recorder = null;
+            //}
+            //recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
+            //recorder.StartRecording($"file{DateTime.Now.Ticks}.mp4");
         }
 
         public void GetAllConnectedCameras()
@@ -132,7 +143,7 @@ namespace WinFormsOpenCvRecorder
 
         }
 
-       
+
     }
 
 
