@@ -22,6 +22,11 @@ namespace WinFormOpenCVRec2
         private bool camerachanging = false;
         private bool restartDisplayer = false;
 
+        private VideoCapture capture0;
+        private VideoCapture capture1;
+        private VideoCapture capture2;
+        private VideoCapture capture3;
+
 
         FourCC fourCC;
         VideoCaptureAPIs videoCaptureApi;
@@ -32,7 +37,7 @@ namespace WinFormOpenCVRec2
             InitializeComponent();
             InitBackgroundWorkers();
 
-            cbRozdzielczoscVideo.SelectedIndex = 0;
+            cbRozdzielczoscVideo.SelectedIndex = 2;
             cbFormatVideo.SelectedIndex = 0;
 
         }
@@ -85,9 +90,6 @@ namespace WinFormOpenCVRec2
 
         private void DisposeBackgroundWorkers()
         {
-            backgroundWorkerDisplayer.CancelAsync();
-            backgroundWorkerRecorder.CancelAsync();
-
             backgroundWorkerDisplayer.DoWork -= BackgroundWorkerDisplayer_DoWork;
             backgroundWorkerDisplayer.ProgressChanged -= BackgroundWorkerDisplayer_ProgressChanged;
             backgroundWorkerRecorder.DoWork -= BackgroundWorkerRecorder_DoWork;
@@ -195,12 +197,21 @@ namespace WinFormOpenCVRec2
 
         private void InitCamera()
         {
-            capture = new OpenCvSharp.VideoCapture(); //VideoCapture.FromCamera(deviceIndex, _videoCaptureApi);
-            capture.Open(currentCamera, videoCaptureApi);
+            capture0 = new OpenCvSharp.VideoCapture(); 
+            capture0.Open(0, videoCaptureApi);
 
-            capture.FrameWidth = frameWidth;
-            capture.FrameHeight = frameHeight;
-            capture.Fps = 29;
+            capture0.FrameWidth = frameWidth;
+            capture0.FrameHeight = frameHeight;
+            capture0.Fps = 29;
+
+            capture1 = new OpenCvSharp.VideoCapture(); 
+            capture1.Open(1, videoCaptureApi);
+
+            capture1.FrameWidth = frameWidth;
+            capture1.FrameHeight = frameHeight;
+            capture1.Fps = 29;
+
+            capture = capture0;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -211,7 +222,11 @@ namespace WinFormOpenCVRec2
             videoWriter?.Release();
             videoWriter?.Dispose();
             videoWriter = null;
+
             capture.Dispose();
+            capture1.Dispose();
+            capture0.Dispose();
+
             DisposeBackgroundWorkers();
         }
 
@@ -225,14 +240,14 @@ namespace WinFormOpenCVRec2
             var path = $"file{DateTime.Now.Ticks}.mp4";
 
 
-            capture = new VideoCapture();
+            //capture = new VideoCapture();
 
-            var res = capture.Open(1, VideoCaptureAPIs.ANY);
-            if (!capture.IsOpened())
-            {
-                Close();
-                return;
-            }
+            //var res = capture.Open(1, VideoCaptureAPIs.ANY);
+            //if (!capture.IsOpened())
+            //{
+            //    Close();
+            //    return;
+            //}
 
             videoWriter = new VideoWriter(path, fourCC, capture.Fps, new OpenCvSharp.Size(frameWidth, frameHeight));
 
@@ -259,13 +274,21 @@ namespace WinFormOpenCVRec2
 
         private void buttonChangeCamera_Click(object sender, EventArgs e)
         {
-            StopRecording();
-            restartDisplayer = true;
-            backgroundWorkerDisplayer.CancelAsync();
+           // StopRecording();
+          //  restartDisplayer = true;
+           // backgroundWorkerDisplayer.CancelAsync();
 
 
             currentCamera = currentCamera == 0 ? 1 : 0;
             label3.Text = $"current camera {currentCamera}";
+            if (currentCamera == 1)
+            {
+                capture = capture1;
+            }
+            else
+            {
+                capture = capture0;
+            }
         }
 
 
