@@ -130,6 +130,7 @@
             cbRozdzielczoscVideo.Size = new Size(189, 38);
             cbRozdzielczoscVideo.TabIndex = 5;
             cbRozdzielczoscVideo.SelectedIndexChanged += cbRozdzielczoscVideo_SelectedIndexChanged;
+            cbRozdzielczoscVideo.SelectedValueChanged += cbRozdzielczoscVideo_SelectedValueChanged;
             // 
             // cbFormatVideo
             // 

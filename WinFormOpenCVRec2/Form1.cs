@@ -259,7 +259,7 @@ namespace WinFormOpenCVRec2
 
         private void buttonChangeCamera_Click(object sender, EventArgs e)
         {
-            backgroundWorkerRecorder.CancelAsync();
+            StopRecording();
             restartDisplayer = true;
             backgroundWorkerDisplayer.CancelAsync();
 
@@ -305,7 +305,7 @@ namespace WinFormOpenCVRec2
                 frameHeight = 1080;
             }
 
-            backgroundWorkerRecorder.CancelAsync();
+            StopRecording();
             restartDisplayer = true;
             backgroundWorkerDisplayer.CancelAsync();
 
@@ -326,9 +326,14 @@ namespace WinFormOpenCVRec2
                 fourCC = FourCC.HEVC;
             }
 
-            backgroundWorkerRecorder.CancelAsync();
+            StopRecording();
             restartDisplayer = true;
             backgroundWorkerDisplayer.CancelAsync();
+        }
+
+        private void cbRozdzielczoscVideo_SelectedValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 
