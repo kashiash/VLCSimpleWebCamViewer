@@ -57,8 +57,8 @@ namespace WinFormsOpenCvRecorder
             buttonStart.Text = "REC";
             buttonStart.BackColor = Color.Red;
             buttonStart.Enabled = false;
-          //  recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
-            recorder = new Recorder(1, frameWidth, frameHeight, 30, pictureBox1, fourCC, videoCaptureApi);
+            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
+        
             Debug.WriteLine($"before start {Utils.SizeOf(recorder)}");
             recorder.StartRecording($"file{DateTime.Now.Ticks}.mp4");
 

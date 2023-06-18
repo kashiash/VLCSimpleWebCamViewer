@@ -17,12 +17,11 @@ public class Recorder : IDisposable
     private Thread _writerThread;
     private PictureBox _pictureBox;
     private FourCC _fourCC = FourCC.H265;
-    private bool displayOnly = false;
-    //private OutputArray frame; 
+
 
     private bool IsVideoCaptureValid => _videoCapture != null && _videoCapture.IsOpened();
 
-    public Recorder(int deviceIndex, int frameWidth, int frameHeight, double fps, PictureBox pictureBox, FourCC fourCC, VideoCaptureAPIs videoCaptureAPIs, bool displayOnly = false)
+    public Recorder(int deviceIndex, int frameWidth, int frameHeight, double fps, PictureBox pictureBox, FourCC fourCC, VideoCaptureAPIs videoCaptureAPIs)
     {
         _videoCaptureApi = videoCaptureAPIs;
         _videoCapture = new OpenCvSharp.VideoCapture(); //VideoCapture.FromCamera(deviceIndex, _videoCaptureApi);
@@ -37,7 +36,7 @@ public class Recorder : IDisposable
 
         _captureThread = new Thread(CaptureFrameLoop);
         _captureThread.Start();
-        this.displayOnly = displayOnly;
+
     }
 
     /// <inheritdoc /> 
@@ -79,11 +78,10 @@ public class Recorder : IDisposable
 
         _captureThread = new Thread(CaptureFrameLoop);
         _captureThread.Start();
-        if (displayOnly == false)
-        {
-            _writerThread = new Thread(AddCameraFrameToRecordingThread);
-            _writerThread.Start();
-        }
+
+       _writerThread = new Thread(AddCameraFrameToRecordingThread);
+       _writerThread.Start();
+
     }
 
     public void StopRecording()
@@ -141,8 +139,7 @@ public class Recorder : IDisposable
 
     private void AddCameraFrameToRecordingThread()
     {
-        if (displayOnly == false)
-        {
+
             try
             {
                 var waitTimeBetweenFrames = 1_000 / _videoCapture.Fps;
@@ -161,7 +158,7 @@ public class Recorder : IDisposable
 
                 throw;
             }
-        }
+        
     }
 
     public Bitmap GetFrameBitmap()
