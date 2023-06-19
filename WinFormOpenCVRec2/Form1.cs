@@ -32,6 +32,9 @@ namespace WinFormOpenCVRec2
             InitializeComponent();
             InitBackgroundWorkers();
 
+            pictureBox1.MinimumSize = new System.Drawing.Size(640, 480);
+            pictureBox1.MaximumSize = new System.Drawing.Size(1920, 1080);
+
             cbRozdzielczoscVideo.SelectedIndex = 0;
             cbFormatVideo.SelectedIndex = 0;
 
@@ -101,9 +104,20 @@ namespace WinFormOpenCVRec2
 
         private void BackgroundWorkerDisplayer_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
-            var frameBitmap = (Bitmap)e.UserState;
+            Bitmap bmpWebCam = null;
+            using (var frameBitmap = (Bitmap)e.UserState)
+            {
+                //W linii 35 i 36 trzeba okreœliæ max i min pictureBoxa !!!
+                int width = this.Width < pictureBox1.MinimumSize.Width ?
+                    pictureBox1.MinimumSize.Width : this.Width > pictureBox1.MaximumSize.Width ?
+                    pictureBox1.MaximumSize.Width : this.Width;
+
+                int height = (int)(width * 0.5625);
+
+                bmpWebCam = new Bitmap(frameBitmap, new System.Drawing.Size(width, height));
+            }
             pictureBox1.Image?.Dispose();
-            pictureBox1.Image = frameBitmap;
+            pictureBox1.Image = bmpWebCam;
         }
 
         private void BackgroundWorkerRecorder_DoWork(object? sender, System.ComponentModel.DoWorkEventArgs e)
@@ -180,7 +194,6 @@ namespace WinFormOpenCVRec2
         private void Form1_Load(object sender, EventArgs e)
         {
             InitCamera();
-
             if (!capture.IsOpened())
             {
                 Close();
@@ -225,9 +238,9 @@ namespace WinFormOpenCVRec2
             var path = $"file{DateTime.Now.Ticks}.mp4";
 
 
-            capture = new VideoCapture();
+            //capture = new VideoCapture();
 
-            var res = capture.Open(1, VideoCaptureAPIs.ANY);
+            //var res = capture.Open(currentCamera, VideoCaptureAPIs.ANY);
             if (!capture.IsOpened())
             {
                 Close();
@@ -254,6 +267,8 @@ namespace WinFormOpenCVRec2
 
 
             videoWriter?.Release();
+            videoWriter?.Dispose();
+            videoWriter = null;
 
         }
 
@@ -305,7 +320,7 @@ namespace WinFormOpenCVRec2
                 frameHeight = 1080;
             }
 
-            StopRecording();
+            //StopRecording();
             restartDisplayer = true;
             backgroundWorkerDisplayer.CancelAsync();
 
