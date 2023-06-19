@@ -33,7 +33,7 @@ namespace WinFormOpenCVRec2
             InitBackgroundWorkers();
 
             pictureBox1.MinimumSize = new System.Drawing.Size(640, 480);
-            pictureBox1.MaximumSize = new System.Drawing.Size(1280, 720);
+            pictureBox1.MaximumSize = new System.Drawing.Size(1920, 1080);
 
             cbRozdzielczoscVideo.SelectedIndex = 0;
             cbFormatVideo.SelectedIndex = 0;
@@ -112,9 +112,7 @@ namespace WinFormOpenCVRec2
                     pictureBox1.MinimumSize.Width : this.Width > pictureBox1.MaximumSize.Width ?
                     pictureBox1.MaximumSize.Width : this.Width;
 
-                int height = this.Height < pictureBox1.MinimumSize.Height?
-                    pictureBox1.MinimumSize.Height : this.Height > pictureBox1.MaximumSize.Height ? 
-                    pictureBox1.MaximumSize.Height : this.Height;
+                int height = (int)(width * 0.5625);
 
                 bmpWebCam = new Bitmap(frameBitmap, new System.Drawing.Size(width, height));
             }
