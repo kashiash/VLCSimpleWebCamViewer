@@ -58,6 +58,22 @@ namespace WinFormOpenCVRec2
             backgroundWorkerRecorder.RunWorkerCompleted += BackgroundWorkerRecorder_RunWorkerCompleted;
         }
 
+
+
+        private void DisposeBackgroundWorkers()
+        {
+            backgroundWorkerDisplayer.DoWork -= BackgroundWorkerDisplayer_DoWork;
+            backgroundWorkerDisplayer.ProgressChanged -= BackgroundWorkerDisplayer_ProgressChanged;
+            backgroundWorkerRecorder.DoWork -= BackgroundWorkerRecorder_DoWork;
+
+
+            backgroundWorkerDisplayer.Dispose();
+            backgroundWorkerRecorder.Dispose();
+            backgroundWorkerRecorder = null;
+            backgroundWorkerDisplayer = null;
+        }
+
+
         private void BackgroundWorkerDisplayer_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
             InvokeControlText(label2, "Zakonczono wyswietlanie");
@@ -86,19 +102,6 @@ namespace WinFormOpenCVRec2
             videoWriter?.Dispose();
             videoWriter = null;
             InvokeControlText(label2, "Zakonczono nagrywanie");
-        }
-
-        private void DisposeBackgroundWorkers()
-        {
-            backgroundWorkerDisplayer.DoWork -= BackgroundWorkerDisplayer_DoWork;
-            backgroundWorkerDisplayer.ProgressChanged -= BackgroundWorkerDisplayer_ProgressChanged;
-            backgroundWorkerRecorder.DoWork -= BackgroundWorkerRecorder_DoWork;
-
-
-            backgroundWorkerDisplayer.Dispose();
-            backgroundWorkerRecorder.Dispose();
-            backgroundWorkerRecorder = null;
-            backgroundWorkerDisplayer = null;
         }
 
         private void BackgroundWorkerDisplayer_ProgressChanged(object? sender, ProgressChangedEventArgs e)
