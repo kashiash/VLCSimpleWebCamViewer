@@ -13,7 +13,7 @@ namespace WinFormOpenCVRec2
 {
     public partial class Form1 : Form
     {
-
+        private Dictionary<string, string> listaSkrotow = new Dictionary<string, string>();
         private System.ComponentModel.BackgroundWorker backgroundWorkerDisplayer;
         private System.ComponentModel.BackgroundWorker backgroundWorkerRecorder;
         private VideoCapture capture;
@@ -37,6 +37,10 @@ namespace WinFormOpenCVRec2
 
             cbRozdzielczoscVideo.SelectedIndex = 0;
             cbFormatVideo.SelectedIndex = 0;
+
+            listaSkrotow.Add("START", "");
+            listaSkrotow.Add("STOP", "");
+            listaSkrotow.Add("SCREENSHOT", "");
 
         }
 
@@ -270,6 +274,9 @@ namespace WinFormOpenCVRec2
             videoWriter?.Dispose();
             videoWriter = null;
 
+            buttonStart.Enabled = true;
+            buttonStop.Enabled = false;
+
         }
 
         private void buttonChangeCamera_Click(object sender, EventArgs e)
@@ -346,9 +353,87 @@ namespace WinFormOpenCVRec2
             backgroundWorkerDisplayer.CancelAsync();
         }
 
-        private void cbRozdzielczoscVideo_SelectedValueChanged(object sender, EventArgs e)
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
 
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            var res = GetShortcut(e);
+            if (!string.IsNullOrEmpty(res))
+            {
+                listaSkrotow["START"] = res;
+                textBox1.Text = res;
+            }
+        }
+
+        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            var res = GetShortcut(e);
+            if (!string.IsNullOrEmpty(res))
+            {
+                listaSkrotow["STOP"] = res;
+                textBox2.Text = res;
+            }
+        }
+
+        private void textBox3_KeyDown(object sender, KeyEventArgs e)
+        {
+            var res = GetShortcut(e);
+            if (!string.IsNullOrEmpty(res))
+            {
+                listaSkrotow["SCREENSHOT"] = res;
+                textBox3.Text = res;
+            }
+        }
+
+        private void button1_KeyDown(object sender, KeyEventArgs e)
+        {
+            var res = GetShortcut(e);
+            if (!string.IsNullOrEmpty(res))
+            {
+                var val = listaSkrotow.FirstOrDefault(x => x.Value == res).Key;
+                if (val != null && val == "START") StartRecording();
+                if (val != null && val == "STOP") StopRecording();
+                if (val != null && val == "SCREENSHOT") MessageBox.Show("Tu bêdzie odpalona metoda do przechwytywania klatek");
+            }
+        }
+
+
+
+        private string GetShortcut(KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode.ToString().Length == 1 && !e.Shift && !e.Alt)
+            {
+                return $"Ctrl + {e.KeyCode}";
+            }
+            else if (e.Control && e.KeyCode.ToString().Length == 1 && e.Shift && !e.Alt)
+            {
+                return $"Ctrl + Shift + {e.KeyCode}";
+            }
+            else if (e.Control && e.KeyCode.ToString().Length == 1 && e.Shift && e.Alt)
+            {
+                return $"Ctrl + Shift + Alt + {e.KeyCode}";
+            }
+            else if (e.Control && e.KeyCode.ToString().Length == 1 && !e.Shift && e.Alt)
+            {
+                return $"Ctrl + Alt + {e.KeyCode}";
+            }
+            else if (!e.Control && e.KeyCode.ToString().Length == 1 && e.Shift && !e.Alt)
+            {
+                return $"Shift + {e.KeyCode}";
+            }
+            else if (!e.Control && e.KeyCode.ToString().Length == 1 && e.Shift && e.Alt)
+            {
+                return $"Shift + Alt + {e.KeyCode}";
+            }
+            else if (!e.Control && e.KeyCode.ToString().Length == 1 && !e.Shift && e.Alt)
+            {
+                return $"Alt + {e.KeyCode}";
+            }
+            else return "";
         }
     }
 
