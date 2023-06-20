@@ -52,9 +52,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleWebCamRecorder", "Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManyPlayers", "ManyPlayers\ManyPlayers.csproj", "{46546B1E-5667-4E05-8C0D-690F7D9355AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormOpenCVRec2", "WinFormOpenCVRec2\WinFormOpenCVRec2.csproj", "{4686C076-51F0-4EFF-9BA3-5F3CFA9AEC4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormOpenCVRec2", "WinFormOpenCVRec2\WinFormOpenCVRec2.csproj", "{4686C076-51F0-4EFF-9BA3-5F3CFA9AEC4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleOpenCvRecorder", "ConsoleOpenCvRecorder\ConsoleOpenCvRecorder.csproj", "{22B967FC-EB5E-49F8-B9D6-6ED878C136DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleOpenCvRecorder", "ConsoleOpenCvRecorder\ConsoleOpenCvRecorder.csproj", "{22B967FC-EB5E-49F8-B9D6-6ED878C136DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeysConvert", "KeysConvert\KeysConvert.csproj", "{D8DD1E6E-A716-46DC-B15A-98D4D095B840}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,6 +140,10 @@ Global
 		{22B967FC-EB5E-49F8-B9D6-6ED878C136DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22B967FC-EB5E-49F8-B9D6-6ED878C136DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22B967FC-EB5E-49F8-B9D6-6ED878C136DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8DD1E6E-A716-46DC-B15A-98D4D095B840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8DD1E6E-A716-46DC-B15A-98D4D095B840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8DD1E6E-A716-46DC-B15A-98D4D095B840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8DD1E6E-A716-46DC-B15A-98D4D095B840}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,6 +168,7 @@ Global
 		{46546B1E-5667-4E05-8C0D-690F7D9355AB} = {CAB4F20D-132F-43A7-A454-8579BA34223A}
 		{4686C076-51F0-4EFF-9BA3-5F3CFA9AEC4F} = {D9120066-2A61-4B80-84CE-DEBC35DE2307}
 		{22B967FC-EB5E-49F8-B9D6-6ED878C136DD} = {D9120066-2A61-4B80-84CE-DEBC35DE2307}
+		{D8DD1E6E-A716-46DC-B15A-98D4D095B840} = {49F9157C-E1CB-4B40-87B7-12C2B49F5199}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CDDCCCAB-4F23-438A-8420-512E8221A96F}

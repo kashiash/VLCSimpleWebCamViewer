@@ -96,7 +96,8 @@ namespace VlcClient
         private void Form1_Load(object sender, EventArgs e)
         {
             //    var url = new Uri("rtsp://10.0.4.91:8008/test");
-            var url = new Uri(@"c:\movies\ElephantsDream.mp4");
+            //var url = new Uri(@"c:\movies\ElephantsDream.mp4");
+            var url = new Uri(@"d:\gabos\videos\CFNetworkDownload_1aid60.mp4");
             media = new Media(libvlc, url);
 
             player = new MediaPlayer(libvlc);
