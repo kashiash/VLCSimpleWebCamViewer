@@ -47,16 +47,18 @@
             pictureBox1.BackColor = Color.Black;
             pictureBox1.Dock = DockStyle.Top;
             pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Margin = new Padding(4, 4, 4, 4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1393, 1308);
+            pictureBox1.Size = new Size(1741, 849);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
             // buttonStart
             // 
-            buttonStart.Location = new Point(34, 1347);
+            buttonStart.Location = new Point(53, 924);
+            buttonStart.Margin = new Padding(4, 4, 4, 4);
             buttonStart.Name = "buttonStart";
-            buttonStart.Size = new Size(112, 34);
+            buttonStart.Size = new Size(140, 43);
             buttonStart.TabIndex = 1;
             buttonStart.Text = "Start";
             buttonStart.UseVisualStyleBackColor = true;
@@ -65,9 +67,10 @@
             // buttonStop
             // 
             buttonStop.Enabled = false;
-            buttonStop.Location = new Point(166, 1347);
+            buttonStop.Location = new Point(219, 924);
+            buttonStop.Margin = new Padding(4, 4, 4, 4);
             buttonStop.Name = "buttonStop";
-            buttonStop.Size = new Size(112, 34);
+            buttonStop.Size = new Size(140, 43);
             buttonStop.TabIndex = 2;
             buttonStop.Text = "Stop";
             buttonStop.UseVisualStyleBackColor = true;
@@ -75,9 +78,10 @@
             // 
             // buttonChangeCamera
             // 
-            buttonChangeCamera.Location = new Point(284, 1347);
+            buttonChangeCamera.Location = new Point(366, 924);
+            buttonChangeCamera.Margin = new Padding(4, 4, 4, 4);
             buttonChangeCamera.Name = "buttonChangeCamera";
-            buttonChangeCamera.Size = new Size(112, 34);
+            buttonChangeCamera.Size = new Size(140, 43);
             buttonChangeCamera.TabIndex = 3;
             buttonChangeCamera.Text = "button1";
             buttonChangeCamera.UseVisualStyleBackColor = true;
@@ -86,37 +90,40 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(1058, 1355);
+            label1.Location = new Point(1333, 934);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(68, 30);
+            label1.Size = new Size(91, 38);
             label1.TabIndex = 4;
             label1.Text = "label1";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(1166, 1355);
+            label2.Location = new Point(1469, 934);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(68, 30);
+            label2.Size = new Size(91, 38);
             label2.TabIndex = 5;
             label2.Text = "label2";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(1267, 1355);
+            label3.Location = new Point(1595, 934);
+            label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(68, 30);
+            label3.Size = new Size(91, 38);
             label3.TabIndex = 6;
             label3.Text = "label3";
             // 
             // label21
             // 
             label21.AutoSize = true;
-            label21.Location = new Point(465, 1311);
-            label21.Margin = new Padding(5, 0, 5, 0);
+            label21.Location = new Point(592, 879);
+            label21.Margin = new Padding(6, 0, 6, 0);
             label21.Name = "label21";
-            label21.Size = new Size(200, 30);
+            label21.Size = new Size(266, 38);
             label21.TabIndex = 4;
             label21.Text = "Rozdzielczość Video";
             // 
@@ -124,10 +131,10 @@
             // 
             cbRozdzielczoscVideo.FormattingEnabled = true;
             cbRozdzielczoscVideo.Items.AddRange(new object[] { "640 x 480 (VGA)", "1280 x 720 (HD)", "1920 x 1080 (FHD)" });
-            cbRozdzielczoscVideo.Location = new Point(465, 1347);
-            cbRozdzielczoscVideo.Margin = new Padding(5, 6, 5, 6);
+            cbRozdzielczoscVideo.Location = new Point(592, 924);
+            cbRozdzielczoscVideo.Margin = new Padding(6, 8, 6, 8);
             cbRozdzielczoscVideo.Name = "cbRozdzielczoscVideo";
-            cbRozdzielczoscVideo.Size = new Size(189, 38);
+            cbRozdzielczoscVideo.Size = new Size(235, 46);
             cbRozdzielczoscVideo.TabIndex = 5;
             cbRozdzielczoscVideo.SelectedIndexChanged += cbRozdzielczoscVideo_SelectedIndexChanged;
             cbRozdzielczoscVideo.SelectedValueChanged += cbRozdzielczoscVideo_SelectedValueChanged;
@@ -136,28 +143,28 @@
             // 
             cbFormatVideo.FormattingEnabled = true;
             cbFormatVideo.Items.AddRange(new object[] { "H265", "MPG4", "HEVC" });
-            cbFormatVideo.Location = new Point(717, 1347);
-            cbFormatVideo.Margin = new Padding(5, 6, 5, 6);
+            cbFormatVideo.Location = new Point(907, 924);
+            cbFormatVideo.Margin = new Padding(6, 8, 6, 8);
             cbFormatVideo.Name = "cbFormatVideo";
-            cbFormatVideo.Size = new Size(205, 38);
+            cbFormatVideo.Size = new Size(255, 46);
             cbFormatVideo.TabIndex = 6;
             cbFormatVideo.SelectedIndexChanged += cbFormatVideo_SelectedIndexChanged;
             // 
             // label22
             // 
             label22.AutoSize = true;
-            label22.Location = new Point(751, 1311);
-            label22.Margin = new Padding(5, 0, 5, 0);
+            label22.Location = new Point(950, 879);
+            label22.Margin = new Padding(6, 0, 6, 0);
             label22.Name = "label22";
-            label22.Size = new Size(137, 30);
+            label22.Size = new Size(183, 38);
             label22.TabIndex = 7;
             label22.Text = "Format Video";
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(12F, 30F);
+            AutoScaleDimensions = new SizeF(15F, 38F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1393, 1393);
+            ClientSize = new Size(1741, 1003);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -169,6 +176,7 @@
             Controls.Add(cbFormatVideo);
             Controls.Add(cbRozdzielczoscVideo);
             Controls.Add(label21);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "Form1";
             Text = "Form1";
             FormClosing += Form1_FormClosing;
