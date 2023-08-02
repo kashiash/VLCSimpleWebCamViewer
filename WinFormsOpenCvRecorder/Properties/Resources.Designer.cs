@@ -63,9 +63,39 @@ namespace WinFormsOpenCvRecorder.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap levels_162332 {
+            get {
+                object obj = ResourceManager.GetObject("levels_162332", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MovieIco {
+            get {
+                object obj = ResourceManager.GetObject("MovieIco", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap screenshot_32 {
             get {
                 object obj = ResourceManager.GetObject("screenshot-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings_824700 {
+            get {
+                object obj = ResourceManager.GetObject("settings_824700", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -173,7 +173,7 @@ public class Recorder : IDisposable
     internal void TakeSnapshot()
     {
         var result = GetFrameBitmap();
-        result.Save($"Snapshot{DateTime.Now.Ticks}.png", ImageFormat.Png);
+        result.Save($"multimedia\\Snapshot{DateTime.Now.Ticks}.png", ImageFormat.Png);
     }
 
     public class DeviceNotFoundException : Exception

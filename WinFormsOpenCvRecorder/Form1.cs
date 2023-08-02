@@ -1,6 +1,7 @@
 using OpenCvSharp;
 using System.Diagnostics;
 using System.Management;
+using System.Windows.Forms;
 
 namespace WinFormsOpenCvRecorder
 {
@@ -28,6 +29,7 @@ namespace WinFormsOpenCvRecorder
                 cbRozdzielczoscVideo.SelectedIndex = 0;
                 cbFormatVideo.SelectedIndex = 0;
                 recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
+                LoadMultimedia();
             }
             catch (Exception ex)
             {
@@ -35,6 +37,27 @@ namespace WinFormsOpenCvRecorder
             }
         }
 
+        private void LoadMultimedia()
+        {
+            flowLayoutPanel1.Controls.Clear();
+            var file = Directory.GetFiles("C:\\Users\\rmajewski\\source\\repos\\kashiash\\VLCSimpleWebCamViewer\\WinFormsOpenCvRecorder\\bin\\Debug\\net7.0-windows\\multimedia", "");
+            var list = new List<MultimediaControl>();
+            foreach (var item in file)
+            {
+                if (item.Contains(".mp4"))
+                {
+                    var img = GetFrameFromVideo(item);
+                    list.Add(new MultimediaControl(Properties.Resources.MovieIco, img));
+                }
+                else
+                {
+                    var img = new Bitmap(item);
+                    list.Add(new MultimediaControl(Properties.Resources.screenshot_32, img));
+                }
+
+            }
+            flowLayoutPanel1.Controls.AddRange(list.ToArray());
+        }
         private void buttonStop_Click(object sender, EventArgs e)
         {
 
@@ -58,15 +81,16 @@ namespace WinFormsOpenCvRecorder
             buttonStart.BackColor = Color.Red;
             buttonStart.Enabled = false;
             recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
-        
+
             Debug.WriteLine($"before start {Utils.SizeOf(recorder)}");
-            recorder.StartRecording($"file{DateTime.Now.Ticks}.mp4");
+            recorder.StartRecording($"multimedia\\file{DateTime.Now.Ticks}.mp4");
 
         }
 
         private void buttonTakeSnapshot_Click(object sender, EventArgs e)
         {
             recorder.TakeSnapshot();
+            LoadMultimedia();
         }
 
         private void Form1_Leave(object sender, EventArgs e)
@@ -141,6 +165,18 @@ namespace WinFormsOpenCvRecorder
                 }
             }
 
+        }
+
+        private Bitmap GetFrameFromVideo(string path)
+        {
+            VideoCapture _video = new VideoCapture(path);
+
+            var ms = new MemoryStream();
+            Mat mat = new Mat();
+            _video.Read(mat);
+            mat.Clone().ToMemoryStream(".png").CopyTo(ms);
+
+            return new Bitmap(ms);
         }
 
 
