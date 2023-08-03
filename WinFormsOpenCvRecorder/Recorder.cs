@@ -170,10 +170,10 @@ public class Recorder : IDisposable
             return !_videoCapture.Read(frame) ? null : frame.ToBitmap();
     }
 
-    internal void TakeSnapshot()
+    internal void TakeSnapshot(string link)
     {
         var result = GetFrameBitmap();
-        result.Save($"multimedia\\Snapshot{DateTime.Now.Ticks}.png", ImageFormat.Png);
+        if (result != null) result.Save($"{link}\\Snapshot{DateTime.Now.Ticks}.png", ImageFormat.Png);
     }
 
     public class DeviceNotFoundException : Exception

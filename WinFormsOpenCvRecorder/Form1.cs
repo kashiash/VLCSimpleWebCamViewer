@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using OpenCvSharp;
 using System.Diagnostics;
+using System.IO;
 using System.Management;
 using System.Windows.Forms;
 
@@ -16,9 +17,13 @@ namespace WinFormsOpenCvRecorder
         VideoCaptureAPIs videoCaptureApi = VideoCaptureAPIs.ANY;
         int fps = 15;
         int selectedCamera;
+        string link = "";
+        string fileRecord = "";
         public FormGrabber()
         {
             InitializeComponent();
+            link = $"multimedia\\{Guid.NewGuid().ToString()}";
+            Directory.CreateDirectory(link);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -26,6 +31,7 @@ namespace WinFormsOpenCvRecorder
             try
             {
                 GetAllConnectedCameras();
+                cbCamera.SelectedIndex = 0;
                 RunRecorder();
                 LoadMultimedia();
             }
@@ -53,20 +59,24 @@ namespace WinFormsOpenCvRecorder
         private void LoadMultimedia()
         {
             flowLayoutPanel1.Controls.Clear();
-            var file = Directory.GetFiles("C:\\Users\\rmajewski\\source\\repos\\kashiash\\VLCSimpleWebCamViewer\\WinFormsOpenCvRecorder\\bin\\Debug\\net7.0-windows\\multimedia", "");
+            var file = Directory.GetFiles(link, "");
             var list = new List<MultimediaControl>();
             foreach (var item in file)
             {
-                if (item.Contains(".mp4"))
+                if (string.IsNullOrEmpty(fileRecord) || !item.Contains(fileRecord))
                 {
-                    var img = GetFrameFromVideo(item);
-                    list.Add(new MultimediaControl(Properties.Resources.MovieIco, img));
+                    if (item.Contains(".mp4"))
+                    {
+                        var img = GetFrameFromVideo(item);
+                        list.Add(new MultimediaControl(Properties.Resources.MovieIco, img));
+                    }
+                    else
+                    {
+                        var img = new Bitmap(item);
+                        list.Add(new MultimediaControl(Properties.Resources.screenshot_32, img));
+                    }
                 }
-                else
-                {
-                    var img = new Bitmap(item);
-                    list.Add(new MultimediaControl(Properties.Resources.screenshot_32, img));
-                }
+
 
             }
             flowLayoutPanel1.Controls.AddRange(list.ToArray());
@@ -83,7 +93,8 @@ namespace WinFormsOpenCvRecorder
             buttonStart.BackColor = SystemColors.ControlLightLight;
             buttonStart.Enabled = true;
             recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
-
+            fileRecord = "";
+            LoadMultimedia();
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -96,13 +107,14 @@ namespace WinFormsOpenCvRecorder
             recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
 
             Debug.WriteLine($"before start {Utils.SizeOf(recorder)}");
-            recorder.StartRecording($"multimedia\\file{DateTime.Now.Ticks}.mp4");
+            fileRecord = $"file{DateTime.Now.Ticks}.mp4";
+            recorder.StartRecording($"{link}\\{fileRecord}");
 
         }
 
         private void buttonTakeSnapshot_Click(object sender, EventArgs e)
         {
-            recorder.TakeSnapshot();
+            recorder.TakeSnapshot(link);
             LoadMultimedia();
         }
 
@@ -207,6 +219,11 @@ namespace WinFormsOpenCvRecorder
         {
             var settings = new SettingsForm(cbCamera.Text);
             if (settings.ShowDialog() == DialogResult.OK) ;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 

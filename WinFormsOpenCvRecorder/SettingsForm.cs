@@ -36,13 +36,22 @@ namespace WinFormsOpenCvRecorder
             {
                 var settings = JsonConvert.DeserializeObject<List<CameraSettings>>(Properties.Settings.Default.ApplicationSettings);
                 var setting = settings.Where(x => x.CameraName == _cameraName).FirstOrDefault();
-                cbFormatVideo.SelectedItem = setting.FormatVideo;
-                cbRozdzielczoscVideo.SelectedItem = setting.RozdzielczoscVideo;
-                cxbDefault.Checked = setting.Default;
-                numFPS.Value = setting.FPS;
-                cbStart.SelectedItem = setting.Start;
-                cbStop.SelectedItem = setting.Stop;
-                cbSnap.SelectedItem = setting.Snap;
+                if (setting != null)
+                {
+                    cbFormatVideo.SelectedItem = setting.FormatVideo;
+                    cbRozdzielczoscVideo.SelectedItem = setting.RozdzielczoscVideo;
+                    cxbDefault.Checked = setting.Default;
+                    numFPS.Value = setting.FPS;
+                    cbStart.SelectedItem = setting.Start;
+                    cbStop.SelectedItem = setting.Stop;
+                    cbSnap.SelectedItem = setting.Snap;
+                }
+                else
+                {
+                    cbFormatVideo.SelectedIndex = 0;
+                    cbRozdzielczoscVideo.SelectedIndex = 0;
+                    numFPS.Value = 30;
+                }
             }
         }
 
@@ -70,13 +79,30 @@ namespace WinFormsOpenCvRecorder
             {
                 var settings = JsonConvert.DeserializeObject<List<CameraSettings>>(Properties.Settings.Default.ApplicationSettings);
                 var setting = settings.Where(x => x.CameraName == _cameraName).FirstOrDefault();
-                setting.FormatVideo = cbFormatVideo.SelectedItem.ToString();
-                setting.RozdzielczoscVideo = cbRozdzielczoscVideo.SelectedItem.ToString();
-                setting.Default = cxbDefault.Checked;
-                setting.FPS = (int)numFPS.Value;
-                setting.Start = (Shortcut)cbStart.SelectedItem;
-                setting.Stop = (Shortcut)cbStop.SelectedItem;
-                setting.Snap = (Shortcut)cbSnap.SelectedItem;
+                if (setting != null)
+                {
+                    setting.FormatVideo = cbFormatVideo.SelectedItem.ToString();
+                    setting.RozdzielczoscVideo = cbRozdzielczoscVideo.SelectedItem.ToString();
+                    setting.Default = cxbDefault.Checked;
+                    setting.FPS = (int)numFPS.Value;
+                    setting.Start = (Shortcut)cbStart.SelectedItem;
+                    setting.Stop = (Shortcut)cbStop.SelectedItem;
+                    setting.Snap = (Shortcut)cbSnap.SelectedItem;
+                }
+                else
+                {
+                    settings.Add(new CameraSettings()
+                    {
+                        CameraName = _cameraName,
+                        FormatVideo = cbFormatVideo.SelectedItem.ToString(),
+                        RozdzielczoscVideo = cbRozdzielczoscVideo.SelectedItem.ToString(),
+                        Default = cxbDefault.Checked,
+                        FPS = (int)numFPS.Value,
+                        Start = (Shortcut)cbStart.SelectedItem,
+                        Stop = (Shortcut)cbStop.SelectedItem,
+                        Snap = (Shortcut)cbSnap.SelectedItem
+                    });
+                }
 
                 Properties.Settings.Default.ApplicationSettings = JsonConvert.SerializeObject(settings);
                 Properties.Settings.Default.Save();
