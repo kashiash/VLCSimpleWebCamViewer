@@ -10,7 +10,7 @@ namespace WinFormsOpenCvRecorder
     {
         public string CameraName { get; set; }
         public bool Default { get; set; }
-        public string FormatVideo { get; set; }
+        public Codec FormatVideo { get; set; }
         public string RozdzielczoscVideo { get; set; }
         public int FPS { get; set; }
         public Shortcut Start { get; set; }
@@ -785,5 +785,12 @@ namespace WinFormsOpenCvRecorder
         ///  The shortcut keys CTRL+SHIFT+9.
         /// </summary>
         CtrlShift9 = Keys.Control + Keys.Shift + Keys.D9,
+    }
+
+    public enum Codec
+    {
+        H265 = 892744264,
+        HEVC = 1129727304,
+        MPG4 = 877088845
     }
 }

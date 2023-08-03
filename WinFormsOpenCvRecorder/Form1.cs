@@ -3,7 +3,10 @@ using OpenCvSharp;
 using System.Diagnostics;
 using System.IO;
 using System.Management;
+using System.Security.AccessControl;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using VideoInputDevices;
 
 namespace WinFormsOpenCvRecorder
 {
@@ -14,7 +17,7 @@ namespace WinFormsOpenCvRecorder
         int frameWidth = 1280;
         int frameHeight = 720;
         FourCC fourCC = FourCC.HEVC;
-        VideoCaptureAPIs videoCaptureApi = VideoCaptureAPIs.ANY;
+        VideoCaptureAPIs videoCaptureApi = VideoCaptureAPIs.DSHOW;
         int fps = 15;
         int selectedCamera;
         string link = "";
@@ -32,7 +35,8 @@ namespace WinFormsOpenCvRecorder
             {
                 GetAllConnectedCameras();
                 cbCamera.SelectedIndex = 0;
-                RunRecorder();
+                LoadSettings();
+
                 LoadMultimedia();
             }
             catch (Exception ex)
@@ -46,15 +50,39 @@ namespace WinFormsOpenCvRecorder
             if (recorder != null) recorder = null;
             recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
         }
-        private void LoadSettings()
+        private List<CameraSettings> GetCameraSettings()
         {
-            //var settings = JsonConvert.DeserializeObject<List<CameraSettings>>(Ap);
-            //frameWidth = settings.FrameWidth;
-            //frameHeight = settings.FrameHeight;
-            //fourCC = settings.FourCC;
-            //videoCaptureApi = settings.VideoCaptureApi;
-            //fps = settings.Fps;
-            //selectedCamera = settings.SelectedCamera;
+            var list = new List<CameraSettings>();
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.ApplicationSettings))
+            {
+                list = JsonConvert.DeserializeObject<List<CameraSettings>>(Properties.Settings.Default.ApplicationSettings);
+            }
+            return list;
+        }
+        private int GetWidthResolution(string resolution)
+        {
+            var res = resolution.Split('x');
+            return int.Parse(res[0]);
+        }
+        private int GetHeightResolution(string resolution)
+        {
+            var res = resolution.Split('x');
+            return int.Parse(Regex.Replace(res[1], "[^0-9.]", ""));
+        }
+        private void LoadSettings()
+        {           
+            var settings = GetCameraSettings();
+            var sett = settings.FirstOrDefault(x => x.CameraName == cbCamera.Text);
+            if (sett != null)
+            {
+                frameWidth = GetWidthResolution(sett.RozdzielczoscVideo);
+                frameHeight = GetHeightResolution(sett.RozdzielczoscVideo);
+                fourCC = (int)sett.FormatVideo;
+                //videoCaptureApi = settings.VideoCaptureApi;
+                //fps = settings.Fps;
+                //selectedCamera = settings.SelectedCamera;
+            }
+            //RunRecorder();
         }
         private void LoadMultimedia()
         {
@@ -120,12 +148,13 @@ namespace WinFormsOpenCvRecorder
 
         private void Form1_Leave(object sender, EventArgs e)
         {
-            //Debug.WriteLine($"before stop {Utils.SizeOf(recorder)}");
-            //recorder.StopRecording();
-            //Debug.WriteLine($"after stop {Utils.SizeOf(recorder)}");
+            Debug.WriteLine($"before stop {Utils.SizeOf(recorder)}");
+            recorder.StopRecording();
+            Debug.WriteLine($"after stop {Utils.SizeOf(recorder)}");
 
-            //recorder.Dispose();
-            //Debug.WriteLine($"after dispose {Utils.SizeOf(recorder)}");
+            recorder.Dispose();
+            Debug.WriteLine($"after dispose {Utils.SizeOf(recorder)}");
+            recorder = null;
         }
 
         //private void cbRozdzielczoscVideo_SelectedIndexChanged(object sender, EventArgs e)
@@ -168,33 +197,44 @@ namespace WinFormsOpenCvRecorder
         private void cbCamera_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedCamera = cbCamera.SelectedIndex;
-            //if (recorder != null)
-            //{
-            //    Debug.WriteLine($"before stop {Utils.SizeOf(recorder)}");
-            //    recorder.StopRecording();
-            //    Debug.WriteLine($"after stop {Utils.SizeOf(recorder)}");
-            //    recorder.Dispose();
-            //    recorder = null;
-            //}
-            //recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
+            
+            if (recorder != null)
+            {
+                Debug.WriteLine($"before stop {Utils.SizeOf(recorder)}");
+                recorder.StopRecording();
+                Debug.WriteLine($"after stop {Utils.SizeOf(recorder)}");
+                recorder.Dispose();
+                recorder = null;
+            }
+            LoadSettings();
+            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
             //recorder.StartRecording($"file{DateTime.Now.Ticks}.mp4");
         }
 
         public void GetAllConnectedCameras()
         {
-            using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"))
+            using (var sde = new SystemDeviceEnumerator())
             {
-                foreach (var device in searcher.Get())
+                var devices = sde.ListVideoInputDevice();
+                foreach (var device in devices)
                 {
-                    cbCamera.Items.Add(device["Caption"].ToString());
+                    cbCamera.Items.Add(device.Value);
                 }
             }
+            //using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"))
+            //{
+            //    foreach (var device in searcher.Get())
+            //    {
+            //        cbCamera.Items.Add(device["Caption"].ToString());
+            //    }
+            //}
 
         }
 
         private Bitmap GetFrameFromVideo(string path)
         {
             VideoCapture _video = new VideoCapture(path);
+            _video.Set(VideoCaptureProperties.PosFrames, _video.FrameCount/2); //ustawia klatke wideo na po³owie filmu
 
             var ms = new MemoryStream();
             Mat mat = new Mat();
@@ -218,14 +258,23 @@ namespace WinFormsOpenCvRecorder
         private void button1_Click(object sender, EventArgs e)
         {
             var settings = new SettingsForm(cbCamera.Text);
-            if (settings.ShowDialog() == DialogResult.OK) ;
+            if (settings.ShowDialog() == DialogResult.OK) LoadSettings();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        private void FormGrabber_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Debug.WriteLine($"before stop {Utils.SizeOf(recorder)}");
+            recorder.StopRecording();
+            Debug.WriteLine($"after stop {Utils.SizeOf(recorder)}");
+
+            recorder.Dispose();
+            Debug.WriteLine($"after dispose {Utils.SizeOf(recorder)}");
+            recorder = null;
+        }
     }
-
-
 }

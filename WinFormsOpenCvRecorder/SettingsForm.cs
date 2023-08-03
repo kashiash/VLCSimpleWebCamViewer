@@ -22,6 +22,7 @@ namespace WinFormsOpenCvRecorder
             cbStart.DataSource = Enum.GetValues(typeof(Shortcut));
             cbStop.DataSource = Enum.GetValues(typeof(Shortcut));
             cbSnap.DataSource = Enum.GetValues(typeof(Shortcut));
+            cbFormatVideo.DataSource = Enum.GetValues(typeof(Codec));
         }
 
         private void SettingsForm_Load(object sender, EventArgs e)
@@ -63,7 +64,7 @@ namespace WinFormsOpenCvRecorder
                 settings.Add(new CameraSettings()
                 {
                     CameraName = _cameraName,
-                    FormatVideo = cbFormatVideo.SelectedItem.ToString(),
+                    FormatVideo = (Codec)cbFormatVideo.SelectedItem,
                     RozdzielczoscVideo = cbRozdzielczoscVideo.SelectedItem.ToString(),
                     Default = cxbDefault.Checked,
                     FPS = (int)numFPS.Value,
@@ -81,7 +82,7 @@ namespace WinFormsOpenCvRecorder
                 var setting = settings.Where(x => x.CameraName == _cameraName).FirstOrDefault();
                 if (setting != null)
                 {
-                    setting.FormatVideo = cbFormatVideo.SelectedItem.ToString();
+                    setting.FormatVideo = (Codec)cbFormatVideo.SelectedItem;
                     setting.RozdzielczoscVideo = cbRozdzielczoscVideo.SelectedItem.ToString();
                     setting.Default = cxbDefault.Checked;
                     setting.FPS = (int)numFPS.Value;
@@ -94,7 +95,7 @@ namespace WinFormsOpenCvRecorder
                     settings.Add(new CameraSettings()
                     {
                         CameraName = _cameraName,
-                        FormatVideo = cbFormatVideo.SelectedItem.ToString(),
+                        FormatVideo = (Codec)cbFormatVideo.SelectedItem,
                         RozdzielczoscVideo = cbRozdzielczoscVideo.SelectedItem.ToString(),
                         Default = cxbDefault.Checked,
                         FPS = (int)numFPS.Value,

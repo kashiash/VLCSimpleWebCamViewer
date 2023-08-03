@@ -46,7 +46,7 @@
             // 
             pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pictureBox1.Location = new Point(448, -1);
-            pictureBox1.Margin = new Padding(2, 2, 2, 2);
+            pictureBox1.Margin = new Padding(2);
             pictureBox1.MinimumSize = new Size(560, 360);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(598, 360);
@@ -58,7 +58,7 @@
             // buttonStart
             // 
             buttonStart.Location = new Point(11, 731);
-            buttonStart.Margin = new Padding(2, 2, 2, 2);
+            buttonStart.Margin = new Padding(2);
             buttonStart.Name = "buttonStart";
             buttonStart.Size = new Size(78, 32);
             buttonStart.TabIndex = 1;
@@ -69,7 +69,7 @@
             // buttonStop
             // 
             buttonStop.Location = new Point(93, 731);
-            buttonStop.Margin = new Padding(2, 2, 2, 2);
+            buttonStop.Margin = new Padding(2);
             buttonStop.Name = "buttonStop";
             buttonStop.Size = new Size(78, 32);
             buttonStop.TabIndex = 2;
@@ -81,7 +81,7 @@
             // 
             buttonTakeSnapshot.Image = Properties.Resources.screenshot_32;
             buttonTakeSnapshot.Location = new Point(175, 722);
-            buttonTakeSnapshot.Margin = new Padding(2, 2, 2, 2);
+            buttonTakeSnapshot.Margin = new Padding(2);
             buttonTakeSnapshot.Name = "buttonTakeSnapshot";
             buttonTakeSnapshot.Size = new Size(55, 40);
             buttonTakeSnapshot.TabIndex = 3;
@@ -163,9 +163,10 @@
             Controls.Add(buttonStop);
             Controls.Add(buttonStart);
             Controls.Add(pictureBox1);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "FormGrabber";
             Text = "Grabber Video";
+            FormClosing += FormGrabber_FormClosing;
             Load += Form1_Load;
             Leave += Form1_Leave;
             Resize += Form1_Resize;
