@@ -53,6 +53,7 @@
             pbMiniatura.SizeMode = PictureBoxSizeMode.StretchImage;
             pbMiniatura.TabIndex = 1;
             pbMiniatura.TabStop = false;
+            pbMiniatura.Click += pbMiniatura_Click;
             // 
             // pbIco
             // 
@@ -74,6 +75,8 @@
             Name = "MultimediaControl";
             Size = new Size(310, 200);
             Load += MultimediaControl_Load;
+            Click += MultimediaControl_Click;
+            Leave += MultimediaControl_Leave;
             ((System.ComponentModel.ISupportInitialize)pbMiniatura).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbIco).EndInit();
             ResumeLayout(false);

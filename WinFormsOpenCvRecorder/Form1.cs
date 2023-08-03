@@ -57,7 +57,7 @@ namespace WinFormsOpenCvRecorder
                 Debug.WriteLine($"after dispose {Utils.SizeOf(recorder)}");
                 recorder = null;
             }
-            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
+            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pbRecorder, fourCC, videoCaptureApi);
         }
         private List<CameraSettings> GetCameraSettings()
         {
@@ -79,7 +79,7 @@ namespace WinFormsOpenCvRecorder
             return int.Parse(Regex.Replace(res[1], "[^0-9.]", ""));
         }
         private void LoadSettings()
-        {           
+        {
             var settings = GetCameraSettings();
             var sett = settings.FirstOrDefault(x => x.CameraName == cbCamera.Text);
             if (sett != null)
@@ -106,12 +106,14 @@ namespace WinFormsOpenCvRecorder
                     if (item.Contains(".mp4"))
                     {
                         var img = GetFrameFromVideo(item);
-                        list.Add(new MultimediaControl(Properties.Resources.MovieIco, img));
+                        var video = new MultimediaControl(Properties.Resources.MovieIco, img, item, this);
+                        video.IsVideo = true;
+                        list.Add(video);
                     }
                     else
                     {
                         var img = new Bitmap(item);
-                        list.Add(new MultimediaControl(Properties.Resources.screenshot_32, img));
+                        list.Add(new MultimediaControl(Properties.Resources.screenshot_32, img, item, this));
                     }
                 }
 
@@ -130,19 +132,20 @@ namespace WinFormsOpenCvRecorder
             buttonStart.Text = "START";
             buttonStart.BackColor = SystemColors.ControlLightLight;
             buttonStart.Enabled = true;
-            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
+            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pbRecorder, fourCC, videoCaptureApi);
             fileRecord = "";
             LoadMultimedia();
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
+            tabControl1.SelectedTab = tabRecorder;
             recorder.Dispose();
             recorder = null;
             buttonStart.Text = "REC";
             buttonStart.BackColor = Color.Red;
             buttonStart.Enabled = false;
-            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
+            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pbRecorder, fourCC, videoCaptureApi);
 
             Debug.WriteLine($"before start {Utils.SizeOf(recorder)}");
             fileRecord = $"file{DateTime.Now.Ticks}.mp4";
@@ -207,7 +210,7 @@ namespace WinFormsOpenCvRecorder
         private void cbCamera_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedCamera = cbCamera.SelectedIndex;
-            
+
             if (recorder != null)
             {
                 Debug.WriteLine($"before stop {Utils.SizeOf(recorder)}");
@@ -217,7 +220,7 @@ namespace WinFormsOpenCvRecorder
                 recorder = null;
             }
             LoadSettings();
-            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
+            recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pbRecorder, fourCC, videoCaptureApi);
             //recorder.StartRecording($"file{DateTime.Now.Ticks}.mp4");
         }
 
@@ -256,13 +259,15 @@ namespace WinFormsOpenCvRecorder
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            //pictureBox1.Width = this.Width - pictureBox1.Location.X;
+            Thread.Sleep(300);
+            tabControl1.Width = this.Width - tabControl1.Location.X;
+            tabControl1.Height = this.Height;
         }
 
         private void pictureBox1_Resize(object sender, EventArgs e)
         {
-            var height = (int)(pictureBox1.Width * 0.5625);
-            if (height >= pictureBox1.MinimumSize.Height) pictureBox1.Height = height;
+            var height = (int)(pbRecorder.Width * 0.5625);
+            if (height >= pbRecorder.MinimumSize.Height) pbRecorder.Height = height;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -275,11 +280,6 @@ namespace WinFormsOpenCvRecorder
             };
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void FormGrabber_FormClosing(object sender, FormClosingEventArgs e)
         {
             Debug.WriteLine($"before stop {Utils.SizeOf(recorder)}");
@@ -289,6 +289,47 @@ namespace WinFormsOpenCvRecorder
             recorder.Dispose();
             Debug.WriteLine($"after dispose {Utils.SizeOf(recorder)}");
             recorder = null;
+        }
+
+        public void DisplayPicture(string path)
+        {
+            tabControl1.SelectedTab = tabPicture;
+            pbPicture.Image = new Bitmap(path);
+        }
+
+        public void DisplayVideo(string path)
+        {
+            tabControl1.SelectedTab = tabPlayer;
+            var player = new VlcClient.PlayerControl(path);
+            tabPlayer.Controls.Clear();
+            tabPlayer.Controls.Add(player);
+        }
+
+        public void DisposeTabPlayer()
+        {
+            tabPlayer.Controls.Clear();
+        }
+
+        private void pbPicture_Resize(object sender, EventArgs e)
+        {
+            var height = (int)(pbRecorder.Width * 0.5625);
+            if (height >= pbPicture.MinimumSize.Height) pbPicture.Height = height;
+        }
+
+        private void btnConfirm_Click(object sender, EventArgs e)
+        {
+            var control = flowLayoutPanel1.Controls;
+            var listPath = new List<string>();
+            foreach (var item in control) //wyci¹ga œciezki w zaznaczonych elementach
+            {
+                if (item is MultimediaControl mc)
+                {
+                    if (mc.IsChecked) listPath.Add(mc.Path);
+                }
+            }
+
+            //TODO Co dalej z tymi œcie¿kami?
+            this.Close();
         }
     }
 }

@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\GabosXVideo\VlcClient\VlcClient.csproj" />
     <ProjectReference Include="..\ListWebCams\ListWebCams.csproj" />
   </ItemGroup>
 

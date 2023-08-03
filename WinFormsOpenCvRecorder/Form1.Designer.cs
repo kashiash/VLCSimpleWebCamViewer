@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            pictureBox1 = new PictureBox();
+            pbRecorder = new PictureBox();
             buttonStart = new Button();
             buttonStop = new Button();
             buttonTakeSnapshot = new Button();
@@ -37,23 +37,32 @@
             groupBox1 = new GroupBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             button1 = new Button();
-            button2 = new Button();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            btnConfirm = new Button();
+            tabControl1 = new TabControl();
+            tabRecorder = new TabPage();
+            tabPlayer = new TabPage();
+            tabPicture = new TabPage();
+            pbPicture = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pbRecorder).BeginInit();
             groupBox1.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tabRecorder.SuspendLayout();
+            tabPicture.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbPicture).BeginInit();
             SuspendLayout();
             // 
-            // pictureBox1
+            // pbRecorder
             // 
-            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            pictureBox1.Location = new Point(448, -1);
-            pictureBox1.Margin = new Padding(2);
-            pictureBox1.MinimumSize = new Size(560, 360);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(598, 360);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            pictureBox1.Resize += pictureBox1_Resize;
+            pbRecorder.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pbRecorder.Location = new Point(20, 5);
+            pbRecorder.Margin = new Padding(2);
+            pbRecorder.MinimumSize = new Size(640, 380);
+            pbRecorder.Name = "pbRecorder";
+            pbRecorder.Size = new Size(640, 435);
+            pbRecorder.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbRecorder.TabIndex = 0;
+            pbRecorder.TabStop = false;
+            pbRecorder.Resize += pictureBox1_Resize;
             // 
             // buttonStart
             // 
@@ -139,22 +148,78 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // button2
+            // btnConfirm
             // 
-            button2.Location = new Point(918, 729);
-            button2.Name = "button2";
-            button2.Size = new Size(117, 33);
-            button2.TabIndex = 12;
-            button2.Text = "Zatwierdź";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            btnConfirm.Location = new Point(319, 726);
+            btnConfirm.Name = "btnConfirm";
+            btnConfirm.Size = new Size(117, 33);
+            btnConfirm.TabIndex = 12;
+            btnConfirm.Text = "Zatwierdź";
+            btnConfirm.UseVisualStyleBackColor = true;
+            btnConfirm.Click += btnConfirm_Click;
+            // 
+            // tabControl1
+            // 
+            tabControl1.Controls.Add(tabRecorder);
+            tabControl1.Controls.Add(tabPlayer);
+            tabControl1.Controls.Add(tabPicture);
+            tabControl1.Location = new Point(452, 0);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(698, 762);
+            tabControl1.TabIndex = 13;
+            // 
+            // tabRecorder
+            // 
+            tabRecorder.Controls.Add(pbRecorder);
+            tabRecorder.Location = new Point(4, 24);
+            tabRecorder.Name = "tabRecorder";
+            tabRecorder.Padding = new Padding(3);
+            tabRecorder.Size = new Size(690, 734);
+            tabRecorder.TabIndex = 0;
+            tabRecorder.Text = "Recorder";
+            tabRecorder.UseVisualStyleBackColor = true;
+            // 
+            // tabPlayer
+            // 
+            tabPlayer.Location = new Point(4, 24);
+            tabPlayer.Name = "tabPlayer";
+            tabPlayer.Padding = new Padding(3);
+            tabPlayer.Size = new Size(690, 734);
+            tabPlayer.TabIndex = 1;
+            tabPlayer.Text = "Player";
+            tabPlayer.UseVisualStyleBackColor = true;
+            // 
+            // tabPicture
+            // 
+            tabPicture.Controls.Add(pbPicture);
+            tabPicture.Location = new Point(4, 24);
+            tabPicture.Name = "tabPicture";
+            tabPicture.Padding = new Padding(3);
+            tabPicture.Size = new Size(690, 734);
+            tabPicture.TabIndex = 2;
+            tabPicture.Text = "Picture";
+            tabPicture.UseVisualStyleBackColor = true;
+            // 
+            // pbPicture
+            // 
+            pbPicture.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pbPicture.Location = new Point(6, 6);
+            pbPicture.MinimumSize = new Size(640, 480);
+            pbPicture.Name = "pbPicture";
+            pbPicture.Size = new Size(640, 480);
+            pbPicture.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbPicture.TabIndex = 0;
+            pbPicture.TabStop = false;
+            pbPicture.Resize += pbPicture_Resize;
             // 
             // FormGrabber
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1047, 774);
-            Controls.Add(button2);
+            ClientSize = new Size(1162, 774);
+            Controls.Add(tabControl1);
+            Controls.Add(btnConfirm);
             Controls.Add(button1);
             Controls.Add(label3);
             Controls.Add(cbCamera);
@@ -162,23 +227,27 @@
             Controls.Add(buttonTakeSnapshot);
             Controls.Add(buttonStop);
             Controls.Add(buttonStart);
-            Controls.Add(pictureBox1);
             Margin = new Padding(2);
+            MinimumSize = new Size(1178, 813);
             Name = "FormGrabber";
             Text = "Grabber Video";
             FormClosing += FormGrabber_FormClosing;
             Load += Form1_Load;
             Leave += Form1_Leave;
             Resize += Form1_Resize;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbRecorder).EndInit();
             groupBox1.ResumeLayout(false);
+            tabControl1.ResumeLayout(false);
+            tabRecorder.ResumeLayout(false);
+            tabPicture.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pbPicture).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private PictureBox pictureBox1;
+        private PictureBox pbRecorder;
         private Button buttonStart;
         private Button buttonStop;
         private Button buttonTakeSnapshot;
@@ -187,6 +256,11 @@
         private GroupBox groupBox1;
         private FlowLayoutPanel flowLayoutPanel1;
         private Button button1;
-        private Button button2;
+        private Button btnConfirm;
+        private TabControl tabControl1;
+        private TabPage tabRecorder;
+        private TabPage tabPlayer;
+        private TabPage tabPicture;
+        private PictureBox pbPicture;
     }
 }
