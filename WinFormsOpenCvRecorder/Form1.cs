@@ -47,7 +47,16 @@ namespace WinFormsOpenCvRecorder
 
         private void RunRecorder()
         {
-            if (recorder != null) recorder = null;
+            if (recorder != null)
+            {
+                Debug.WriteLine($"before stop {Utils.SizeOf(recorder)}");
+                recorder.StopRecording();
+                Debug.WriteLine($"after stop {Utils.SizeOf(recorder)}");
+
+                recorder.Dispose();
+                Debug.WriteLine($"after dispose {Utils.SizeOf(recorder)}");
+                recorder = null;
+            }
             recorder = new Recorder(selectedCamera, frameWidth, frameHeight, fps, pictureBox1, fourCC, videoCaptureApi);
         }
         private List<CameraSettings> GetCameraSettings()
@@ -78,6 +87,7 @@ namespace WinFormsOpenCvRecorder
                 frameWidth = GetWidthResolution(sett.RozdzielczoscVideo);
                 frameHeight = GetHeightResolution(sett.RozdzielczoscVideo);
                 fourCC = (int)sett.FormatVideo;
+                fps = sett.FPS;
                 //videoCaptureApi = settings.VideoCaptureApi;
                 //fps = settings.Fps;
                 //selectedCamera = settings.SelectedCamera;
@@ -234,7 +244,7 @@ namespace WinFormsOpenCvRecorder
         private Bitmap GetFrameFromVideo(string path)
         {
             VideoCapture _video = new VideoCapture(path);
-            _video.Set(VideoCaptureProperties.PosFrames, _video.FrameCount/2); //ustawia klatke wideo na po³owie filmu
+            //_video.Set(VideoCaptureProperties.PosFrames, _video.FrameCount/2); //ustawia klatke wideo na po³owie filmu
 
             var ms = new MemoryStream();
             Mat mat = new Mat();
@@ -258,7 +268,11 @@ namespace WinFormsOpenCvRecorder
         private void button1_Click(object sender, EventArgs e)
         {
             var settings = new SettingsForm(cbCamera.Text);
-            if (settings.ShowDialog() == DialogResult.OK) LoadSettings();
+            if (settings.ShowDialog() == DialogResult.OK)
+            {
+                LoadSettings();
+                RunRecorder();
+            };
         }
 
         private void button2_Click(object sender, EventArgs e)

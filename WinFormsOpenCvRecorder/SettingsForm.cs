@@ -14,6 +14,7 @@ namespace WinFormsOpenCvRecorder
     public partial class SettingsForm : Form
     {
         private string _cameraName { get; set; }
+        private bool dialogResult = false;
         public SettingsForm(string CameraName)
         {
             InitializeComponent();
@@ -109,13 +110,13 @@ namespace WinFormsOpenCvRecorder
                 Properties.Settings.Default.Save();
             }
 
-            this.DialogResult = DialogResult.OK;
+            dialogResult = true;
             this.Close();
         }
 
         private void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            this.DialogResult = dialogResult? DialogResult.OK : DialogResult.Cancel;
         }
     }
 }
