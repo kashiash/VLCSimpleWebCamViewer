@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
@@ -214,10 +218,11 @@ namespace WinFormOpenCVRec2
         {
             capture = new OpenCvSharp.VideoCapture(); //VideoCapture.FromCamera(deviceIndex, _videoCaptureApi);
             capture.Open(currentCamera, videoCaptureApi);
-
+            capture.FourCC = "MPG4";
             capture.FrameWidth = frameWidth;
             capture.FrameHeight = frameHeight;
             capture.Fps = 29;
+            fourCC = FourCC.MPG4;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -252,11 +257,35 @@ namespace WinFormOpenCVRec2
             }
 
             videoWriter = new VideoWriter(path, fourCC, capture.Fps, new OpenCvSharp.Size(frameWidth, frameHeight));
+        //    videoWriter = new VideoWriter(path,VideoCaptureAPIs.DSHOW, FourCC.MPG4 , 30, new OpenCvSharp.Size(3840, 2160),true);
 
             backgroundWorkerRecorder.RunWorkerAsync();
             buttonStart.Enabled = false;
             buttonStop.Enabled = true;
         }
+
+        private void StartRecording(FourCC fourCC, double fps, int  frameWidth, int frameHeight)
+        {
+            var path = $"file{DateTime.Now.Ticks}.mp4";
+
+
+            //capture = new VideoCapture();
+
+            //var res = capture.Open(currentCamera, VideoCaptureAPIs.ANY);
+            if (!capture.IsOpened())
+            {
+                Close();
+                return;
+            }
+
+            videoWriter = new VideoWriter(path, fourCC, capture.Fps, new OpenCvSharp.Size(frameWidth, frameHeight));
+            //  videoWriter = new VideoWriter(path,VideoCaptureAPIs.ANY, FourCC.MPG4 , 30, new OpenCvSharp.Size(1920, 1080),true);
+
+            backgroundWorkerRecorder.RunWorkerAsync();
+            buttonStart.Enabled = false;
+            buttonStop.Enabled = true;
+        }
+
 
         private void buttonStop_Click(object sender, EventArgs e)
         {
@@ -335,22 +364,22 @@ namespace WinFormOpenCVRec2
 
         private void cbFormatVideo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbFormatVideo.SelectedIndex == 0)
-            {
-                fourCC = FourCC.H265;
-            }
-            else if (cbFormatVideo.SelectedIndex == 1)
-            {
-                fourCC = FourCC.MPG4;
-            }
-            else if (cbFormatVideo.SelectedIndex == 2)
-            {
-                fourCC = FourCC.HEVC;
-            }
+            //if (cbFormatVideo.SelectedIndex == 0)
+            //{
+            //    fourCC = FourCC.H265;
+            //}
+            //else if (cbFormatVideo.SelectedIndex == 1)
+            //{
+            //    fourCC = FourCC.MPG4;
+            //}
+            //else if (cbFormatVideo.SelectedIndex == 2)
+            //{
+            //    fourCC = FourCC.HEVC;
+            //}
 
-            StopRecording();
-            restartDisplayer = true;
-            backgroundWorkerDisplayer.CancelAsync();
+            //StopRecording();
+            //restartDisplayer = true;
+            //backgroundWorkerDisplayer.CancelAsync();
         }
 
 
